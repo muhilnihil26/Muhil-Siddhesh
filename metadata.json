@@ -1,0 +1,6 @@
+{
+  "name": "Muhil Portfolio",
+  "description": "Futuristic personal portfolio, interactive resume, and innovation showcases of Muhil, a Class 9 student AI developer and technology entrepreneur.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
