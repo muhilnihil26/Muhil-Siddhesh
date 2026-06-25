@@ -47,12 +47,7 @@ service cloud.firestore {
 
     match /messages/{messageId} {
       // Anyone can create a message
-      allow create: if isValidId(messageId) &&
-        incoming().keys().hasAll(['name', 'email', 'message', 'createdAt']) &&
-        incoming().name is string && incoming().name.size() > 0 &&
-        incoming().email is string && incoming().email.size() > 0 &&
-        incoming().message is string && incoming().message.size() > 0 &&
-        incoming().createdAt is string;
+      allow create: if true;
 
       // Only owner can read, update, delete
       allow read, update, delete: if isOwner() && isValidId(messageId);

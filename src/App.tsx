@@ -105,16 +105,20 @@ export default function App() {
     playClickSound();
     setContactStatus("submitting");
     try {
-      const { doc, setDoc } = await import("firebase/firestore");
-      const { db } = await import("./firebase");
-      
-      const messageId = `msg_${Date.now()}`;
-      await setDoc(doc(db, "messages", messageId), {
-        name: contactName,
-        email: contactEmail,
-        message: contactMsg,
-        createdAt: new Date().toISOString()
-      });
+      try {
+        const { doc, setDoc } = await import("firebase/firestore");
+        const { db } = await import("./firebase");
+        
+        const messageId = `msg_${Date.now()}`;
+        await setDoc(doc(db, "messages", messageId), {
+          name: contactName,
+          email: contactEmail,
+          message: contactMsg,
+          createdAt: new Date().toISOString()
+        });
+      } catch (dbErr) {
+        console.warn("Could not save to firestore, proceeding with email API...", dbErr);
+      }
 
       // Send via server API to email both user and admin
       try {
@@ -133,8 +137,9 @@ export default function App() {
       setContactEmail("");
       setContactMsg("");
       setTimeout(() => setContactStatus("idle"), 4000);
-    } catch (error) {
+    } catch (error: any) {
       console.error("Failed to submit message", error);
+      alert("Error sending message: " + (error.message || String(error)));
       setContactStatus("idle");
     }
   };
