@@ -35,6 +35,7 @@ import JourneyTimeline from "./components/JourneyTimeline";
 import AdminPanel from "./components/AdminPanel";
 import { usePortfolio } from "./context/PortfolioContext";
 import { Phone } from "lucide-react";
+import { playClickSound, playHoverSound, playSuccessSound } from "./utils/audio";
 
 export default function App() {
   const { personalInfo, skills, projects, achievements } = usePortfolio();
@@ -101,6 +102,7 @@ export default function App() {
     e.preventDefault();
     if (!contactName.trim() || !contactEmail.trim() || !contactMsg.trim()) return;
 
+    playClickSound();
     setContactStatus("submitting");
     try {
       const { doc, setDoc } = await import("firebase/firestore");
@@ -125,6 +127,7 @@ export default function App() {
         console.error("Failed to trigger email API", err);
       }
 
+      playSuccessSound();
       setContactStatus("success");
       setContactName("");
       setContactEmail("");
@@ -238,7 +241,9 @@ export default function App() {
               {/* Call-to-Actions Row */}
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-4">
                 <button
+                  onMouseEnter={playHoverSound}
                   onClick={() => {
+                    playClickSound();
                     const el = document.getElementById("projects");
                     if (el) el.scrollIntoView({ behavior: "smooth" });
                   }}
@@ -249,7 +254,11 @@ export default function App() {
                   <ArrowRight className="w-4 h-4" />
                 </button>
                 <button
-                  onClick={() => setResumeOpen(true)}
+                  onMouseEnter={playHoverSound}
+                  onClick={() => {
+                    playClickSound();
+                    setResumeOpen(true);
+                  }}
                   id="hero-cta-resume"
                   className="w-full sm:w-auto px-6 py-3 bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white font-mono font-semibold text-xs uppercase tracking-wider rounded-full transition duration-200 cursor-pointer flex items-center justify-center gap-2 border border-white/10 backdrop-blur-md"
                 >
@@ -257,7 +266,9 @@ export default function App() {
                   View Resume
                 </button>
                 <button
+                  onMouseEnter={playHoverSound}
                   onClick={() => {
+                    playClickSound();
                     const el = document.getElementById("contact");
                     if (el) el.scrollIntoView({ behavior: "smooth" });
                   }}
@@ -293,7 +304,11 @@ export default function App() {
                 
                 {/* Left side: Avatar and HUD Info Display */}
                 <div className="lg:col-span-4 flex flex-col items-center">
-                  <div className="relative group p-1 bg-gradient-to-tr from-blue-500 to-purple-600 rounded-3xl overflow-hidden shadow-2xl">
+                  <motion.div
+                    animate={{ y: [0, -10, 0] }}
+                    transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                    className="relative group p-1 bg-gradient-to-tr from-blue-500 to-purple-600 rounded-3xl overflow-hidden shadow-2xl"
+                  >
                     <img
                       src={personalInfo.avatarUrl}
                       alt={`${personalInfo.name} - Young Tech Founder Portrait`}
@@ -308,7 +323,7 @@ export default function App() {
                         Warrior HQ Sync Active
                       </span>
                     </div>
-                  </div>
+                  </motion.div>
 
                   {/* Node Tech HUD Card */}
                   <div className="mt-6 bg-[#030712]/80 border border-white/10 rounded-2xl p-4 w-full max-w-sm font-mono text-[10px] text-slate-400 space-y-1.5 backdrop-blur-md">
@@ -444,7 +459,7 @@ export default function App() {
           </section>
 
           {/* 4. PROJECTS SECTION */}
-          <section id="projects" className="py-24 px-4 bg-white/[0.02] border-y border-white/5 relative z-10 backdrop-blur-sm">
+          <section id="projects" className="py-16 md:py-24 px-4 md:px-8 bg-white/[0.02] border-y border-white/5 relative z-10 backdrop-blur-sm">
             <div className="max-w-7xl mx-auto">
               
               <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-12">
@@ -645,7 +660,7 @@ export default function App() {
           </section>
 
           {/* 8. CONTACT SECTION */}
-          <section id="contact" className="py-24 px-4 bg-white/[0.02] border-t border-white/5 relative z-10 backdrop-blur-sm">
+          <section id="contact" className="py-16 md:py-24 px-4 md:px-8 bg-white/[0.02] border-t border-white/5 relative z-10 backdrop-blur-sm">
             <div className="max-w-4xl mx-auto text-center space-y-8">
               
               <div>
@@ -737,7 +752,7 @@ export default function App() {
                           value={contactName}
                           onChange={(e) => setContactName(e.target.value)}
                           id="contact-form-name"
-                          className="w-full bg-black/25 border border-white/10 focus:border-blue-500 rounded-xl px-3 py-2 text-xs font-mono text-white outline-none placeholder-slate-600 transition"
+                          className="w-full bg-black/25 border border-white/10 focus:border-blue-500 rounded-xl p-3 sm:px-3 sm:py-2 text-sm sm:text-xs font-mono text-white outline-none placeholder-slate-600 transition"
                           placeholder="e.g. S. Raghavan"
                         />
                       </div>
@@ -749,7 +764,7 @@ export default function App() {
                           value={contactEmail}
                           onChange={(e) => setContactEmail(e.target.value)}
                           id="contact-form-email"
-                          className="w-full bg-black/25 border border-white/10 focus:border-blue-500 rounded-xl px-3 py-2 text-xs font-mono text-white outline-none placeholder-slate-600 transition"
+                          className="w-full bg-black/25 border border-white/10 focus:border-blue-500 rounded-xl p-3 sm:px-3 sm:py-2 text-sm sm:text-xs font-mono text-white outline-none placeholder-slate-600 transition"
                           placeholder="e.g. guest@terminal.com"
                         />
                       </div>
@@ -763,7 +778,7 @@ export default function App() {
                         value={contactMsg}
                         onChange={(e) => setContactMsg(e.target.value)}
                         id="contact-form-message"
-                        className="w-full bg-black/25 border border-white/10 focus:border-blue-500 rounded-xl px-3 py-2 text-xs font-mono text-white outline-none placeholder-slate-600 resize-none transition"
+                        className="w-full bg-black/25 border border-white/10 focus:border-blue-500 rounded-xl p-3 sm:px-3 sm:py-2 text-sm sm:text-xs font-mono text-white outline-none placeholder-slate-600 resize-none transition"
                         placeholder="Write message details..."
                       />
                     </div>
@@ -777,6 +792,7 @@ export default function App() {
 
                       <button
                         type="submit"
+                        onMouseEnter={playHoverSound}
                         disabled={contactStatus !== "idle"}
                         id="btn-contact-submit"
                         className="px-5 py-2.5 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-400 hover:to-purple-500 disabled:bg-white/5 disabled:text-slate-500 text-white font-mono font-bold text-xs uppercase tracking-wider rounded-full transition duration-150 cursor-pointer flex items-center justify-center gap-1.5 shadow-lg shadow-blue-500/10"

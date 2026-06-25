@@ -115,7 +115,9 @@ export default function ProjectCard({ project }: ProjectCardProps) {
   return (
     <>
       {/* Project Card Grid Item */}
-      <div
+      <motion.div
+        animate={{ y: [0, -8, 0] }}
+        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
         id={`project-card-${project.id}`}
         className="group relative bg-white/5 border border-white/10 rounded-2xl p-5 hover:bg-white/10 hover:border-white/20 hover:shadow-[0_8px_32px_0_rgba(3,7,18,0.3)] transition-all duration-300 backdrop-blur-md flex flex-col justify-between overflow-hidden"
       >
@@ -178,7 +180,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             </button>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Interactive specification Popup Modal */}
       <AnimatePresence>
