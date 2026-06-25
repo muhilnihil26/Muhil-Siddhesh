@@ -156,14 +156,27 @@ export default function ProjectCard({ project }: ProjectCardProps) {
           </div>
 
           {/* Action button trigger */}
-          <button
-            onClick={() => setIsOpen(true)}
-            id={`btn-open-project-${project.id}`}
-            className="w-full py-2 bg-white/5 hover:bg-white/10 text-white border border-white/10 hover:border-white/20 text-xs font-mono rounded-lg transition duration-200 cursor-pointer flex items-center justify-center gap-1.5 backdrop-blur-sm"
-          >
-            <Terminal className="w-3.5 h-3.5 text-blue-400" />
-            Inspect Specifications
-          </button>
+          <div className="flex gap-2">
+            {project.launchUrl && (
+              <a
+                href={project.launchUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex-1 py-2 bg-blue-600/20 hover:bg-blue-600/35 text-blue-300 hover:text-white border border-blue-500/20 hover:border-blue-500/50 text-xs font-mono rounded-lg transition duration-200 flex items-center justify-center gap-1.5 backdrop-blur-sm shadow-md"
+              >
+                <ExternalLink className="w-3.5 h-3.5 text-blue-400" />
+                Launch App
+              </a>
+            )}
+            <button
+              onClick={() => setIsOpen(true)}
+              id={`btn-open-project-${project.id}`}
+              className={`${project.launchUrl ? "flex-1" : "w-full"} py-2 bg-white/5 hover:bg-white/10 text-white border border-white/10 hover:border-white/20 text-xs font-mono rounded-lg transition duration-200 cursor-pointer flex items-center justify-center gap-1.5 backdrop-blur-sm`}
+            >
+              <Terminal className="w-3.5 h-3.5 text-blue-400" />
+              {project.launchUrl ? "Inspect" : "Inspect Specifications"}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -210,6 +223,17 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                     <Sparkles className="w-5 h-5 text-purple-400 animate-pulse" />
                   </h2>
                 </div>
+                {project.launchUrl && (
+                  <a
+                    href={project.launchUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-3 md:mt-0 px-4 py-2 bg-blue-600/30 hover:bg-blue-600/50 text-blue-300 hover:text-white border border-blue-500/30 hover:border-blue-500/60 rounded-xl flex items-center gap-2 shadow-lg shadow-blue-500/10 transition duration-200 text-xs font-mono"
+                  >
+                    <ExternalLink className="w-4 h-4 text-blue-400" />
+                    Launch Live Application
+                  </a>
+                )}
               </div>
 
               {/* Body Columns */}

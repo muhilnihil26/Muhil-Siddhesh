@@ -12,6 +12,8 @@ import {
   ACHIEVEMENTS_DATA as defaultAchievements,
   INNOVATIONS_DATA as defaultInnovations
 } from "../data";
+import { db, auth, handleFirestoreError, OperationType } from "../firebase";
+import { doc, onSnapshot, setDoc } from "firebase/firestore";
 
 // Fallback timeline events matching those in JourneyTimeline
 const defaultTimelineEvents: TimelineEvent[] = [
@@ -175,27 +177,81 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     localStorage.setItem("muhil_timeline_events", JSON.stringify(timelineEvents));
   }, [timelineEvents]);
 
-  const updatePersonalInfo = (info: PersonalInfo) => {
+  // Synchronize with Firestore real-time updates
+  useEffect(() => {
+    const docRef = doc(db, "portfolio", "muhil");
+    const unsubscribe = onSnapshot(docRef, (docSnap) => {
+      if (docSnap.exists()) {
+        const data = docSnap.data();
+        if (data.personalInfo) setPersonalInfo(data.personalInfo);
+        if (data.skills) setSkills(data.skills);
+        if (data.projects) setProjects(data.projects);
+        if (data.achievements) setAchievements(data.achievements);
+        if (data.timelineEvents) setTimelineEvents(data.timelineEvents);
+      }
+    }, (error) => {
+      console.warn("Firestore subscription inactive or offline fallback: ", error);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const updatePersonalInfo = async (info: PersonalInfo) => {
     setPersonalInfo(info);
+    if (auth.currentUser && auth.currentUser.email === "muhilsiddhesh.in@gmail.com") {
+      try {
+        await setDoc(doc(db, "portfolio", "muhil"), { personalInfo: info }, { merge: true });
+      } catch (err) {
+        handleFirestoreError(err, OperationType.UPDATE, "portfolio/muhil");
+      }
+    }
   };
 
-  const updateSkills = (newSkills: SkillCategory[]) => {
+  const updateSkills = async (newSkills: SkillCategory[]) => {
     setSkills(newSkills);
+    if (auth.currentUser && auth.currentUser.email === "muhilsiddhesh.in@gmail.com") {
+      try {
+        await setDoc(doc(db, "portfolio", "muhil"), { skills: newSkills }, { merge: true });
+      } catch (err) {
+        handleFirestoreError(err, OperationType.UPDATE, "portfolio/muhil");
+      }
+    }
   };
 
-  const updateProjects = (newProjects: Project[]) => {
+  const updateProjects = async (newProjects: Project[]) => {
     setProjects(newProjects);
+    if (auth.currentUser && auth.currentUser.email === "muhilsiddhesh.in@gmail.com") {
+      try {
+        await setDoc(doc(db, "portfolio", "muhil"), { projects: newProjects }, { merge: true });
+      } catch (err) {
+        handleFirestoreError(err, OperationType.UPDATE, "portfolio/muhil");
+      }
+    }
   };
 
-  const updateAchievements = (newAchievements: Achievement[]) => {
+  const updateAchievements = async (newAchievements: Achievement[]) => {
     setAchievements(newAchievements);
+    if (auth.currentUser && auth.currentUser.email === "muhilsiddhesh.in@gmail.com") {
+      try {
+        await setDoc(doc(db, "portfolio", "muhil"), { achievements: newAchievements }, { merge: true });
+      } catch (err) {
+        handleFirestoreError(err, OperationType.UPDATE, "portfolio/muhil");
+      }
+    }
   };
 
-  const updateTimelineEvents = (newEvents: TimelineEvent[]) => {
+  const updateTimelineEvents = async (newEvents: TimelineEvent[]) => {
     setTimelineEvents(newEvents);
+    if (auth.currentUser && auth.currentUser.email === "muhilsiddhesh.in@gmail.com") {
+      try {
+        await setDoc(doc(db, "portfolio", "muhil"), { timelineEvents: newEvents }, { merge: true });
+      } catch (err) {
+        handleFirestoreError(err, OperationType.UPDATE, "portfolio/muhil");
+      }
+    }
   };
 
-  const resetAll = () => {
+  const resetAll = async () => {
     setPersonalInfo(initialPersonalInfo);
     setSkills(defaultSkills);
     setProjects(defaultProjects);
@@ -206,6 +262,20 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     localStorage.removeItem("muhil_projects");
     localStorage.removeItem("muhil_achievements");
     localStorage.removeItem("muhil_timeline_events");
+
+    if (auth.currentUser && auth.currentUser.email === "muhilsiddhesh.in@gmail.com") {
+      try {
+        await setDoc(doc(db, "portfolio", "muhil"), {
+          personalInfo: initialPersonalInfo,
+          skills: defaultSkills,
+          projects: defaultProjects,
+          achievements: defaultAchievements,
+          timelineEvents: defaultTimelineEvents
+        });
+      } catch (err) {
+        handleFirestoreError(err, OperationType.UPDATE, "portfolio/muhil");
+      }
+    }
   };
 
   return (

@@ -1,0 +1,55 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 1. Default-deny Catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Primitive Definitions
+    function isValidId(id) {
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner() {
+      return isSignedIn() &&
+        request.auth.token.email == 'muhilsiddhesh.in@gmail.com' &&
+        request.auth.token.email_verified == true;
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    // Validation Blueprint for Portfolio Entity
+    function isValidPortfolio(data) {
+      return data.keys().hasAll(['personalInfo', 'skills', 'projects', 'achievements', 'timelineEvents']) &&
+        data.keys().size() == 5 &&
+        data.personalInfo is map &&
+        data.skills is list &&
+        data.projects is list &&
+        data.achievements is list &&
+        data.timelineEvents is list;
+    }
+
+    // Main Portfolio Match Block
+    match /portfolio/{portfolioId} {
+      // General read access is allowed to any single document get
+      allow get: if isValidId(portfolioId);
+
+      // No listing/query scraping allowed to prevent malicious scraping
+      allow list: if false;
+
+      // Create & Update requires owner identity, valid id, and valid portfolio schema
+      allow create: if isOwner() && isValidId(portfolioId) && isValidPortfolio(incoming());
+      
+      allow update: if isOwner() && isValidId(portfolioId) && isValidPortfolio(incoming());
+
+      allow delete: if isOwner() && isValidId(portfolioId);
+    }
+  }
+}

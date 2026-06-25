@@ -28,7 +28,6 @@ import { motion, AnimatePresence } from "motion/react";
 
 import ParticleBackground from "./components/ParticleBackground";
 import TerminalConsole from "./components/TerminalConsole";
-import InnovationSim from "./components/InnovationSim";
 import Navbar from "./components/Navbar";
 import ProjectCard from "./components/ProjectCard";
 import ResumeModal from "./components/ResumeModal";
@@ -129,41 +128,40 @@ export default function App() {
       <AnimatePresence>
         {loading && (
           <motion.div
-            exit={{ opacity: 0, scale: 1.05 }}
-            transition={{ duration: 0.4, ease: "easeInOut" }}
+            exit={{ opacity: 0, scale: 0.98 }}
+            transition={{ duration: 0.5, ease: "easeInOut" }}
             id="app-loader-screen"
-            className="fixed inset-0 z-50 bg-[#030712]/95 backdrop-blur-2xl flex flex-col items-center justify-center p-4 font-mono select-none"
+            className="fixed inset-0 z-50 bg-[#030712] flex flex-col items-center justify-center p-6 select-none"
           >
-            <div className="w-full max-w-md text-left space-y-4">
-              <div className="flex items-center gap-2">
-                <div className="w-2.5 h-2.5 rounded-full bg-blue-400 animate-pulse" />
-                <span className="text-[11px] font-bold tracking-widest uppercase text-blue-400">
-                  SYSTEM INITIALIZATION SEQUENCE
+            <div className="w-full max-w-xs flex flex-col items-center text-center space-y-6">
+              {/* Monogram Circular Logo with Pulse/Glow */}
+              <div className="relative flex items-center justify-center w-16 h-16 rounded-full border border-white/10 bg-slate-900/60 shadow-lg shadow-blue-500/5">
+                <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-blue-500/10 to-purple-500/10 animate-pulse" />
+                <span className="text-xl font-sans font-black tracking-tight bg-gradient-to-r from-blue-400 via-indigo-200 to-purple-400 bg-clip-text text-transparent">
+                  MS
                 </span>
               </div>
-              
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-4 space-y-2 text-xs text-slate-300 backdrop-blur-md">
-                <div className="flex justify-between border-b border-white/5 pb-2">
-                  <span>BOOT NODE: Cloud-Run-Svr</span>
-                  <span className="text-blue-400 font-bold">PORT 3000</span>
-                </div>
-                <div className="text-blue-400 font-bold text-sm h-5">{bootStep}</div>
-                <div className="text-[10px] text-slate-500">
-                  Checking modules: Types safe, Particles canvas OK, Resume PDF templates ready.
-                </div>
+
+              <div className="space-y-1">
+                <h1 className="text-sm font-sans font-bold tracking-widest text-slate-100 uppercase">
+                  Muhil Siddhesh
+                </h1>
+                <p className="text-[9px] font-mono text-slate-500 uppercase tracking-widest">
+                  AI & Software Developer Portfolio
+                </p>
               </div>
 
-              {/* Progress Bar Container */}
-              <div className="space-y-1">
-                <div className="flex justify-between text-[10px] text-slate-500 font-semibold uppercase">
-                  <span>Downloading Assets</span>
-                  <span>{bootProgress}%</span>
-                </div>
-                <div className="w-full h-1.5 bg-white/5 rounded-full overflow-hidden border border-white/10">
+              {/* Minimalist Micro-Progress Bar */}
+              <div className="w-full space-y-2">
+                <div className="w-full h-[2px] bg-white/5 rounded-full overflow-hidden">
                   <div 
-                    className="bg-gradient-to-r from-blue-500 to-purple-600 h-full transition-all duration-75"
+                    className="bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600 h-full transition-all duration-75"
                     style={{ width: `${bootProgress}%` }}
                   />
+                </div>
+                <div className="flex justify-between items-center text-[9px] font-mono text-slate-500 uppercase tracking-wider">
+                  <span>Loading</span>
+                  <span>{bootProgress}%</span>
                 </div>
               </div>
             </div>
@@ -463,56 +461,20 @@ export default function App() {
             </div>
           </section>
 
-          {/* 5. INNOVATION SECTION */}
-          <section id="innovation" className="py-24 px-4 max-w-7xl mx-auto w-full relative z-10">
-            <div className="text-center mb-12">
-              <span className="text-[10px] font-mono uppercase tracking-widest text-blue-400 font-bold bg-white/5 px-2.5 py-1 border border-white/10 rounded-md backdrop-blur-md">
-                Conceptual Breakthroughs
-              </span>
-              <h2 className="text-2xl md:text-4xl font-sans font-bold text-white mt-3">
-                Smart Station Entry Innovation
-              </h2>
-              <p className="text-xs sm:text-sm text-slate-400 mt-2 max-w-2xl mx-auto">
-                Discover Muhil's blueprint for the modern railway station—an ecosystem optimizing crowd movement, verifying tickets dynamically, and securely handling guest access.
-              </p>
-            </div>
-
-            {/* Visual simulation sandbox component */}
-            <div className="space-y-6">
-              <InnovationSim />
-              
-              {/* Written Details Grid explaining specifications */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="bg-white/5 border border-white/10 p-5 rounded-2xl backdrop-blur-md">
-                  <h4 className="text-xs font-mono text-blue-400 font-bold uppercase mb-2">PNR Optical Barriers</h4>
-                  <p className="text-xs text-slate-400 leading-relaxed text-justify">
-                    Instead of slow paper-stamping steps, high-speed optical turnstiles parse structured PNR database signatures instantly. Upon match confirmation, access corridors blink green and arm triggers spin automatically.
-                  </p>
-                </div>
-                <div className="bg-white/5 border border-white/10 p-5 rounded-2xl backdrop-blur-md">
-                  <h4 className="text-xs font-mono text-blue-400 font-bold uppercase mb-2">Adaptive Flow Throttling</h4>
-                  <p className="text-xs text-slate-400 leading-relaxed text-justify">
-                    Dynamic timers track train departures and queue lengths. If platform density limits are flagged, the gateway AI automatically scales verification delays from 1.5s to 4.5s to regulate passengers flow seamlessly.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </section>
-
-          {/* 6. EDUCATION & FUTURE ROADMAP SECTION */}
-          <section id="education" className="py-24 px-4 bg-white/[0.02] border-y border-white/5 relative z-10 backdrop-blur-sm">
+          {/* 5. EDUCATION & CREDENTIALS SECTION */}
+          <section id="education" className="py-24 px-4 bg-white/[0.02] border-t border-white/5 relative z-10 backdrop-blur-sm">
             <div className="max-w-7xl mx-auto">
               
               <div className="text-center mb-12">
                 <span className="text-[10px] font-mono uppercase tracking-widest text-blue-400 font-bold bg-white/5 px-2.5 py-1 border border-white/10 rounded-md backdrop-blur-md">
-                  Mission Timeline
+                  Timeline & Credentials
                 </span>
                 <h2 className="text-2xl md:text-4xl font-sans font-bold text-white mt-3">
-                  Education & Career Goals
+                  Academic Profile & Certifications
                 </h2>
               </div>
 
-              {/* Split layout: School details vs Roadmap */}
+              {/* Split layout: School details vs Credentials/Achievements */}
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
                 
                 {/* School Profile Panel (5 columns) */}
@@ -548,86 +510,112 @@ export default function App() {
                   </div>
                 </div>
 
-                {/* Entrepreneurial Roadmap Panel (7 columns) */}
-                <div className="lg:col-span-7 space-y-4">
-                  <div className="bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-md">
-                    <h3 className="text-sm font-mono font-bold text-white uppercase tracking-wider mb-4 flex items-center gap-2">
-                      <Target className="w-5 h-5 text-blue-400" />
-                      Warrior Developers: Growth Map
+                {/* Key Achievements & Verified Credentials (7 columns) */}
+                <div className="lg:col-span-7 space-y-6">
+                  
+                  {/* Dynamic Achievements List */}
+                  <div className="bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-md space-y-4">
+                    <h3 className="text-sm font-mono font-bold text-white uppercase tracking-wider mb-2 flex items-center gap-2">
+                      <Award className="w-5 h-5 text-blue-400" />
+                      Key Achievements & Honors
                     </h3>
-
-                    <div className="space-y-6 relative border-l border-white/10 ml-3.5 pl-6">
-                      
-                      {/* Step 1 */}
-                      <div className="relative">
-                        <span className="absolute -left-[31px] top-0 w-3.5 h-3.5 rounded-full bg-blue-500 shadow-[0_0_8px_rgba(59,130,246,0.8)] border-2 border-[#030712]" />
-                        <h4 className="text-xs font-mono font-bold text-blue-400 uppercase">Phase 01: Build Concepts (Class 9-10)</h4>
-                        <p className="text-xs text-slate-300 mt-1">
-                          Refining high-fidelity architectural models like Warrior Nexus and Sonexa. Expanding coding proficiency in TypeScript, React, and Game Mechanics.
-                        </p>
-                      </div>
-
-                      {/* Step 2 */}
-                      <div className="relative">
-                        <span className="absolute -left-[31px] top-0 w-3.5 h-3.5 rounded-full bg-slate-800 border-2 border-[#030712]" />
-                        <h4 className="text-xs font-mono font-bold text-slate-500 uppercase">Phase 02: Systems Engineering (Class 11-12)</h4>
-                        <p className="text-xs text-slate-400 mt-1">
-                          Pioneering full production pipelines. Testing real APIs, database relays, cloud storage, and hosting early software mockups for peer clinics and services.
-                        </p>
-                      </div>
-
-                      {/* Step 3 */}
-                      <div className="relative">
-                        <span className="absolute -left-[31px] top-0 w-3.5 h-3.5 rounded-full bg-purple-500 shadow-[0_0_8px_rgba(168,85,247,0.8)] border-2 border-[#030712]" />
-                        <h4 className="text-xs font-mono font-bold text-purple-400 uppercase">Phase 03: Warrior Developers Launch</h4>
-                        <p className="text-xs text-slate-300 mt-1">
-                          Forming 'Warrior Developers' as a real-world software startup to offer enterprise automated tools, hospital coordination portals, and educational utilities.
-                        </p>
-                      </div>
-
+                    
+                    <div className="grid grid-cols-1 gap-3">
+                      {achievements.map((ach, idx) => (
+                        <div 
+                          key={idx}
+                          className="bg-black/20 border border-white/5 p-4 rounded-2xl hover:border-blue-500/20 transition-all duration-200"
+                        >
+                          <h4 className="text-xs font-sans font-bold text-slate-200 flex items-center gap-2">
+                            <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
+                            {ach.title}
+                          </h4>
+                          <p className="text-[11px] text-slate-400 mt-1 leading-relaxed pl-3.5 text-justify">
+                            {ach.description}
+                          </p>
+                        </div>
+                      ))}
                     </div>
                   </div>
+
+                  {/* Certified & Verified Tech Credentials */}
+                  <div className="bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-md space-y-4">
+                    <h3 className="text-sm font-mono font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                      <ShieldCheck className="w-5 h-5 text-emerald-400 animate-pulse" />
+                      Verified Tech Credentials & Recognition
+                    </h3>
+                    
+                    <p className="text-[11px] text-slate-400 leading-relaxed text-justify">
+                      Core development concepts, software architectures, and technical competencies validated and certified against industry standards.
+                    </p>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      {/* Google Credential Badge */}
+                      <div className="bg-[#4285F4]/5 border border-[#4285F4]/20 hover:border-[#4285F4]/40 p-4 rounded-2xl flex flex-col justify-between transition-colors">
+                        <div>
+                          <span className="text-[10px] font-mono font-bold text-[#4285F4] bg-[#4285F4]/10 px-2 py-0.5 rounded uppercase tracking-wider">
+                            Google
+                          </span>
+                        </div>
+                        <h4 className="text-xs font-sans font-bold text-slate-100 mt-2">
+                          Google Developer Concepts
+                        </h4>
+                        <span className="text-[9px] font-mono text-emerald-400 mt-1 flex items-center gap-1 font-bold">
+                          ● Verified Core Skills
+                        </span>
+                      </div>
+
+                      {/* Microsoft Credential Badge */}
+                      <div className="bg-[#F25022]/5 border border-[#F25022]/20 hover:border-[#F25022]/40 p-4 rounded-2xl flex flex-col justify-between transition-colors">
+                        <div>
+                          <span className="text-[10px] font-mono font-bold text-[#F25022] bg-[#F25022]/10 px-2 py-0.5 rounded uppercase tracking-wider">
+                            Microsoft
+                          </span>
+                        </div>
+                        <h4 className="text-xs font-sans font-bold text-slate-100 mt-2">
+                          Cloud Architecture
+                        </h4>
+                        <span className="text-[9px] font-mono text-emerald-400 mt-1 flex items-center gap-1 font-bold">
+                          ● Verified Azure Concept
+                        </span>
+                      </div>
+
+                      {/* Zoho Credential Badge */}
+                      <div className="bg-[#E22E2E]/5 border border-[#E22E2E]/20 hover:border-[#E22E2E]/40 p-4 rounded-2xl flex flex-col justify-between transition-colors">
+                        <div>
+                          <span className="text-[10px] font-mono font-bold text-[#E22E2E] bg-[#E22E2E]/10 px-2 py-0.5 rounded uppercase tracking-wider">
+                            Zoho
+                          </span>
+                        </div>
+                        <h4 className="text-xs font-sans font-bold text-slate-100 mt-2">
+                          Creator Automation
+                        </h4>
+                        <span className="text-[9px] font-mono text-emerald-400 mt-1 flex items-center gap-1 font-bold">
+                          ● Certified Developer API
+                        </span>
+                      </div>
+
+                      {/* Meta Credential Badge */}
+                      <div className="bg-[#0064E0]/5 border border-[#0064E0]/20 hover:border-[#0064E0]/40 p-4 rounded-2xl flex flex-col justify-between transition-colors">
+                        <div>
+                          <span className="text-[10px] font-mono font-bold text-[#0064E0] bg-[#0064E0]/10 px-2 py-0.5 rounded uppercase tracking-wider">
+                            Meta
+                          </span>
+                        </div>
+                        <h4 className="text-xs font-sans font-bold text-slate-100 mt-2">
+                          Frontend AI Design
+                        </h4>
+                        <span className="text-[9px] font-mono text-emerald-400 mt-1 flex items-center gap-1 font-bold">
+                          ● Verified UI Integration
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
                 </div>
 
               </div>
 
-            </div>
-          </section>
-
-          {/* 7. ACHIEVEMENTS SECTION */}
-          <section id="achievements" className="py-24 px-4 max-w-7xl mx-auto w-full relative z-10">
-            <div className="text-center mb-12">
-              <span className="text-[10px] font-mono uppercase tracking-widest text-blue-400 font-bold bg-white/5 px-2.5 py-1 border border-white/10 rounded-md backdrop-blur-md">
-                Distinctions
-              </span>
-              <h2 className="text-2xl md:text-4xl font-sans font-bold text-white mt-3">
-                Key Accomplishments
-              </h2>
-            </div>
-
-            {/* Bento-style Achievements Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {achievements.map((ach, idx) => (
-                <div 
-                  key={idx}
-                  id={`achievement-bento-${idx}`}
-                  className="bg-white/5 border border-white/10 p-6 rounded-3xl hover:border-blue-500/30 hover:shadow-[0_8px_32px_0_rgba(31,38,135,0.15)] transition duration-200 backdrop-blur-md"
-                >
-                  <div className="flex items-start gap-4">
-                    <div className="p-2 bg-white/5 rounded-xl border border-white/10 text-blue-400 mt-0.5">
-                      <Award className="w-5 h-5 text-blue-400" />
-                    </div>
-                    <div>
-                      <h3 className="text-sm font-sans font-extrabold text-white uppercase tracking-wide">
-                        {ach.title}
-                      </h3>
-                      <p className="text-xs text-slate-400 mt-1.5 leading-relaxed text-justify">
-                        {ach.description}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              ))}
             </div>
           </section>
 

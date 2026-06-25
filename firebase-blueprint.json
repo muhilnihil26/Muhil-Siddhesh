@@ -1,0 +1,38 @@
+{
+  "entities": {
+    "Portfolio": {
+      "title": "Portfolio",
+      "description": "Entire persistent portfolio data containing profile, skills, projects, achievements, and timeline.",
+      "type": "object",
+      "properties": {
+        "personalInfo": {
+          "type": "object",
+          "description": "Personal details, career goal, education, bio and avatar image URL"
+        },
+        "skills": {
+          "type": "array",
+          "description": "List of skill categories and levels"
+        },
+        "projects": {
+          "type": "array",
+          "description": "List of developed project specifications"
+        },
+        "achievements": {
+          "type": "array",
+          "description": "Academic, coding, and creative honors"
+        },
+        "timelineEvents": {
+          "type": "array",
+          "description": "Historical milestones and future roadmaps"
+        }
+      },
+      "required": ["personalInfo", "skills", "projects", "achievements", "timelineEvents"]
+    }
+  },
+  "firestore": {
+    "/portfolio/{portfolioId}": {
+      "schema": "Portfolio",
+      "description": "Stores the central synchronized portfolio configuration"
+    }
+  }
+}
