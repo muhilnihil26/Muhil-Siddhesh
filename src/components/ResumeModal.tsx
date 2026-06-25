@@ -15,8 +15,51 @@ interface ResumeModalProps {
 export default function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
   const { personalInfo, skills, projects, achievements } = usePortfolio();
   
-  const handlePrint = () => {
-    window.print();
+  const [isGenerating, setIsGenerating] = useState(false);
+
+  const handlePrint = async () => {
+    const element = document.getElementById("resume-print-area");
+    if (!element) return;
+    
+    setIsGenerating(true);
+    try {
+      // Dynamic import to avoid SSR issues if ever applicable, and to keep initial bundle size small
+      const html2pdf = (await import("html2pdf.js")).default;
+      
+      const opt = {
+        margin:       10,
+        filename:     `${personalInfo.name.replace(/\s+/g, '_')}_Resume.pdf`,
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2, useCORS: true },
+        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      };
+
+      // We clone the element to manipulate it for PDF (like removing dark mode styles if any are inherited)
+      const clone = element.cloneNode(true) as HTMLElement;
+      clone.style.backgroundColor = "#ffffff";
+      clone.style.color = "#0f172a";
+      clone.style.padding = "20px";
+      
+      const container = document.createElement('div');
+      container.appendChild(clone);
+      
+      // Temporarily append to body to render
+      document.body.appendChild(container);
+      container.style.position = "absolute";
+      container.style.left = "-9999px";
+
+      await html2pdf().set(opt).from(container).save();
+      
+      // Cleanup
+      document.body.removeChild(container);
+
+    } catch (error) {
+      console.error("PDF generation failed", error);
+      // Fallback
+      window.print();
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   return (
@@ -52,11 +95,21 @@ export default function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
               <div className="flex items-center gap-2">
                 <button
                   onClick={handlePrint}
+                  disabled={isGenerating}
                   id="btn-print-resume"
-                  className="px-4 py-2 bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white rounded-full text-xs font-mono flex items-center gap-1.5 transition border border-white/10 cursor-pointer backdrop-blur-md"
+                  className="px-4 py-2 bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white rounded-full text-xs font-mono flex items-center gap-1.5 transition border border-white/10 cursor-pointer backdrop-blur-md disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  <Printer className="w-3.5 h-3.5 text-blue-400" />
-                  Print / Save PDF
+                  {isGenerating ? (
+                    <>
+                      <div className="w-3.5 h-3.5 border-2 border-slate-300 border-t-transparent rounded-full animate-spin" />
+                      Generating...
+                    </>
+                  ) : (
+                    <>
+                      <Download className="w-3.5 h-3.5 text-blue-400" />
+                      Download PDF
+                    </>
+                  )}
                 </button>
                 <button
                   onClick={onClose}

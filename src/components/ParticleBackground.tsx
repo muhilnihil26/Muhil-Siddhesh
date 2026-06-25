@@ -73,12 +73,34 @@ export default function ParticleBackground() {
 
       // Particle update and rendering
       particles.forEach((p, idx) => {
+        // Base Antigravity drift (slowly floating up)
+        p.y -= 0.15;
+        
         p.x += p.vx;
         p.y += p.vy;
 
-        // Bounce on boundaries
-        if (p.x < 0 || p.x > width) p.vx *= -1;
-        if (p.y < 0 || p.y > height) p.vy *= -1;
+        // Mouse repelling (antigravity field around cursor)
+        if (mouse.active) {
+          const dx = p.x - mouse.x;
+          const dy = p.y - mouse.y;
+          const distToMouse = Math.hypot(dx, dy);
+          
+          if (distToMouse < 150) {
+            const force = (150 - distToMouse) / 150;
+            p.vx += (dx / distToMouse) * force * 0.05;
+            p.vy += (dy / distToMouse) * force * 0.05;
+          }
+        }
+        
+        // Dampen velocity slightly to avoid infinite acceleration
+        p.vx *= 0.99;
+        p.vy *= 0.99;
+
+        // Bounce/Wrap on boundaries
+        if (p.x < 0) p.x = width;
+        if (p.x > width) p.x = 0;
+        if (p.y < 0) p.y = height;
+        if (p.y > height) p.y = 0;
 
         // Draw particle
         ctx.beginPath();

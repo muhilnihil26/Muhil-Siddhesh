@@ -38,18 +38,24 @@ service cloud.firestore {
 
     // Main Portfolio Match Block
     match /portfolio/{portfolioId} {
-      // General read access is allowed to any single document get
       allow get: if isValidId(portfolioId);
-
-      // No listing/query scraping allowed to prevent malicious scraping
       allow list: if false;
-
-      // Create & Update requires owner identity, valid id, and valid portfolio schema
       allow create: if isOwner() && isValidId(portfolioId) && isValidPortfolio(incoming());
-      
       allow update: if isOwner() && isValidId(portfolioId) && isValidPortfolio(incoming());
-
       allow delete: if isOwner() && isValidId(portfolioId);
+    }
+
+    match /messages/{messageId} {
+      // Anyone can create a message
+      allow create: if isValidId(messageId) &&
+        incoming().keys().hasAll(['name', 'email', 'message', 'createdAt']) &&
+        incoming().name is string && incoming().name.size() > 0 &&
+        incoming().email is string && incoming().email.size() > 0 &&
+        incoming().message is string && incoming().message.size() > 0 &&
+        incoming().createdAt is string;
+
+      // Only owner can read, update, delete
+      allow read, update, delete: if isOwner() && isValidId(messageId);
     }
   }
 }

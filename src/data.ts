@@ -13,11 +13,16 @@ export const PERSONAL_INFO = {
   tagline: "Building the Future with AI and Innovation",
   avatarUrl: "/src/assets/images/muhil_avatar_1782394981906.jpg",
   email: "muhillsiddhesh.in@gmail.com",
-  github: "https://github.com", // Placeholder, but functional link
+  github: "https://github.com",
+  linkedin: "https://linkedin.com",
+  instagram: "https://instagram.com",
+  facebook: "https://facebook.com",
+  youtube: "https://youtube.com",
+  whatsapp: "https://wa.me/919876543210",
   location: "Tamil Nadu, India",
   education: {
     school: "PM SHRI Kendriya Vidyalaya RTC ITBP Illuppaikudi",
-    grade: "Class 9 Student",
+    grade: "Class 10 Student",
     achievements: "Pioneering technology concepts beyond school-level learning"
   },
   careerGoal: {
@@ -25,7 +30,7 @@ export const PERSONAL_INFO = {
     firm: "Warrior Developers (Future Founder)",
     description: "To create innovative, high-impact AI-powered solutions for healthcare, education, and business automation, reshaping how humans interact with digital systems."
   },
-  bio: "Hi, I'm Muhil, a passionate Class 9 student deeply interested in Artificial Intelligence, Full Stack Development, Software Engineering, and Technology Innovation. I enjoy building websites, software solutions, AI-powered applications, and creative technology projects that solve real-world problems. I combine engineering design with design thinking, striving to create systems that are not only highly functional but also intuitive and visually stunning."
+  bio: "Hi, I'm Muhil, a passionate Class 10 student deeply interested in Artificial Intelligence, Full Stack Development, Software Engineering, and Technology Innovation. I enjoy building websites, software solutions, AI-powered applications, and creative technology projects that solve real-world problems. I combine engineering design with design thinking, striving to create systems that are not only highly functional but also intuitive and visually stunning."
 };
 
 export const SKILLS_DATA: SkillCategory[] = [

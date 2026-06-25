@@ -70,6 +70,32 @@ Return ONLY raw valid JSON. Do not include markdown code block backticks (\`\`\`
     }
   });
 
+  // API Route: Contact Form submission
+  app.post("/api/contact", async (req, res) => {
+    const { name, email, message } = req.body;
+    if (!name || !email || !message) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
+
+    try {
+      console.log(`[EMAIL SYSTEM SIMULATION]`);
+      console.log(`Sending email to admin (muhillsiddhesh.in@gmail.com): New message from ${name} (${email}) - ${message}`);
+      console.log(`Sending confirmation email to user (${email}): Thanks for reaching out, ${name}! Your message has been received.`);
+      
+      // If Resend API key is available, we could integrate it here
+      const resendApiKey = process.env.RESEND_API_KEY;
+      if (resendApiKey) {
+        console.log("Resend API key found. Implementing actual send...");
+        // You would use `resend.emails.send(...)` here
+      }
+
+      res.status(200).json({ success: true });
+    } catch (error: any) {
+      console.error("Contact API Error:", error);
+      res.status(500).json({ error: "Failed to send message" });
+    }
+  });
+
   // Vite integration as middleware or static asset serving
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({

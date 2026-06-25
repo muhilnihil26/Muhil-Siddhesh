@@ -74,10 +74,51 @@ export default function AdminPanel() {
   }, []);
 
   // Active Admin tab
-  const [activeTab, setActiveTab] = useState<"profile" | "projects" | "skills" | "timeline" | "achievements">("profile");
+  const [activeTab, setActiveTab] = useState<"profile" | "projects" | "skills" | "timeline" | "achievements" | "messages">("profile");
   
   // Notification alert state
   const [alert, setAlert] = useState<{ type: "success" | "error"; message: string } | null>(null);
+
+  // Messages State
+  const [messages, setMessages] = useState<any[]>([]);
+  const [loadingMessages, setLoadingMessages] = useState(false);
+
+  React.useEffect(() => {
+    if (activeTab === "messages" && isAuthenticated) {
+      const fetchMessages = async () => {
+        setLoadingMessages(true);
+        try {
+          const { collection, getDocs, query, orderBy } = await import("firebase/firestore");
+          const { db } = await import("../firebase");
+          const q = query(collection(db, "messages"), orderBy("createdAt", "desc"));
+          const snapshot = await getDocs(q);
+          const msgs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+          setMessages(msgs);
+        } catch (error) {
+          console.error("Failed to fetch messages:", error);
+          triggerAlert("error", "Failed to load messages from secure telemetry.");
+        } finally {
+          setLoadingMessages(false);
+        }
+      };
+      fetchMessages();
+    }
+  }, [activeTab, isAuthenticated]);
+
+  const handleDeleteMessage = async (id: string) => {
+    if (confirm("Permanently delete this transmission?")) {
+      try {
+        const { doc, deleteDoc } = await import("firebase/firestore");
+        const { db } = await import("../firebase");
+        await deleteDoc(doc(db, "messages", id));
+        setMessages(messages.filter(m => m.id !== id));
+        triggerAlert("success", "Transmission expunged.");
+      } catch (error) {
+        console.error(error);
+        triggerAlert("error", "Failed to delete message.");
+      }
+    }
+  };
 
   // Handle Authentication submit (credentials)
   const handleLogin = (e: React.FormEvent) => {
@@ -720,6 +761,17 @@ export default function AdminPanel() {
                 >
                   <Award className="w-4 h-4 shrink-0" />
                   <span className="whitespace-nowrap">Distinctions</span>
+                </button>
+                <button
+                  onClick={() => setActiveTab("messages")}
+                  className={`w-full text-left px-4 py-2.5 rounded-xl border font-mono text-xs transition cursor-pointer shrink-0 flex items-center gap-3 ${
+                    activeTab === "messages"
+                      ? "bg-white/10 border-blue-500/50 text-blue-400 font-bold"
+                      : "bg-white/5 border-white/5 text-slate-400 hover:text-slate-200"
+                  }`}
+                >
+                  <Mail className="w-4 h-4 shrink-0" />
+                  <span className="whitespace-nowrap">Messages</span>
                 </button>
               </nav>
 
@@ -1686,6 +1738,64 @@ export default function AdminPanel() {
                     ))}
                   </div>
 
+                </div>
+              )}
+
+              {activeTab === "messages" && (
+                <div className="space-y-6">
+                  <div>
+                    <h2 className="text-lg font-sans font-bold text-white flex items-center gap-2">
+                      <Mail className="w-5 h-5 text-blue-400" />
+                      Secure Transmissions
+                    </h2>
+                    <p className="text-xs text-slate-400 mt-1">
+                      Review incoming telemetry and messages submitted by external entities.
+                    </p>
+                  </div>
+
+                  {loadingMessages ? (
+                    <div className="text-center py-10 font-mono text-xs text-slate-500">
+                      <div className="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+                      Decrypting messages...
+                    </div>
+                  ) : messages.length === 0 ? (
+                    <div className="text-center py-10 font-mono text-xs text-slate-500 bg-white/5 border border-white/10 rounded-3xl">
+                      No transmissions detected in the buffer.
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-1 gap-4">
+                      {messages.map((msg) => (
+                        <div key={msg.id} className="bg-white/5 border border-white/10 rounded-3xl p-5 relative">
+                          <button
+                            onClick={() => handleDeleteMessage(msg.id)}
+                            className="absolute top-4 right-4 p-1.5 bg-rose-950/20 text-rose-400 hover:bg-rose-900/40 border border-rose-900/20 rounded-lg transition cursor-pointer"
+                            title="Delete Message"
+                          >
+                            <Trash className="w-3.5 h-3.5" />
+                          </button>
+                          
+                          <div className="flex items-center gap-3 mb-3 border-b border-white/5 pb-3">
+                            <div className="w-10 h-10 rounded-full bg-blue-500/20 border border-blue-500/30 flex items-center justify-center text-blue-400 font-bold font-mono">
+                              {msg.name?.charAt(0).toUpperCase()}
+                            </div>
+                            <div>
+                              <div className="text-sm font-bold text-slate-200">{msg.name}</div>
+                              <div className="text-[10px] font-mono text-blue-400">{msg.email}</div>
+                            </div>
+                          </div>
+                          
+                          <p className="text-xs text-slate-300 whitespace-pre-line leading-relaxed mb-3">
+                            {msg.message}
+                          </p>
+                          
+                          <div className="text-[9px] font-mono text-slate-500 flex items-center gap-1.5">
+                            <Clock className="w-3 h-3" />
+                            {new Date(msg.createdAt).toLocaleString()}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               )}
 

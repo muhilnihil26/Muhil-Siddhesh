@@ -61,6 +61,11 @@ export interface PersonalInfo {
   email: string;
   phone?: string;
   github: string;
+  linkedin?: string;
+  instagram?: string;
+  facebook?: string;
+  youtube?: string;
+  whatsapp?: string;
   location: string;
   education: {
     school: string;
