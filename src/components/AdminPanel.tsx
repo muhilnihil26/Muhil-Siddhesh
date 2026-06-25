@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { 
   User, 
   Mail, 
@@ -27,7 +27,8 @@ import {
   Clock,
   Briefcase,
   MapPin,
-  Laptop
+  Laptop,
+  Upload
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { usePortfolio } from "../context/PortfolioContext";
@@ -97,6 +98,60 @@ export default function AdminPanel() {
 
   // Editable Profile States
   const [profileForm, setProfileForm] = useState<PersonalInfo>({ ...personalInfo });
+  const [isDragging, setIsDragging] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const processFile = (file: File) => {
+    if (!file.type.startsWith("image/")) {
+      triggerAlert("error", "Invalid file type. Please select an image.");
+      return;
+    }
+    if (file.size > 2 * 1024 * 1024) {
+      triggerAlert("error", "File too large. Maximum size allowed is 2MB.");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      if (event.target?.result) {
+        setProfileForm(prev => ({
+          ...prev,
+          avatarUrl: event.target!.result as string
+        }));
+        triggerAlert("success", "Avatar image updated successfully.");
+      }
+    };
+    reader.onerror = () => {
+      triggerAlert("error", "Error reading image file.");
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      processFile(file);
+    }
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
+
+  const handleDragLeave = () => {
+    setIsDragging(false);
+  };
+
+  const handleDrop = (e: React.DragEvent) => {
+    e.preventDefault();
+    setIsDragging(false);
+    const file = e.dataTransfer.files?.[0];
+    if (file) {
+      processFile(file);
+    }
+  };
+
   const handleProfileSave = (e: React.FormEvent) => {
     e.preventDefault();
     updatePersonalInfo(profileForm);
@@ -633,29 +688,101 @@ export default function AdminPanel() {
 
                     {/* Image URL & Avatar */}
                     <div className="space-y-1.5">
-                      <label className="text-[10px] font-mono text-slate-400 uppercase tracking-widest font-bold">Avatar Photo Link</label>
-                      <div className="flex flex-col sm:flex-row gap-4 items-center">
-                        <img 
-                          src={profileForm.avatarUrl} 
-                          alt="Avatar Preview" 
-                          className="w-14 h-14 rounded-full border-2 border-blue-500/40 object-cover shrink-0" 
-                          onError={(e) => {
-                            // Fallback image if user enters bad path
-                            (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=120";
-                          }}
-                        />
-                        <div className="flex-1 w-full space-y-1">
+                      <label className="text-[10px] font-mono text-slate-400 uppercase tracking-widest font-bold">Avatar Photo Link & File Upload</label>
+                      <div className="flex flex-col sm:flex-row gap-5 items-stretch sm:items-center">
+                        {/* Interactive Avatar Preview and Hover Uploader */}
+                        <div className="flex flex-col items-center gap-2 shrink-0">
+                          <div className="relative group w-20 h-20 rounded-full overflow-hidden border-2 border-blue-500/50 shadow-lg bg-black/40">
+                            <img 
+                              src={profileForm.avatarUrl} 
+                              alt="Avatar Preview" 
+                              className="w-full h-full object-cover" 
+                              onError={(e) => {
+                                (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=120";
+                              }}
+                            />
+                            {/* Hover Overlay for direct click-to-upload */}
+                            <button
+                              type="button"
+                              onClick={() => fileInputRef.current?.click()}
+                              className="absolute inset-0 bg-blue-600/75 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-white cursor-pointer"
+                              title="Click to Upload"
+                            >
+                              <Upload className="w-5 h-5 mb-0.5 animate-bounce" />
+                              <span className="text-[9px] font-bold uppercase tracking-wider">Upload</span>
+                            </button>
+                          </div>
+                          {profileForm.avatarUrl !== "/src/assets/images/muhil_avatar_1782394981906.jpg" && (
+                            <button
+                              type="button"
+                              onClick={() => {
+                                setProfileForm(prev => ({
+                                  ...prev,
+                                  avatarUrl: "/src/assets/images/muhil_avatar_1782394981906.jpg"
+                                }));
+                                triggerAlert("success", "Reverted to system default avatar.");
+                              }}
+                              className="text-[9px] font-mono text-slate-400 hover:text-red-400 underline transition-colors cursor-pointer"
+                            >
+                              Reset to Default
+                            </button>
+                          )}
+                        </div>
+
+                        {/* Drag and Drop Zone Container */}
+                        <div className="flex-1 min-h-[110px] flex flex-col justify-center">
+                          <div
+                            onDragOver={handleDragOver}
+                            onDragLeave={handleDragLeave}
+                            onDrop={handleDrop}
+                            onClick={() => fileInputRef.current?.click()}
+                            className={`relative border-2 border-dashed rounded-2xl p-4 flex flex-col items-center justify-center transition-all duration-200 cursor-pointer text-center ${
+                              isDragging 
+                                ? "border-blue-500 bg-blue-500/10 scale-[0.99] shadow-inner shadow-blue-500/20" 
+                                : "border-white/10 hover:border-blue-500/50 bg-black/30 hover:bg-black/55"
+                            }`}
+                          >
+                            <input
+                              type="file"
+                              ref={fileInputRef}
+                              onChange={handleFileChange}
+                              accept="image/*"
+                              className="hidden"
+                            />
+                            
+                            <Upload className={`w-6 h-6 mb-2 transition-transform duration-200 ${isDragging ? "text-blue-400 scale-125" : "text-slate-400"}`} />
+                            
+                            <p className="text-xs font-medium text-slate-200">
+                              {isDragging ? (
+                                <span className="text-blue-400 font-bold">Drop your image here!</span>
+                              ) : (
+                                <>
+                                  <span className="text-blue-400 font-bold">Click to upload</span> or drag and drop
+                                </>
+                              )}
+                            </p>
+                            <p className="text-[10px] font-mono text-slate-500 mt-1">
+                              Supports PNG, JPG, WEBP, GIF (Max 2MB)
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Manual/Text Input Fallback */}
+                      <div className="mt-2 bg-white/5 border border-white/5 rounded-xl p-3 space-y-1.5">
+                        <span className="text-[9px] font-mono text-slate-400 uppercase tracking-widest font-semibold block">Or specify image link manually</span>
+                        <div className="flex gap-2">
                           <input
                             type="text"
                             value={profileForm.avatarUrl}
                             onChange={(e) => setProfileForm({ ...profileForm, avatarUrl: e.target.value })}
-                            className="w-full bg-black/40 border border-white/10 focus:border-blue-500 rounded-xl px-3.5 py-2 text-xs font-mono text-white outline-none"
-                            placeholder="Relative folder path or absolute URL"
+                            className="flex-1 bg-black/40 border border-white/10 focus:border-blue-500 rounded-lg px-3 py-1.5 text-xs font-mono text-white outline-none"
+                            placeholder="Relative folder path or absolute image URL"
                           />
-                          <p className="text-[9px] font-mono text-slate-500">
-                            Tip: You can use relative paths (e.g. `/src/assets/images/muhil_avatar_...jpg`) or custom Web URLs.
-                          </p>
                         </div>
+                        <p className="text-[9px] font-mono text-slate-500">
+                          Supports local asset folders (e.g. `/src/assets/...`) or any external Unsplash or custom link.
+                        </p>
                       </div>
                     </div>
 
