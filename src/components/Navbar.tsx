@@ -5,6 +5,8 @@
 
 import { useState, useEffect } from "react";
 import { Terminal, Menu, X, FileText, Sparkles } from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
+import { playHoverSound, playClickSound } from "../utils/audio";
 
 interface NavbarProps {
   onOpenResume: () => void;
@@ -102,9 +104,14 @@ export default function Navbar({ onOpenResume }: NavbarProps) {
           {/* Desktop Navigation Links */}
           <div className="hidden md:flex items-center space-x-1.5">
             {navItems.map((item) => (
-              <button
+              <motion.button
+                whileTap={{ scale: 0.95 }}
+                onMouseEnter={playHoverSound}
                 key={item.id}
-                onClick={() => handleScrollTo(item.id)}
+                onClick={() => {
+                  playClickSound();
+                  handleScrollTo(item.id);
+                }}
                 id={`nav-link-${item.id}`}
                 className={`px-3 py-1.5 rounded-lg text-xs font-mono tracking-wide transition relative group cursor-pointer ${
                   activeSection === item.id
@@ -117,38 +124,53 @@ export default function Navbar({ onOpenResume }: NavbarProps) {
                   <span className="absolute bottom-0 left-2 right-2 h-0.5 bg-blue-400 rounded-full shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
                 )}
                 <span className="absolute inset-0 bg-white/5 opacity-0 hover:opacity-100 rounded-lg -z-10 transition duration-150" />
-              </button>
+              </motion.button>
             ))}
 
             {/* Resume Button */}
-            <button
-              onClick={onOpenResume}
+            <motion.button
+              whileTap={{ scale: 0.95 }}
+              onMouseEnter={playHoverSound}
+              onClick={() => {
+                playClickSound();
+                onOpenResume();
+              }}
               id="nav-btn-resume"
               className="ml-4 px-5 py-2 bg-white/5 border border-white/10 rounded-full backdrop-blur-xl hover:bg-white/10 text-xs text-white flex items-center gap-2 transition-all cursor-pointer shadow-lg shadow-black/10"
             >
               <FileText className="w-3.5 h-3.5 text-blue-400" />
               Resume
-            </button>
+            </motion.button>
           </div>
 
           {/* Mobile Menu Trigger */}
           <div className="flex items-center md:hidden gap-3">
-            <button
-              onClick={onOpenResume}
+            <motion.button
+              whileTap={{ scale: 0.95 }}
+              onMouseEnter={playHoverSound}
+              onClick={() => {
+                playClickSound();
+                onOpenResume();
+              }}
               id="nav-mobile-resume"
               className="px-3 py-1.5 bg-white/5 border border-white/10 rounded-full text-[10px] font-mono flex items-center gap-1 transition text-white"
             >
               <FileText className="w-3 h-3 text-blue-400" />
               Resume
-            </button>
+            </motion.button>
             
-            <button
-              onClick={() => setIsOpen(!isOpen)}
+            <motion.button
+              whileTap={{ scale: 0.95 }}
+              onMouseEnter={playHoverSound}
+              onClick={() => {
+                playClickSound();
+                setIsOpen(!isOpen);
+              }}
               id="nav-mobile-toggle"
               className="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-white/5 transition"
             >
               {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-            </button>
+            </motion.button>
           </div>
 
         </div>

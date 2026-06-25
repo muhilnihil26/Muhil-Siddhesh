@@ -221,10 +221,13 @@ export default function App() {
               </div>
 
               {/* Display Headline */}
-              <h1 className="text-4xl sm:text-6xl md:text-7xl font-sans font-extrabold tracking-tight text-white leading-none">
-                Hi, I'm{" "}
-                <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent text-glow-indigo">
-                  {personalInfo.name}
+              <h1 className="text-4xl sm:text-6xl md:text-7xl font-sans font-extrabold tracking-tight text-white leading-none flex flex-col gap-2">
+                <span className="text-3xl sm:text-5xl md:text-6xl text-blue-400 font-bold mb-2">வணக்கம்</span>
+                <span>
+                  Hi, I'm{" "}
+                  <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent text-glow-indigo">
+                    {personalInfo.name}
+                  </span>
                 </span>
               </h1>
 
@@ -240,7 +243,8 @@ export default function App() {
 
               {/* Call-to-Actions Row */}
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-4">
-                <button
+                <motion.button
+                  whileTap={{ scale: 0.9 }}
                   onMouseEnter={playHoverSound}
                   onClick={() => {
                     playClickSound();
@@ -252,8 +256,9 @@ export default function App() {
                 >
                   View My Projects
                   <ArrowRight className="w-4 h-4" />
-                </button>
-                <button
+                </motion.button>
+                <motion.button
+                  whileTap={{ scale: 0.9 }}
                   onMouseEnter={playHoverSound}
                   onClick={() => {
                     playClickSound();
@@ -264,8 +269,9 @@ export default function App() {
                 >
                   <Download className="w-4 h-4" />
                   View Resume
-                </button>
-                <button
+                </motion.button>
+                <motion.button
+                  whileTap={{ scale: 0.9 }}
                   onMouseEnter={playHoverSound}
                   onClick={() => {
                     playClickSound();
@@ -276,7 +282,7 @@ export default function App() {
                   className="w-full sm:w-auto px-6 py-3 bg-white/5 hover:bg-white/10 text-blue-400 hover:text-blue-300 font-mono text-xs uppercase tracking-wider rounded-full transition duration-200 cursor-pointer border border-white/10 backdrop-blur-md"
                 >
                   Contact Me
-                </button>
+                </motion.button>
               </div>
 
             </div>
@@ -416,9 +422,14 @@ export default function App() {
             {/* Categorization tabs */}
             <div className="flex flex-wrap items-center justify-center gap-2 mb-8">
               {skills.map((cat, idx) => (
-                <button
+                <motion.button
+                  whileTap={{ scale: 0.95 }}
+                  onMouseEnter={playHoverSound}
                   key={idx}
-                  onClick={() => setActiveSkillCat(idx)}
+                  onClick={() => {
+                    playClickSound();
+                    setActiveSkillCat(idx);
+                  }}
                   id={`btn-skill-tab-${idx}`}
                   className={`px-4 py-2 border rounded-full font-mono text-xs transition cursor-pointer backdrop-blur-md ${
                     activeSkillCat === idx
@@ -427,7 +438,7 @@ export default function App() {
                   }`}
                 >
                   {cat.title}
-                </button>
+                </motion.button>
               ))}
             </div>
 
@@ -475,9 +486,14 @@ export default function App() {
                 {/* Project Filter Controls */}
                 <div className="flex flex-wrap justify-center gap-1.5 font-mono text-xs">
                   {["All", "AI", "Software", "Game"].map((cat) => (
-                    <button
+                    <motion.button
+                      whileTap={{ scale: 0.95 }}
+                      onMouseEnter={playHoverSound}
                       key={cat}
-                      onClick={() => setSelectedCategory(cat)}
+                      onClick={() => {
+                        playClickSound();
+                        setSelectedCategory(cat);
+                      }}
                       id={`btn-proj-filter-${cat}`}
                       className={`px-3 py-1.5 border rounded-full transition cursor-pointer backdrop-blur-md ${
                         selectedCategory === cat
@@ -486,7 +502,7 @@ export default function App() {
                       }`}
                     >
                       {cat}
-                    </button>
+                    </motion.button>
                   ))}
                 </div>
               </div>
@@ -752,7 +768,7 @@ export default function App() {
                           value={contactName}
                           onChange={(e) => setContactName(e.target.value)}
                           id="contact-form-name"
-                          className="w-full bg-black/25 border border-white/10 focus:border-blue-500 rounded-xl p-3 sm:px-3 sm:py-2 text-sm sm:text-xs font-mono text-white outline-none placeholder-slate-600 transition"
+                          className="w-full bg-black/25 border border-white/10 focus:border-blue-500 rounded-xl p-3 sm:px-3 sm:py-2 text-base sm:text-xs font-mono text-white outline-none placeholder-slate-600 transition"
                           placeholder="e.g. S. Raghavan"
                         />
                       </div>
@@ -764,7 +780,7 @@ export default function App() {
                           value={contactEmail}
                           onChange={(e) => setContactEmail(e.target.value)}
                           id="contact-form-email"
-                          className="w-full bg-black/25 border border-white/10 focus:border-blue-500 rounded-xl p-3 sm:px-3 sm:py-2 text-sm sm:text-xs font-mono text-white outline-none placeholder-slate-600 transition"
+                          className="w-full bg-black/25 border border-white/10 focus:border-blue-500 rounded-xl p-3 sm:px-3 sm:py-2 text-base sm:text-xs font-mono text-white outline-none placeholder-slate-600 transition"
                           placeholder="e.g. guest@terminal.com"
                         />
                       </div>
@@ -778,7 +794,7 @@ export default function App() {
                         value={contactMsg}
                         onChange={(e) => setContactMsg(e.target.value)}
                         id="contact-form-message"
-                        className="w-full bg-black/25 border border-white/10 focus:border-blue-500 rounded-xl p-3 sm:px-3 sm:py-2 text-sm sm:text-xs font-mono text-white outline-none placeholder-slate-600 resize-none transition"
+                        className="w-full bg-black/25 border border-white/10 focus:border-blue-500 rounded-xl p-3 sm:px-3 sm:py-2 text-base sm:text-xs font-mono text-white outline-none placeholder-slate-600 resize-none transition"
                         placeholder="Write message details..."
                       />
                     </div>
@@ -790,7 +806,8 @@ export default function App() {
                         {contactStatus === "submitting" && "Encoding data packet..."}
                       </div>
 
-                      <button
+                      <motion.button
+                        whileTap={{ scale: 0.95 }}
                         type="submit"
                         onMouseEnter={playHoverSound}
                         disabled={contactStatus !== "idle"}
@@ -808,7 +825,7 @@ export default function App() {
                             Send Transmission
                           </>
                         )}
-                      </button>
+                      </motion.button>
                     </div>
 
                     <AnimatePresence>

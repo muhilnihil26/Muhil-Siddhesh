@@ -193,19 +193,42 @@ export default function AdminPanel() {
       triggerAlert("error", "Invalid file type. Please select an image.");
       return;
     }
-    if (file.size > 2 * 1024 * 1024) {
-      triggerAlert("error", "File too large. Maximum size allowed is 2MB.");
-      return;
-    }
-
+    
+    // We will resize and compress the image to ensure it fits in Firestore easily
     const reader = new FileReader();
     reader.onload = (event) => {
       if (event.target?.result) {
-        setProfileForm(prev => ({
-          ...prev,
-          avatarUrl: event.target!.result as string
-        }));
-        triggerAlert("success", "Avatar image updated successfully.");
+        const img = new Image();
+        img.onload = () => {
+          const canvas = document.createElement("canvas");
+          let width = img.width;
+          let height = img.height;
+          
+          // Max dimension 800px
+          const MAX_SIZE = 800;
+          if (width > height && width > MAX_SIZE) {
+            height *= MAX_SIZE / width;
+            width = MAX_SIZE;
+          } else if (height > MAX_SIZE) {
+            width *= MAX_SIZE / height;
+            height = MAX_SIZE;
+          }
+          
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext("2d");
+          ctx?.drawImage(img, 0, 0, width, height);
+          
+          // Compress to JPEG with 0.8 quality
+          const compressedBase64 = canvas.toDataURL("image/jpeg", 0.8);
+          
+          setProfileForm(prev => ({
+            ...prev,
+            avatarUrl: compressedBase64
+          }));
+          triggerAlert("success", "Avatar image compressed and updated.");
+        };
+        img.src = event.target.result as string;
       }
     };
     reader.onerror = () => {

@@ -94,8 +94,17 @@ export default function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
                 </span>
               </div>
               <div className="flex items-center gap-2">
-                <button
-                  onClick={handlePrint}
+                <motion.button
+                  whileTap={{ scale: 0.95 }}
+                  onClick={async () => {
+                    const { playClickSound } = await import("../utils/audio");
+                    playClickSound();
+                    handlePrint();
+                  }}
+                  onMouseEnter={async () => {
+                    const { playHoverSound } = await import("../utils/audio");
+                    playHoverSound();
+                  }}
                   disabled={isGenerating}
                   id="btn-print-resume"
                   className="px-4 py-2 bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white rounded-full text-xs font-mono flex items-center gap-1.5 transition border border-white/10 cursor-pointer backdrop-blur-md disabled:opacity-50 disabled:cursor-not-allowed"
@@ -111,14 +120,23 @@ export default function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
                       Download PDF
                     </>
                   )}
-                </button>
-                <button
-                  onClick={onClose}
+                </motion.button>
+                <motion.button
+                  whileTap={{ scale: 0.95 }}
+                  onClick={async () => {
+                    const { playClickSound } = await import("../utils/audio");
+                    playClickSound();
+                    onClose();
+                  }}
+                  onMouseEnter={async () => {
+                    const { playHoverSound } = await import("../utils/audio");
+                    playHoverSound();
+                  }}
                   id="btn-close-resume"
                   className="p-2 bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white border border-white/10 rounded-full transition cursor-pointer backdrop-blur-md"
                 >
                   <X className="w-4 h-4" />
-                </button>
+                </motion.button>
               </div>
             </div>
 
