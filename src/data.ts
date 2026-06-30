@@ -78,6 +78,7 @@ export const PROJECTS_DATA: Project[] = [
     description: "A complete hospital and healthcare management ecosystem featuring role-based access, smart queue management, pharmacy integration, ambulance tracking, dashboards, and automated healthcare workflows.",
     detailedDescription: "Warrior Nexus is a comprehensive, next-generation digital healthcare framework designed to streamline clinic and hospital workloads. It replaces archaic manual administrative practices with dynamic, automated workflows, giving power back to medical professionals and patients alike.",
     category: "Software",
+    status: "Live",
     features: [
       "Role-Based Dashboards: Custom portals for Admins, Doctors, Receptionists, and Patients",
       "Smart Queue Management: Real-time appointment scheduling and visual queue tracking",
@@ -86,7 +87,9 @@ export const PROJECTS_DATA: Project[] = [
       "Medical Record Vault: Secure, encrypted storage of health history logs and digital diagnostic reports"
     ],
     techStack: ["React", "TypeScript", "Tailwind CSS", "Framer Motion", "Recharts", "Lucide Icons"],
-    githubUrl: "https://github.com"
+    githubUrl: "https://github.com",
+    demoUrl: "https://demo.warriornexus.com",
+    videoUrl: "https://youtube.com/watch?v=warriornexus"
   },
   {
     id: "sonexa",
@@ -94,6 +97,7 @@ export const PROJECTS_DATA: Project[] = [
     description: "An AI-powered digital automation hub designed to orchestrate intelligent services, workflow execution, and intelligent data analysis through automated agentic patterns.",
     detailedDescription: "Sonexa is a vision of modular software execution. It provides users with a central control panel that processes complex natural language prompts, breaking them down into structured digital services, files, and scheduled triggers.",
     category: "AI",
+    status: "Beta",
     features: [
       "AI Prompt Orchestration: Translate natural language demands into concrete service processes",
       "Task Execution Pipeline: Real-time visual steps showing agentic actions in progress",
@@ -101,7 +105,9 @@ export const PROJECTS_DATA: Project[] = [
       "Interactive Interface: Elegant cosmic glass glassmorphism layout with terminal logging elements"
     ],
     techStack: ["React", "TypeScript", "Tailwind CSS", "LLM APIs", "JSON-RPC Concepts"],
-    githubUrl: "https://github.com"
+    githubUrl: "https://github.com",
+    demoUrl: "https://demo.sonexa.ai",
+    videoUrl: "https://youtube.com/watch?v=sonexa"
   },
   {
     id: "kalsa-warrior",
@@ -109,6 +115,7 @@ export const PROJECTS_DATA: Project[] = [
     description: "An animated storytelling and gaming concept created by Warrior Studio, tracking the journeys of the hero Anven against the forces of the Evil King Makas.",
     detailedDescription: "Kalsa the Warrior is a rich creative narrative combining game engine animations with interactive storytelling. Set in a mythical cyber-fantasy world, users explore chapters of lore, animated combat interactions, and hero progress statistics.",
     category: "Game",
+    status: "In Progress",
     features: [
       "Rich Lore Explorer: Animated storyboard chapters presenting Anven's battle for freedom",
       "Interactive Character Viewer: Inspect 2D/3D sprite characteristics, custom weapons, and skills",
@@ -116,7 +123,8 @@ export const PROJECTS_DATA: Project[] = [
       "Warrior Studio Soundboard: Theme-fitting retro chiptune ambient sounds and visual fx"
     ],
     techStack: ["Godot / Unity Concepts", "React Canvas", "Tailwind CSS", "Framer Motion"],
-    githubUrl: "https://github.com"
+    githubUrl: "https://github.com",
+    demoUrl: "https://play.kalsawarrior.com"
   },
   {
     id: "vaster-ai",
@@ -124,6 +132,7 @@ export const PROJECTS_DATA: Project[] = [
     description: "A visionary AI developer system concept capable of automatically generating ready-to-deploy websites, native mobile applications, and desktop software from simple prompts.",
     detailedDescription: "Vaster AI represents the future of software development—an advanced autonomous coding partner. This platform maps software architecture plans, compiles code blocks, compiles visual layouts, and tests for bugs autonomously.",
     category: "AI",
+    status: "Beta",
     features: [
       "Multi-Platform Planner: Generate architecture schemas for Web, iOS, Android, and Electron apps",
       "UI/UX Design Engine: Automated styling guides, component layouts, and custom palette selections",
@@ -131,7 +140,41 @@ export const PROJECTS_DATA: Project[] = [
       "Smart Bug Scanner: Simulated error injection and self-healing debugger visual dashboard"
     ],
     techStack: ["React", "Tailwind CSS", "Framer Motion", "LLM Fine-Tuning Concepts", "Node.js Schema Validators"],
-    githubUrl: "https://github.com"
+    githubUrl: "https://github.com",
+    videoUrl: "https://youtube.com/watch?v=vasterai"
+  }
+];
+
+export const BLOG_POSTS_DATA = [
+  {
+    id: "ai-future-development",
+    title: "The Future of AI in Software Development",
+    excerpt: "Exploring how AI is transforming the way we write, test, and deploy code.",
+    content: "Artificial Intelligence is no longer just a buzzword; it is a fundamental shift in how we approach software engineering. From LLMs that can generate entire boilerplate structures to autonomous testing agents that self-heal broken code, the landscape is evolving rapidly. In this post, I dive deep into how tools like Copilot and Devin are reshaping developer productivity, and what this means for the next generation of engineers.",
+    date: "June 25, 2026",
+    category: "AI",
+    tags: ["Artificial Intelligence", "Future Tech", "Software Engineering"],
+    readTime: "5 min read"
+  },
+  {
+    id: "mastering-react-animations",
+    title: "Mastering React Animations with Framer Motion",
+    excerpt: "A deep dive into creating fluid, cosmic-themed UI interactions.",
+    content: "User experience is heavily dictated by micro-interactions. A button that scales down on click, a modal that slides in with a spring effect—these small details make an app feel premium. I've been experimenting with framer-motion in my latest projects, and the ease with which you can choreograph complex entry animations and exit transitions is astounding. Here is my approach to building the 'Cosmic Glass' theme.",
+    date: "May 12, 2026",
+    category: "Web Development",
+    tags: ["React", "Framer Motion", "UI/UX", "Design"],
+    readTime: "4 min read"
+  },
+  {
+    id: "game-dev-godot",
+    title: "Transitioning from Unity to Godot: A Student's Perspective",
+    excerpt: "Why I chose Godot for my 2D animated storytelling game, Kalsa the Warrior.",
+    content: "When starting development on Kalsa the Warrior, I needed a game engine that was lightweight, open-source, and had a node-based architecture that felt intuitive. While Unity is an industry standard, Godot's GDScript and scene system allowed me to prototype character interactions much faster. In this insight, I cover my learning curve and why Godot is perfect for indie solo developers.",
+    date: "April 08, 2026",
+    category: "Game Dev",
+    tags: ["Godot", "Unity", "Game Development", "Indie Games"],
+    readTime: "6 min read"
   }
 ];
 

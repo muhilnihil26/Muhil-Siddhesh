@@ -159,7 +159,7 @@ export default function ResumeModal({ isOpen, onClose }: ResumeModalProps) {
                       {personalInfo.title}
                     </p>
                     <p className="text-xs text-slate-600 font-medium mt-1">
-                      Class 9 Tech Innovator & Aspiring Startup Founder
+                      Class 10 Tech Innovator & Aspiring Startup Founder
                     </p>
                   </div>
                   

@@ -4,13 +4,14 @@
  */
 
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { PersonalInfo, SkillCategory, Project, Innovation, Achievement, TimelineEvent } from "../types";
+import { PersonalInfo, SkillCategory, Project, Innovation, Achievement, TimelineEvent, BlogPost } from "../types";
 import { 
   PERSONAL_INFO as defaultPersonalInfo, 
   SKILLS_DATA as defaultSkills, 
   PROJECTS_DATA as defaultProjects, 
   ACHIEVEMENTS_DATA as defaultAchievements,
-  INNOVATIONS_DATA as defaultInnovations
+  INNOVATIONS_DATA as defaultInnovations,
+  BLOG_POSTS_DATA as defaultBlogPosts
 } from "../data";
 import { db, auth, handleFirestoreError, OperationType } from "../firebase";
 import { doc, onSnapshot, setDoc } from "firebase/firestore";
@@ -63,7 +64,7 @@ const defaultTimelineEvents: TimelineEvent[] = [
     id: "warrior-launch",
     year: "2025",
     title: "Branding Warrior Developers & System Design",
-    subtitle: "Class 9 Breakthroughs (Current)",
+    subtitle: "Class 10 Breakthroughs (Current)",
     description: "Formulated the 'Warrior Developers' brand, representing a bold vision for next-generation automated SaaS tools. Coded multiple advanced visual conceptual structures: Warrior Nexus (a complete digital hospital suite), Sonexa (AI digital assistant panel), and Vaster AI (autonomous website builder).",
     category: "ai",
     icon: "Code",
@@ -77,7 +78,7 @@ const defaultTimelineEvents: TimelineEvent[] = [
     id: "future-deployment",
     year: "2026",
     title: "Database Integration & Smart Station Entry",
-    subtitle: "Class 9-10 Goals",
+    subtitle: "Class 10 Goals",
     description: "Moving from static design simulations to live deployed server operations. Implementing Express/Node backends, real cloud databases (Firestore), and refining specs for the Smart Railway Station Entry System—integrating QR verification and adaptive crowd throttling algorithms.",
     category: "future",
     icon: "Rocket",
@@ -110,6 +111,7 @@ interface PortfolioContextType {
   innovations: Innovation[];
   achievements: Achievement[];
   timelineEvents: TimelineEvent[];
+  blogPosts: BlogPost[];
   updatePersonalInfo: (info: PersonalInfo) => void;
   updateSkills: (skills: SkillCategory[]) => void;
   updateProjects: (projects: Project[]) => void;
@@ -139,7 +141,18 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
   const [projects, setProjects] = useState<Project[]>(() => {
     const saved = localStorage.getItem("muhil_projects");
-    return saved ? JSON.parse(saved) : defaultProjects;
+    if (saved) {
+      const parsedProjects = JSON.parse(saved);
+      // Merge missing fields from defaultProjects to ensure backward compatibility and apply new schema updates
+      return parsedProjects.map((proj: Project) => {
+        const defaultProj = defaultProjects.find(dp => dp.id === proj.id);
+        if (defaultProj) {
+          return { ...defaultProj, ...proj, status: proj.status || defaultProj.status, features: proj.features?.length ? proj.features : defaultProj.features };
+        }
+        return proj;
+      });
+    }
+    return defaultProjects;
   });
 
   const [innovations] = useState<Innovation[]>(() => {
@@ -154,6 +167,10 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
   const [timelineEvents, setTimelineEvents] = useState<TimelineEvent[]>(() => {
     const saved = localStorage.getItem("muhil_timeline_events");
     return saved ? JSON.parse(saved) : defaultTimelineEvents;
+  });
+
+  const [blogPosts] = useState<BlogPost[]>(() => {
+    return defaultBlogPosts;
   });
 
   // Sync state with localStorage
@@ -286,6 +303,7 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
       innovations,
       achievements,
       timelineEvents,
+      blogPosts,
       updatePersonalInfo,
       updateSkills,
       updateProjects,

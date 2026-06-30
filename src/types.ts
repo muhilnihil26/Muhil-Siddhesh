@@ -14,16 +14,30 @@ export interface SkillCategory {
   skills: Skill[];
 }
 
+export interface BlogPost {
+  id: string;
+  title: string;
+  excerpt: string;
+  content: string;
+  date: string;
+  category: string;
+  tags: string[];
+  readTime: string;
+}
+
 export interface Project {
   id: string;
   title: string;
   description: string;
   detailedDescription: string;
   category: "AI" | "Software" | "Game" | "Web";
+  status?: "Live" | "Beta" | "In Progress";
   features: string[];
   techStack: string[];
   launchUrl?: string;
   githubUrl?: string;
+  demoUrl?: string;
+  videoUrl?: string;
 }
 
 export interface Innovation {

@@ -355,6 +355,7 @@ export default function AdminPanel() {
       description: newProject.description,
       detailedDescription: newProject.detailedDescription || "",
       category: newProject.category || "Software",
+      status: newProject.status,
       features: newProject.features || [],
       techStack: newProject.techStack || ["React", "TypeScript"],
       githubUrl: newProject.githubUrl || "https://github.com",
@@ -888,7 +889,7 @@ export default function AdminPanel() {
                               alt="Avatar Preview" 
                               className="w-full h-full object-cover" 
                               onError={(e) => {
-                                (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=120";
+                                (e.target as HTMLImageElement).style.display = 'none';
                               }}
                             />
                             {/* Hover Overlay for direct click-to-upload */}
@@ -1095,8 +1096,8 @@ export default function AdminPanel() {
                       Incorporate New Blueprint Concept
                     </h3>
                     
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                      <div className="space-y-1.5 sm:col-span-2">
+                    <div className="grid grid-cols-1 sm:grid-cols-12 gap-4">
+                      <div className="space-y-1.5 sm:col-span-6">
                         <label className="text-[9px] font-mono text-slate-400 uppercase font-bold">Project Name</label>
                         <input
                           type="text"
@@ -1106,17 +1107,30 @@ export default function AdminPanel() {
                           placeholder="e.g. Sonexa Terminal"
                         />
                       </div>
-                      <div className="space-y-1.5">
+                      <div className="space-y-1.5 sm:col-span-3">
                         <label className="text-[9px] font-mono text-slate-400 uppercase font-bold">Domain Category</label>
                         <select
                           value={newProject.category || "Software"}
-                          onChange={(e) => setNewProject({ ...newProject, category: e.target.value })}
+                          onChange={(e) => setNewProject({ ...newProject, category: e.target.value as any })}
                           className="w-full bg-black/40 border border-white/10 focus:border-blue-500 rounded-xl px-3 py-1.5 text-xs font-mono text-slate-300 outline-none"
                         >
                           <option value="Software">Software</option>
                           <option value="AI">AI</option>
                           <option value="Game">Game</option>
-                          <option value="Creative">Creative</option>
+                          <option value="Web">Web</option>
+                        </select>
+                      </div>
+                      <div className="space-y-1.5 sm:col-span-3">
+                        <label className="text-[9px] font-mono text-slate-400 uppercase font-bold">Status</label>
+                        <select
+                          value={newProject.status || ""}
+                          onChange={(e) => setNewProject({ ...newProject, status: (e.target.value || undefined) as any })}
+                          className="w-full bg-black/40 border border-white/10 focus:border-blue-500 rounded-xl px-3 py-1.5 text-xs font-mono text-slate-300 outline-none"
+                        >
+                          <option value="">None</option>
+                          <option value="Live">Live</option>
+                          <option value="Beta">Beta</option>
+                          <option value="In Progress">In Progress</option>
                         </select>
                       </div>
                     </div>
@@ -1140,6 +1154,23 @@ export default function AdminPanel() {
                         rows={3}
                         className="w-full bg-black/40 border border-white/10 focus:border-blue-500 rounded-xl px-3 py-2 text-xs font-mono text-white outline-none resize-none"
                         placeholder="Long form specification breakdowns..."
+                      />
+                    </div>
+                    
+                    <div className="space-y-1.5">
+                      <label className="text-[9px] font-mono text-slate-400 uppercase font-bold">Features (Comma separated)</label>
+                      <textarea
+                        value={newFeatureText}
+                        onChange={(e) => setNewFeatureText(e.target.value)}
+                        onBlur={() => {
+                          if (newFeatureText.trim()) {
+                            const feats = newFeatureText.split(",").map(t => t.trim()).filter(Boolean);
+                            setNewProject({ ...newProject, features: feats });
+                          }
+                        }}
+                        rows={2}
+                        className="w-full bg-black/40 border border-white/10 focus:border-blue-500 rounded-xl px-3 py-2 text-xs font-mono text-white outline-none resize-none"
+                        placeholder="Authentication, Real-time sync, Offline mode..."
                       />
                     </div>
 
@@ -1235,7 +1266,7 @@ export default function AdminPanel() {
                         </div>
 
                         <div className="grid grid-cols-1 sm:grid-cols-12 gap-4">
-                          <div className="sm:col-span-8 space-y-1.5">
+                          <div className="sm:col-span-5 space-y-1.5">
                             <label className="text-[9px] font-mono text-slate-500 uppercase font-bold">Project Heading</label>
                             <input
                               type="text"
@@ -1252,6 +1283,19 @@ export default function AdminPanel() {
                               onChange={(e) => handleProjectFieldChange(idx, "category", e.target.value)}
                               className="w-full bg-black/50 border border-white/10 rounded-xl px-3 py-1.5 text-xs font-mono text-slate-300 outline-none"
                             />
+                          </div>
+                          <div className="sm:col-span-3 space-y-1.5">
+                            <label className="text-[9px] font-mono text-slate-500 uppercase font-bold">Status</label>
+                            <select
+                              value={proj.status || ""}
+                              onChange={(e) => handleProjectFieldChange(idx, "status", e.target.value || undefined)}
+                              className="w-full bg-black/50 border border-white/10 rounded-xl px-3 py-1.5 text-xs font-mono text-slate-300 outline-none"
+                            >
+                              <option value="">None</option>
+                              <option value="Live">Live</option>
+                              <option value="Beta">Beta</option>
+                              <option value="In Progress">In Progress</option>
+                            </select>
                           </div>
                         </div>
 
@@ -1272,6 +1316,19 @@ export default function AdminPanel() {
                             onChange={(e) => handleProjectFieldChange(idx, "detailedDescription", e.target.value)}
                             rows={3}
                             className="w-full bg-black/50 border border-white/10 rounded-xl px-3 py-2 text-xs text-slate-300 outline-none resize-none"
+                          />
+                        </div>
+                        
+                        <div className="space-y-1.5">
+                          <label className="text-[9px] font-mono text-slate-500 uppercase font-bold">Features / Highlights (Comma separated)</label>
+                          <textarea
+                            value={proj.features?.join(", ") || ""}
+                            onChange={(e) => {
+                              const feats = e.target.value.split(",").map(t => t.trim()).filter(Boolean);
+                              handleProjectFieldChange(idx, "features", feats);
+                            }}
+                            rows={2}
+                            className="w-full bg-black/50 border border-white/10 rounded-xl px-3 py-2 text-xs font-mono text-slate-300 outline-none resize-none"
                           />
                         </div>
 
@@ -1475,7 +1532,7 @@ export default function AdminPanel() {
                           value={newTimelineEvent.subtitle || ""}
                           onChange={(e) => setNewTimelineEvent({ ...newTimelineEvent, subtitle: e.target.value })}
                           className="w-full bg-black/40 border border-white/10 focus:border-blue-500 rounded-xl px-3 py-1.5 text-xs font-mono text-white outline-none"
-                          placeholder="e.g. Class 9 Breakthroughs"
+                          placeholder="e.g. Class 10 Breakthroughs"
                         />
                       </div>
                       <div className="space-y-1.5">

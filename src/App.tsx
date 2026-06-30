@@ -37,6 +37,8 @@ import { usePortfolio } from "./context/PortfolioContext";
 import { Phone } from "lucide-react";
 import { playClickSound, playHoverSound, playSuccessSound } from "./utils/audio";
 
+import BlogSection from "./components/BlogSection";
+
 export default function App() {
   const { personalInfo, skills, projects, achievements } = usePortfolio();
   const [loading, setLoading] = useState(true);
@@ -216,8 +218,21 @@ export default function App() {
           <Navbar onOpenResume={() => setResumeOpen(true)} />
 
           {/* 1. HERO SECTION */}
-          <header id="hero" className="min-h-screen flex flex-col justify-center items-center pt-24 pb-16 px-4 max-w-7xl mx-auto w-full text-center relative">
-            <div className="space-y-6 max-w-4xl mx-auto">
+          <header id="hero" className="min-h-screen flex flex-col justify-center items-center pt-24 pb-16 px-4 max-w-7xl mx-auto w-full text-center relative overflow-hidden">
+            {/* Cinematic Poster Backdrop */}
+            <div className="absolute inset-0 z-0 opacity-40 mix-blend-luminosity">
+              <img
+                src={personalInfo.avatarUrl}
+                alt="Muhil Cinematic Background"
+                className="w-full h-full object-cover object-top opacity-50 blur-[2px]"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).style.display = 'none';
+                }}
+              />
+              <div className="absolute inset-0 bg-gradient-to-b from-[#030712]/10 via-[#030712]/80 to-[#030712] z-10" />
+            </div>
+
+            <div className="space-y-6 max-w-4xl mx-auto relative z-10 mt-12 md:mt-24">
               
               {/* Young AI Founder HUD indicator */}
               <div className="inline-flex items-center gap-2 bg-white/5 border border-white/10 px-3.5 py-1.5 rounded-full text-xs font-mono text-blue-400 backdrop-blur-md">
@@ -226,8 +241,7 @@ export default function App() {
               </div>
 
               {/* Display Headline */}
-              <h1 className="text-4xl sm:text-6xl md:text-7xl font-sans font-extrabold tracking-tight text-white leading-none flex flex-col gap-2">
-                <span className="text-3xl sm:text-5xl md:text-6xl text-blue-400 font-bold mb-2">வணக்கம்</span>
+              <h1 className="text-4xl sm:text-6xl md:text-7xl font-sans font-extrabold tracking-tight text-white leading-none flex flex-col gap-2 relative">
                 <span>
                   Hi, I'm{" "}
                   <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent text-glow-indigo">
@@ -237,12 +251,12 @@ export default function App() {
               </h1>
 
               {/* Subheading Titles */}
-              <p className="text-base sm:text-xl md:text-2xl font-display font-medium text-slate-300">
+              <p className="text-base sm:text-xl md:text-2xl font-display font-medium text-slate-300 drop-shadow-md">
                 {personalInfo.title}
               </p>
 
               {/* Custom Tagline */}
-              <p className="text-xs sm:text-base text-slate-400 max-w-2xl mx-auto leading-relaxed">
+              <p className="text-xs sm:text-base text-slate-400 max-w-2xl mx-auto leading-relaxed drop-shadow-md">
                 "{personalInfo.tagline}" — Crafting real-world autonomous algorithms for healthcare, automation, and enterprise operations.
               </p>
 
@@ -326,7 +340,7 @@ export default function App() {
                       referrerPolicy="no-referrer"
                       className="w-56 h-56 md:w-64 md:h-64 object-cover rounded-[22px]"
                       onError={(e) => {
-                        (e.target as HTMLImageElement).src = "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?q=80&w=120";
+                        (e.target as HTMLImageElement).style.display = 'none';
                       }}
                     />
                     <div className="absolute inset-0 bg-[#030712]/40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center rounded-[22px]">
@@ -551,7 +565,7 @@ export default function App() {
                   </div>
 
                   <p className="text-xs text-slate-400 leading-relaxed border-t border-white/5 pt-4 text-justify">
-                    Currently pursuing Class 9. Building structured knowledge fields across sciences and languages, while dedicating personal hours to exploring software compilers, AI agent frameworks, and UI designs.
+                    Currently pursuing Class 10. Building structured knowledge fields across sciences and languages, while dedicating personal hours to exploring software compilers, AI agent frameworks, and UI designs.
                   </p>
 
                   <div className="bg-black/25 p-4 rounded-2xl border border-white/5 font-mono text-[10px] space-y-2">
@@ -680,19 +694,22 @@ export default function App() {
             </div>
           </section>
 
-          {/* 8. CONTACT SECTION */}
+          {/* 8. BLOG SECTION */}
+          <BlogSection />
+
+          {/* 9. COLLABORATE SECTION */}
           <section id="contact" className="py-16 md:py-24 px-4 md:px-8 bg-white/[0.02] border-t border-white/5 relative z-10 backdrop-blur-sm">
             <div className="max-w-4xl mx-auto text-center space-y-8">
               
               <div>
                 <span className="text-[10px] font-mono uppercase tracking-widest text-blue-400 font-bold bg-white/5 px-2.5 py-1 border border-white/10 rounded-md backdrop-blur-md">
-                  Telemetry Channel
+                  Let's Build Together
                 </span>
                 <h2 className="text-2xl md:text-4xl font-sans font-bold text-white mt-3">
-                  Get in Touch
+                  Collaborate with Me
                 </h2>
                 <p className="text-xs sm:text-sm text-slate-400 mt-2">
-                  Have a question about my project blueprints or looking to collaborate? Drop a transmission package below.
+                  Are you a mentor, partner, or client with a specific proposal? I am open to exciting collaborations and projects. Send your ideas!
                 </p>
               </div>
 
