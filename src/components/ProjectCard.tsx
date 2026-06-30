@@ -23,7 +23,7 @@ import {
   Globe,
   Gamepad2
 } from "lucide-react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, useMotionValue, useTransform, useSpring } from "motion/react";
 
 interface ProjectCardProps {
   project: Project;
@@ -32,6 +32,32 @@ interface ProjectCardProps {
 
 export default function ProjectCard({ project }: ProjectCardProps) {
   const [isOpen, setIsOpen] = useState(false);
+
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+
+  const mouseXSpring = useSpring(x, { stiffness: 300, damping: 30 });
+  const mouseYSpring = useSpring(y, { stiffness: 300, damping: 30 });
+
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["7deg", "-7deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-7deg", "7deg"]);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const width = rect.width;
+    const height = rect.height;
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+    const xPct = mouseX / width - 0.5;
+    const yPct = mouseY / height - 0.5;
+    x.set(xPct);
+    y.set(yPct);
+  };
+
+  const handleMouseLeave = () => {
+    x.set(0);
+    y.set(0);
+  };
 
   const getTechIcon = (tech: string) => {
     const t = tech.toLowerCase();
@@ -131,6 +157,9 @@ export default function ProjectCard({ project }: ProjectCardProps) {
       <motion.div
         animate={{ y: [0, -8, 0] }}
         transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+        style={{ rotateX, rotateY }}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
         id={`project-card-${project.id}`}
         className="group relative w-full h-[320px] [perspective:1000px]"
       >

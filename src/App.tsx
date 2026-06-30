@@ -232,36 +232,61 @@ export default function App() {
               <div className="absolute inset-0 bg-gradient-to-b from-[#030712]/10 via-[#030712]/80 to-[#030712] z-10" />
             </div>
 
-            <div className="space-y-6 max-w-4xl mx-auto relative z-10 mt-12 md:mt-24">
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.2, staggerChildren: 0.1 }}
+              className="space-y-6 max-w-4xl mx-auto relative z-10 mt-12 md:mt-24"
+            >
               
               {/* Young AI Founder HUD indicator */}
-              <div className="inline-flex items-center gap-2 bg-white/5 border border-white/10 px-3.5 py-1.5 rounded-full text-xs font-mono text-blue-400 backdrop-blur-md">
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="inline-flex items-center gap-2 bg-white/5 border border-white/10 px-3.5 py-1.5 rounded-full text-xs font-mono text-blue-400 backdrop-blur-md"
+              >
                 <Sparkles className="w-3.5 h-3.5" />
                 <span>Next-Gen Full Stack & AI Architect</span>
-              </div>
+              </motion.div>
 
               {/* Display Headline */}
-              <h1 className="text-4xl sm:text-6xl md:text-7xl font-sans font-extrabold tracking-tight text-white leading-none flex flex-col gap-2 relative">
+              <motion.h1 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-4xl sm:text-6xl md:text-7xl font-sans font-extrabold tracking-tight text-white leading-none flex flex-col gap-2 relative"
+              >
                 <span>
                   Hi, I'm{" "}
                   <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent text-glow-indigo">
                     {personalInfo.name}
                   </span>
                 </span>
-              </h1>
+              </motion.h1>
 
               {/* Subheading Titles */}
-              <p className="text-base sm:text-xl md:text-2xl font-display font-medium text-slate-300 drop-shadow-md">
+              <motion.p 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-base sm:text-xl md:text-2xl font-display font-medium text-slate-300 drop-shadow-md"
+              >
                 {personalInfo.title}
-              </p>
+              </motion.p>
 
               {/* Custom Tagline */}
-              <p className="text-xs sm:text-base text-slate-400 max-w-2xl mx-auto leading-relaxed drop-shadow-md">
+              <motion.p 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-xs sm:text-base text-slate-400 max-w-2xl mx-auto leading-relaxed drop-shadow-md"
+              >
                 "{personalInfo.tagline}" — Crafting real-world autonomous algorithms for healthcare, automation, and enterprise operations.
-              </p>
+              </motion.p>
 
               {/* Call-to-Actions Row */}
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-4">
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-4"
+              >
                 <motion.button
                   whileTap={{ scale: 0.9 }}
                   onMouseEnter={playHoverSound}
@@ -302,9 +327,9 @@ export default function App() {
                 >
                   Contact Me
                 </motion.button>
-              </div>
+              </motion.div>
 
-            </div>
+            </motion.div>
 
             {/* Futuristic CLI Interactive Terminal below */}
             <div className="w-full mt-16 px-2">
@@ -313,7 +338,14 @@ export default function App() {
           </header>
 
           {/* 2. ABOUT ME SECTION */}
-          <section id="about" className="py-24 px-4 bg-white/[0.02] border-y border-white/5 relative z-10 backdrop-blur-sm">
+          <motion.section 
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            id="about" 
+            className="py-24 px-4 bg-white/[0.02] border-y border-white/5 relative z-10 backdrop-blur-sm"
+          >
             <div className="max-w-7xl mx-auto">
               
               <div className="text-center md:text-left mb-12">
@@ -412,10 +444,17 @@ export default function App() {
               </div>
 
             </div>
-          </section>
+          </motion.section>
 
           {/* 2.5. JOURNEY SECTION */}
-          <section id="journey" className="py-24 px-4 relative z-10 max-w-7xl mx-auto w-full">
+          <motion.section 
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            id="journey" 
+            className="py-24 px-4 relative z-10 max-w-7xl mx-auto w-full"
+          >
             <div className="text-center mb-12">
               <span className="text-[10px] font-mono uppercase tracking-widest text-blue-400 font-bold bg-white/5 px-2.5 py-1 border border-white/10 rounded-md backdrop-blur-md">
                 Interactive Chronology
@@ -425,10 +464,17 @@ export default function App() {
               </h2>
             </div>
             <JourneyTimeline />
-          </section>
+          </motion.section>
 
           {/* 3. SKILLS SECTION */}
-          <section id="skills" className="py-24 px-4 max-w-7xl mx-auto w-full relative z-10">
+          <motion.section 
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            id="skills" 
+            className="py-24 px-4 max-w-7xl mx-auto w-full relative z-10"
+          >
             <div className="text-center mb-12">
               <span className="text-[10px] font-mono uppercase tracking-widest text-blue-400 font-bold bg-white/5 px-2.5 py-1 border border-white/10 rounded-md backdrop-blur-md">
                 Cognitive Spectrum
@@ -486,10 +532,17 @@ export default function App() {
                 </div>
               ))}
             </div>
-          </section>
+          </motion.section>
 
           {/* 4. PROJECTS SECTION */}
-          <section id="projects" className="py-16 md:py-24 px-4 md:px-8 bg-white/[0.02] border-y border-white/5 relative z-10 backdrop-blur-sm">
+          <motion.section 
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            id="projects" 
+            className="py-16 md:py-24 px-4 md:px-8 bg-white/[0.02] border-y border-white/5 relative z-10 backdrop-blur-sm"
+          >
             <div className="max-w-7xl mx-auto">
               
               <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-12">
@@ -534,10 +587,17 @@ export default function App() {
               </div>
 
             </div>
-          </section>
+          </motion.section>
 
           {/* 5. EDUCATION & CREDENTIALS SECTION */}
-          <section id="education" className="py-24 px-4 bg-white/[0.02] border-t border-white/5 relative z-10 backdrop-blur-sm">
+          <motion.section 
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            id="education" 
+            className="py-24 px-4 bg-white/[0.02] border-t border-white/5 relative z-10 backdrop-blur-sm"
+          >
             <div className="max-w-7xl mx-auto">
               
               <div className="text-center mb-12">
@@ -692,13 +752,20 @@ export default function App() {
               </div>
 
             </div>
-          </section>
+          </motion.section>
 
           {/* 8. BLOG SECTION */}
           <BlogSection />
 
           {/* 9. COLLABORATE SECTION */}
-          <section id="contact" className="py-16 md:py-24 px-4 md:px-8 bg-white/[0.02] border-t border-white/5 relative z-10 backdrop-blur-sm">
+          <motion.section 
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            id="contact" 
+            className="py-16 md:py-24 px-4 md:px-8 bg-white/[0.02] border-t border-white/5 relative z-10 backdrop-blur-sm"
+          >
             <div className="max-w-4xl mx-auto text-center space-y-8">
               
               <div>
@@ -869,7 +936,7 @@ export default function App() {
               </div>
 
             </div>
-          </section>
+          </motion.section>
 
           {/* FOOTER SECTION */}
           <footer className="bg-[#030712] border-t border-white/5 py-12 px-4 text-center text-xs font-mono text-slate-500 space-y-3 relative z-10">

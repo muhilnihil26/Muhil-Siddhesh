@@ -214,7 +214,8 @@ export default function JourneyTimeline() {
                   const isFilteredOut = activeCategory !== "all" && event.category !== activeCategory;
                   
                   return (
-                    <button
+                    <motion.button
+                      whileHover={isFilteredOut ? {} : { x: 5 }}
                       key={event.id}
                       onClick={() => setSelectedEventId(event.id)}
                       id={`btn-node-${event.id}`}
@@ -255,7 +256,7 @@ export default function JourneyTimeline() {
                           {event.subtitle}
                         </div>
                       </div>
-                    </button>
+                    </motion.button>
                   );
                 })}
               </div>
