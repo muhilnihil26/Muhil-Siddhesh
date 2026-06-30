@@ -11,7 +11,7 @@ export const PERSONAL_INFO = {
   title: "AI Developer | Full Stack Developer | Student Innovator",
   role: "Aspiring Tech Entrepreneur & AI Innovator",
   tagline: "Building the Future with AI and Innovation",
-  avatarUrl: "/src/assets/images/muhil_avatar_1782394981906.jpg",
+  avatarUrl: "/src/assets/images/muhil_avatar_1782830219085.jpg",
   email: "muhillsiddhesh.in@gmail.com",
   github: "https://github.com",
   linkedin: "https://linkedin.com",
@@ -106,7 +106,7 @@ export const PROJECTS_DATA: Project[] = [
     ],
     techStack: ["React", "TypeScript", "Tailwind CSS", "LLM APIs", "JSON-RPC Concepts"],
     githubUrl: "https://github.com",
-    demoUrl: "https://demo.sonexa.ai",
+    demoUrl: "https://sonexawarrior.vercel.app",
     videoUrl: "https://youtube.com/watch?v=sonexa"
   },
   {
@@ -146,6 +146,16 @@ export const PROJECTS_DATA: Project[] = [
 ];
 
 export const BLOG_POSTS_DATA = [
+  {
+    id: "sonexa-trending-songs",
+    title: "Sonexa: Extracting Trending Songs & Data",
+    excerpt: "A look into how Sonexa can extract trending songs and orchestrate intelligent workflows.",
+    content: "Sonexa is designed to orchestrate intelligent services. With its capability to automate data extraction, it can easily identify trending songs from various platforms and integrate them into data pipelines. The automated agentic patterns make it a breeze to scrape, process, and analyze music trends in real-time, showcasing the true power of AI-driven data streams.",
+    date: "June 30, 2026",
+    category: "AI",
+    tags: ["Sonexa", "Data Extraction", "Music", "Automation"],
+    readTime: "4 min read"
+  },
   {
     id: "ai-future-development",
     title: "The Future of AI in Software Development",

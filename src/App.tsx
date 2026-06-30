@@ -178,8 +178,17 @@ export default function App() {
               </div>
 
               <div className="space-y-1">
-                <h1 className="text-sm font-sans font-bold tracking-widest text-slate-100 uppercase">
-                  Muhil Siddhesh
+                <h1 className="text-sm font-sans font-bold tracking-widest text-slate-100 uppercase flex justify-center space-x-1">
+                  {"Muhil Siddhesh".split("").map((char, index) => (
+                    <motion.span
+                      key={index}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: index * 0.1, duration: 0.3 }}
+                    >
+                      {char === " " ? "\u00A0" : char}
+                    </motion.span>
+                  ))}
                 </h1>
                 <p className="text-[9px] font-mono text-slate-500 uppercase tracking-widest">
                   AI & Software Developer Portfolio
@@ -203,6 +212,8 @@ export default function App() {
           </motion.div>
         )}
       </AnimatePresence>
+
+      <div className="fixed inset-0 z-0 bg-[url('/src/assets/images/background_img_1782830236819.jpg')] bg-cover bg-center opacity-30 mix-blend-screen pointer-events-none" />
 
       {/* Persistent Neural Network Particle Background */}
       <ParticleBackground />
