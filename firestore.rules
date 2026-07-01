@@ -52,5 +52,9 @@ service cloud.firestore {
       // Only owner can read, update, delete
       allow read, update, delete: if isOwner() && isValidId(messageId);
     }
+
+    match /mail/{mailId} {
+      allow create, read: if isOwner();
+    }
   }
 }

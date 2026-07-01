@@ -63,11 +63,16 @@ export default function AdminPanel() {
   const [authLoading, setAuthLoading] = useState(false);
 
   // Synchronize Google Auth session state
+  const [isAuthReady, setIsAuthReady] = useState(false);
   React.useEffect(() => {
     const unsub = auth.onAuthStateChanged((user) => {
+      setIsAuthReady(true);
       if (user && user.email === "muhilsiddhesh.in@gmail.com" && user.emailVerified) {
         setIsAuthenticated(true);
         localStorage.setItem("muhil_admin_authenticated", "true");
+      } else {
+        setIsAuthenticated(false);
+        localStorage.removeItem("muhil_admin_authenticated");
       }
     });
     return () => unsub();
@@ -84,7 +89,7 @@ export default function AdminPanel() {
   const [loadingMessages, setLoadingMessages] = useState(false);
 
   React.useEffect(() => {
-    if (activeTab === "messages" && isAuthenticated) {
+    if (activeTab === "messages" && isAuthenticated && isAuthReady) {
       const fetchMessages = async () => {
         setLoadingMessages(true);
         try {
@@ -103,7 +108,7 @@ export default function AdminPanel() {
       };
       fetchMessages();
     }
-  }, [activeTab, isAuthenticated]);
+  }, [activeTab, isAuthenticated, isAuthReady]);
 
   const handleDeleteMessage = async (id: string) => {
     if (confirm("Permanently delete this transmission?")) {
@@ -116,6 +121,35 @@ export default function AdminPanel() {
       } catch (error) {
         console.error(error);
         triggerAlert("error", "Failed to delete message.");
+      }
+    }
+  };
+
+  const handleAcceptApplicant = async (msg: any) => {
+    if (confirm(`Send acceptance email and welcome PDF to ${msg.email}?`)) {
+      try {
+        const { collection, addDoc } = await import("firebase/firestore");
+        const { db } = await import("../firebase");
+        
+        await addDoc(collection(db, "mail"), {
+          to: msg.email,
+          message: {
+            subject: "Welcome to Warrior Developers!",
+            text: `Hi ${msg.name},\n\nWe are thrilled to welcome you to Warrior Developers! Please find your welcome packet and onboarding guide attached.\n\nBest regards,\nMuhil Siddhesh`,
+            html: `<p>Hi ${msg.name},</p><p>We are thrilled to welcome you to Warrior Developers! Please find your welcome packet and onboarding guide attached.</p><p>Best regards,<br>Muhil Siddhesh</p>`,
+            attachments: [
+              {
+                filename: 'Warrior_Developers_Welcome.pdf',
+                content: 'JVBERi0xLjcKCjEgMCBvYmogICUgZW50cnkgcG9pbnQKPDwKICAvVHlwZSAvQ2F0YWxvZwogIC9QYWdlcyAyIDAgUgo+PgplbmRvYmoKCjIgMCBvYmoKPDwKICAvVHlwZSAvUGFnZXMKICAvTWVkaWFCb3ggWyAwIDAgMjAwIDIwMCBdCiAgL0NvdW50IDEKICAvS2lkcyBbIDMgMCBSIF0KPj4KZW5kb2JqCgozIDAgb2JqCjw8CiAgL1R5cGUgL1BhZ2UKICAvUGFyZW50IDIgMCBSCiAgL1Jlc291cmNlcyA8PAogICAgL0ZvbnQgPDwKICAgICAgL0YxIDQgMCBSCgkJPj4KICA+PgogIC9Db250ZW50cyA1IDAgUgo+PgplbmRvYmoKCjQgMCBvYmoKPDwKICAvVHlwZSAvRm9udAogIC9TdWJ0eXBlIC9UeXBlMQogIC9CYXNlRm9udCAvVGltZXMtUm9tYW4KPj4KZW5kb2JqCgo1IDAgb2JqCjw8IC9MZW5ndGggNjkgPj4Kc3RyZWFtCkJUCi9GMSAxOCBUZgoyMCAxNTAgVGQKKFdlbGNvbWUgdG8gV2FycmlvciBEZXZlbG9wZXJzISkgVGoKRVQKZW5kc3RyZWFtCmVuZG9iagoKeHJlZgowIDYKMDAwMDAwMDAwMCA2NTUzNSBmIAowMDAwMDAwMDEwIDAwMDAwIG4gCjAwMDAwMDAwNjggMDAwMDAgbiAKMDAwMDAwMDE2NyAwMDAwMCBuIAowMDAwMDAwMjg4IDAwMDAwIG4gCjAwMDAwMDAzNzYgMDAwMDAgbiAKdHJhaWxlcgo8PAogIC9TaXplIDYKICAvUm9vdCAxIDAgUgo+PgpzdGFydHhyZWYKNDk4CiUlRU9GCg==',
+                encoding: 'base64'
+              }
+            ]
+          }
+        });
+        triggerAlert("success", `Acceptance email scheduled for ${msg.email}`);
+      } catch (error) {
+        console.error("Failed to send email:", error);
+        triggerAlert("error", "Failed to schedule email delivery.");
       }
     }
   };
@@ -1846,15 +1880,25 @@ export default function AdminPanel() {
                     <div className="grid grid-cols-1 gap-4">
                       {messages.map((msg) => (
                         <div key={msg.id} className="bg-white/5 border border-white/10 rounded-3xl p-5 relative">
-                          <button
-                            onClick={() => handleDeleteMessage(msg.id)}
-                            className="absolute top-4 right-4 p-1.5 bg-rose-950/20 text-rose-400 hover:bg-rose-900/40 border border-rose-900/20 rounded-lg transition cursor-pointer"
-                            title="Delete Message"
-                          >
-                            <Trash className="w-3.5 h-3.5" />
-                          </button>
+                          <div className="absolute top-4 right-4 flex items-center gap-2">
+                            <button
+                              onClick={() => handleAcceptApplicant(msg)}
+                              className="p-1.5 bg-emerald-950/20 text-emerald-400 hover:bg-emerald-900/40 border border-emerald-900/20 rounded-lg transition cursor-pointer flex items-center gap-1 px-2"
+                              title="Accept into Warrior Developers"
+                            >
+                              <CheckCircle className="w-3.5 h-3.5" />
+                              <span className="text-[9px] font-mono font-bold uppercase hidden sm:inline">Accept Applicant</span>
+                            </button>
+                            <button
+                              onClick={() => handleDeleteMessage(msg.id)}
+                              className="p-1.5 bg-rose-950/20 text-rose-400 hover:bg-rose-900/40 border border-rose-900/20 rounded-lg transition cursor-pointer"
+                              title="Delete Message"
+                            >
+                              <Trash className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
                           
-                          <div className="flex items-center gap-3 mb-3 border-b border-white/5 pb-3">
+                          <div className="flex items-center gap-3 mb-3 border-b border-white/5 pb-3 pr-40">
                             <div className="w-10 h-10 rounded-full bg-blue-500/20 border border-blue-500/30 flex items-center justify-center text-blue-400 font-bold font-mono">
                               {msg.name?.charAt(0).toUpperCase()}
                             </div>

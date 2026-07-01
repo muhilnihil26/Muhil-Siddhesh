@@ -4,6 +4,7 @@
  */
 
 import React, { useState } from "react";
+import { createPortal } from "react-dom";
 import { Project } from "../types";
 import { 
   Terminal, 
@@ -325,7 +326,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                   )}
                   {!project.launchUrl && !project.demoUrl && !project.videoUrl && (
                     <button
-                      onClick={() => setIsOpen(true)}
+                      onClick={(e) => { e.stopPropagation(); setIsOpen(true); }}
                       id={`btn-open-project-${project.id}`}
                       className="w-full py-2 bg-white/5 hover:bg-white/10 text-white border border-white/10 hover:border-white/20 text-[10px] font-mono rounded-lg transition duration-200 cursor-pointer flex items-center justify-center gap-1.5 backdrop-blur-sm"
                     >
@@ -334,10 +335,10 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                     </button>
                   )}
                 </div>
-                
+                 
                 {(project.launchUrl || project.demoUrl || project.videoUrl) && (
                    <button
-                      onClick={() => setIsOpen(true)}
+                      onClick={(e) => { e.stopPropagation(); setIsOpen(true); }}
                       id={`btn-open-project-secondary-${project.id}`}
                       className="w-full py-2 bg-white/5 hover:bg-white/10 text-white border border-white/10 hover:border-white/20 text-[10px] font-mono rounded-lg transition duration-200 cursor-pointer flex items-center justify-center gap-1.5 backdrop-blur-sm"
                     >
@@ -352,25 +353,24 @@ export default function ProjectCard({ project }: ProjectCardProps) {
       </motion.div>
 
       {/* Interactive specification Popup Modal */}
-      <AnimatePresence>
-        {isOpen && (
-          <div className="fixed inset-0 z-50 overflow-y-auto flex items-center justify-center p-4">
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setIsOpen(false)}
-              className="fixed inset-0 bg-[#030712]/65 backdrop-blur-xl"
-            />
+      {createPortal(
+        <>
+          {isOpen && (
+            <div className="fixed inset-0 z-[100] overflow-y-auto flex items-center justify-center p-4">
+              {/* Backdrop */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                onClick={() => setIsOpen(false)}
+                className="fixed inset-0 bg-black/80 backdrop-blur-md"
+              />
 
-            {/* Modal Body */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 15 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 15 }}
-              className="relative bg-[#030712]/90 border border-white/10 rounded-3xl w-full max-w-4xl max-h-[85vh] overflow-y-auto shadow-2xl p-4 md:p-6 z-10 custom-scrollbar backdrop-blur-2xl"
-            >
+              {/* Modal Body */}
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95, y: 15 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                className="relative bg-[#030712]/95 border border-white/10 rounded-3xl w-full max-w-4xl max-h-[85vh] overflow-y-auto shadow-2xl p-4 md:p-6 z-10 custom-scrollbar"
+              >
               {/* Close Button */}
               <button
                 onClick={() => setIsOpen(false)}
@@ -688,7 +688,9 @@ export default function ProjectCard({ project }: ProjectCardProps) {
             </motion.div>
           </div>
         )}
-      </AnimatePresence>
+        </>,
+      document.getElementById('root') || document.body
+    )}
     </>
   );
 }

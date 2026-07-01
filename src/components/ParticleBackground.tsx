@@ -5,7 +5,7 @@
 
 import { useEffect, useRef } from "react";
 
-export default function ParticleBackground() {
+export default function ParticleBackground({ activeCategory = "All" }: { activeCategory?: string }) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
@@ -20,7 +20,7 @@ export default function ParticleBackground() {
     let height = (canvas.height = window.innerHeight);
 
     // Track mouse coordinates
-    const mouse = { x: -1000, y: -1000, active: false };
+    const mouse = { x: -1000, y: -1000, active: false, intensity: 0 };
 
     interface Particle {
       x: number;
@@ -29,10 +29,23 @@ export default function ParticleBackground() {
       vy: number;
       radius: number;
       alpha: number;
+      baseColor: string;
     }
 
     const particleCount = Math.min(60, Math.floor((width * height) / 25000));
     const particles: Particle[] = [];
+
+    const getColorForCategory = (category: string) => {
+      switch (category.toLowerCase()) {
+        case "enterprise": return "147, 51, 234"; // Purple
+        case "ai tools": return "236, 72, 153"; // Pink
+        case "automation": return "59, 130, 246"; // Blue
+        case "future": return "16, 185, 129"; // Green
+        default: return "99, 102, 241"; // Indigo
+      }
+    };
+
+    const currentColor = getColorForCategory(activeCategory);
 
     // Initialize particles
     for (let i = 0; i < particleCount; i++) {
@@ -43,6 +56,7 @@ export default function ParticleBackground() {
         vy: (Math.random() - 0.5) * 0.4,
         radius: Math.random() * 1.5 + 1,
         alpha: Math.random() * 0.5 + 0.3,
+        baseColor: currentColor,
       });
     }
 
@@ -56,12 +70,14 @@ export default function ParticleBackground() {
       mouse.x = e.clientX;
       mouse.y = e.clientY;
       mouse.active = true;
+      mouse.intensity = Math.min(mouse.intensity + 0.1, 1);
     };
 
     const handleMouseLeave = () => {
       mouse.x = -1000;
       mouse.y = -1000;
       mouse.active = false;
+      mouse.intensity = 0;
     };
 
     window.addEventListener("resize", handleResize);
@@ -70,9 +86,16 @@ export default function ParticleBackground() {
 
     const draw = () => {
       ctx.clearRect(0, 0, width, height);
+      
+      if (!mouse.active && mouse.intensity > 0) {
+        mouse.intensity -= 0.05;
+      }
 
       // Particle update and rendering
       particles.forEach((p, idx) => {
+        // Smoothly transition color
+        // For simplicity, just assign currentColor in real time here
+        
         // Base Antigravity drift (slowly floating up)
         p.y -= 0.15;
         
@@ -85,16 +108,16 @@ export default function ParticleBackground() {
           const dy = p.y - mouse.y;
           const distToMouse = Math.hypot(dx, dy);
           
-          if (distToMouse < 150) {
-            const force = (150 - distToMouse) / 150;
-            p.vx += (dx / distToMouse) * force * 0.05;
-            p.vy += (dy / distToMouse) * force * 0.05;
+          if (distToMouse < 200) {
+            const force = (200 - distToMouse) / 200;
+            p.vx += (dx / distToMouse) * force * 0.1;
+            p.vy += (dy / distToMouse) * force * 0.1;
           }
         }
         
         // Dampen velocity slightly to avoid infinite acceleration
-        p.vx *= 0.99;
-        p.vy *= 0.99;
+        p.vx *= 0.98;
+        p.vy *= 0.98;
 
         // Bounce/Wrap on boundaries
         if (p.x < 0) p.x = width;
@@ -105,7 +128,14 @@ export default function ParticleBackground() {
         // Draw particle
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(99, 102, 241, ${p.alpha})`; // Indigo particle color
+        
+        const distToMouse = Math.hypot(p.x - mouse.x, p.y - mouse.y);
+        let alphaMultiplier = 1;
+        if (distToMouse < 250) {
+            alphaMultiplier = 1 + (1 - distToMouse / 250) * 1.5 * mouse.intensity;
+        }
+
+        ctx.fillStyle = `rgba(${currentColor}, ${p.alpha * alphaMultiplier})`; 
         ctx.fill();
 
         // Connect particles with lines if close
@@ -113,11 +143,11 @@ export default function ParticleBackground() {
           const p2 = particles[j];
           const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
           if (dist < 120) {
-            const lineAlpha = (1 - dist / 120) * 0.15;
+            const lineAlpha = (1 - dist / 120) * 0.15 * alphaMultiplier;
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(p2.x, p2.y);
-            ctx.strokeStyle = `rgba(99, 102, 241, ${lineAlpha})`;
+            ctx.strokeStyle = `rgba(${currentColor}, ${lineAlpha})`;
             ctx.lineWidth = 0.5;
             ctx.stroke();
           }
@@ -125,14 +155,13 @@ export default function ParticleBackground() {
 
         // Draw connections to mouse
         if (mouse.active) {
-          const distToMouse = Math.hypot(p.x - mouse.x, p.y - mouse.y);
-          if (distToMouse < 180) {
-            const lineAlpha = (1 - distToMouse / 180) * 0.25;
+          if (distToMouse < 250) {
+            const lineAlpha = (1 - distToMouse / 250) * 0.4 * mouse.intensity;
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(mouse.x, mouse.y);
-            ctx.strokeStyle = `rgba(99, 102, 241, ${lineAlpha})`; // Indigo neon
-            ctx.lineWidth = 0.7;
+            ctx.strokeStyle = `rgba(${currentColor}, ${lineAlpha})`;
+            ctx.lineWidth = 1;
             ctx.stroke();
           }
         }
@@ -149,13 +178,13 @@ export default function ParticleBackground() {
       window.removeEventListener("mouseleave", handleMouseLeave);
       cancelAnimationFrame(animationFrameId);
     };
-  }, []);
+  }, [activeCategory]);
 
   return (
     <canvas
       ref={canvasRef}
       id="particles-canvas"
-      className="fixed inset-0 pointer-events-none z-0 bg-transparent"
+      className="fixed inset-0 pointer-events-none z-0 bg-transparent transition-opacity duration-1000"
       style={{ mixBlendMode: "screen" }}
     />
   );

@@ -193,6 +193,26 @@ export const BLOG_POSTS_DATA = [
     category: "Game Dev",
     tags: ["Godot", "Unity", "Game Development", "Indie Games"],
     readTime: "6 min read"
+  },
+  {
+    id: "edge-computing-iot",
+    title: "Edge Computing and the Future of IoT",
+    excerpt: "How moving computation closer to the source is revolutionizing smart devices.",
+    content: "The Internet of Things (IoT) generates massive amounts of data. Processing all this data in centralized cloud servers causes latency and bandwidth bottlenecks. Edge computing solves this by processing data at the 'edge' of the network, closer to where it's generated. This is crucial for applications requiring real-time responses, like autonomous vehicles and industrial automation. In this article, I explore the architectural shifts required for effective edge computing.",
+    date: "March 15, 2026",
+    category: "IoT",
+    tags: ["Edge Computing", "IoT", "Architecture", "Real-time"],
+    readTime: "7 min read"
+  },
+  {
+    id: "building-scalable-microservices",
+    title: "Building Scalable Microservices with Node.js",
+    excerpt: "Best practices for designing and deploying microservices architectures.",
+    content: "Transitioning from a monolithic architecture to microservices offers benefits in scalability and deployment velocity, but introduces complexity in service discovery, communication, and data consistency. Node.js, with its asynchronous event-driven nature, is well-suited for lightweight microservices. This post covers strategies for bounded contexts, asynchronous communication patterns, and effective containerization using Docker and Kubernetes.",
+    date: "February 22, 2026",
+    category: "Backend",
+    tags: ["Microservices", "Node.js", "Docker", "Architecture"],
+    readTime: "8 min read"
   }
 ];
 

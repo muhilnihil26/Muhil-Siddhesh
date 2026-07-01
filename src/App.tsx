@@ -153,10 +153,14 @@ export default function App() {
   return (
     <div className="relative min-h-screen bg-[#030712] text-slate-100 overflow-x-hidden font-sans selection:bg-blue-500/30 selection:text-blue-200">
       
+      <div className="fixed inset-0 z-0 bg-black pointer-events-none" />
+      <div className="fixed inset-0 z-0 bg-[url('/src/assets/images/background_img_1782830236819.jpg')] bg-cover bg-center opacity-40 mix-blend-overlay pointer-events-none" />
+      
       {/* Background Mesh Gradients */}
       <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-blue-600/15 rounded-full blur-[120px]" />
-        <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-purple-600/15 rounded-full blur-[120px]" />
+        <div className="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] bg-blue-600/20 rounded-full blur-[140px]" />
+        <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-indigo-600/20 rounded-full blur-[140px]" />
+        <div className="absolute top-[40%] left-[30%] w-[400px] h-[400px] bg-purple-600/10 rounded-full blur-[120px]" />
       </div>
       
       {/* Immersive Startup Loading Screen */}
@@ -213,13 +217,11 @@ export default function App() {
         )}
       </AnimatePresence>
 
-      <div className="fixed inset-0 z-0 bg-[url('/src/assets/images/background_img_1782830236819.jpg')] bg-cover bg-center opacity-30 mix-blend-screen pointer-events-none" />
-
       {/* Persistent Neural Network Particle Background */}
-      <ParticleBackground />
+      <ParticleBackground activeCategory={selectedCategory} />
 
       {/* Floating Scroll-to-Top Button or background grids */}
-      <div className="absolute top-0 left-0 right-0 h-[500px] bg-gradient-to-b from-indigo-950/20 via-transparent to-transparent pointer-events-none" />
+      <div className="absolute top-0 left-0 right-0 h-[600px] bg-gradient-to-b from-[#02040a]/80 via-transparent to-transparent pointer-events-none z-0" />
 
       {/* Render Main Page Content */}
       {!loading && (
