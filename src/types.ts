@@ -38,6 +38,10 @@ export interface Project {
   githubUrl?: string;
   demoUrl?: string;
   videoUrl?: string;
+  screenshots?: string[];
+  roadmap?: string[];
+  challenges?: string;
+  metrics?: { label: string; value: string }[];
 }
 
 export interface Innovation {

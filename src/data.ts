@@ -89,7 +89,11 @@ export const PROJECTS_DATA: Project[] = [
     techStack: ["React", "TypeScript", "Tailwind CSS", "Framer Motion", "Recharts", "Lucide Icons"],
     githubUrl: "https://github.com",
     demoUrl: "https://demo.warriornexus.com",
-    videoUrl: "https://youtube.com/watch?v=warriornexus"
+    videoUrl: "https://youtube.com/watch?v=warriornexus",
+    roadmap: ["Q3 2026: Mobile App Launch", "Q4 2026: AI Diagnostics Module", "Q1 2027: Enterprise Hospital Integrations"],
+    challenges: "Handling real-time data sync across multiple role-based dashboards while maintaining a low-latency user experience.",
+    metrics: [{ label: "Lines of Code", value: "45,000+" }, { label: "Components", value: "120+" }],
+    screenshots: ["/src/assets/images/background_img_1782830236819.jpg"]
   },
   {
     id: "sonexa",
@@ -107,7 +111,11 @@ export const PROJECTS_DATA: Project[] = [
     techStack: ["React", "TypeScript", "Tailwind CSS", "LLM APIs", "JSON-RPC Concepts"],
     githubUrl: "https://github.com",
     demoUrl: "https://sonexawarrior.vercel.app",
-    videoUrl: "https://youtube.com/watch?v=sonexa"
+    videoUrl: "https://youtube.com/watch?v=sonexa",
+    roadmap: ["Q3 2026: Multi-agent orchestration", "Q4 2026: Third-party API integrations (GitHub, Slack)", "Q1 2027: Visual node-based workflow editor"],
+    challenges: "Designing a responsive, cosmic-themed UI that visualizes real-time terminal outputs without overwhelming the user.",
+    metrics: [{ label: "Automated Workflows", value: "50+" }, { label: "LLM Tokens Processed", value: "2M+" }],
+    screenshots: ["/src/assets/images/background_img_1782830236819.jpg"]
   },
   {
     id: "kalsa-warrior",

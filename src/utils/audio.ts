@@ -19,13 +19,13 @@ export const playHoverSound = () => {
     const osc = ctx.createOscillator();
     const gainNode = ctx.createGain();
     
-    // Subtle deep hover sound
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(150, ctx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(200, ctx.currentTime + 0.1);
+    // Smooth glass hover sound
+    osc.type = 'triangle';
+    osc.frequency.setValueAtTime(600, ctx.currentTime);
+    osc.frequency.exponentialRampToValueAtTime(1200, ctx.currentTime + 0.1);
     
     gainNode.gain.setValueAtTime(0, ctx.currentTime);
-    gainNode.gain.linearRampToValueAtTime(0.015, ctx.currentTime + 0.05);
+    gainNode.gain.linearRampToValueAtTime(0.02, ctx.currentTime + 0.05);
     gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
     
     osc.connect(gainNode);
@@ -42,31 +42,23 @@ export const playClickSound = () => {
   try {
     const ctx = initAudio();
     
-    // Deep bass hit for click (mass effect)
+    // Sci-fi UI click sound
     const osc1 = ctx.createOscillator();
-    const osc2 = ctx.createOscillator();
     const gainNode = ctx.createGain();
     
-    osc1.type = 'triangle';
-    osc1.frequency.setValueAtTime(100, ctx.currentTime);
-    osc1.frequency.exponentialRampToValueAtTime(40, ctx.currentTime + 0.2);
-    
-    osc2.type = 'sine';
-    osc2.frequency.setValueAtTime(60, ctx.currentTime);
-    osc2.frequency.exponentialRampToValueAtTime(20, ctx.currentTime + 0.3);
+    osc1.type = 'square';
+    osc1.frequency.setValueAtTime(800, ctx.currentTime);
+    osc1.frequency.exponentialRampToValueAtTime(300, ctx.currentTime + 0.1);
     
     gainNode.gain.setValueAtTime(0, ctx.currentTime);
-    gainNode.gain.linearRampToValueAtTime(0.15, ctx.currentTime + 0.02);
-    gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
+    gainNode.gain.linearRampToValueAtTime(0.1, ctx.currentTime + 0.02);
+    gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.15);
     
     osc1.connect(gainNode);
-    osc2.connect(gainNode);
     gainNode.connect(ctx.destination);
     
     osc1.start();
-    osc2.start();
-    osc1.stop(ctx.currentTime + 0.3);
-    osc2.stop(ctx.currentTime + 0.3);
+    osc1.stop(ctx.currentTime + 0.15);
   } catch (e) {
     // Ignore audio errors
   }

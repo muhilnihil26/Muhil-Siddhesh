@@ -151,6 +151,25 @@ export default function ProjectCard({ project }: ProjectCardProps) {
     }, 1000);
   };
 
+  const [particles, setParticles] = useState<{ id: number; x: number; y: number }[]>([]);
+
+  const handleMouseEnter = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    
+    const newParticles = Array.from({ length: 15 }).map((_, i) => ({
+      id: Date.now() + i,
+      x: centerX,
+      y: centerY,
+    }));
+    setParticles(newParticles);
+    
+    setTimeout(() => {
+      setParticles([]);
+    }, 1000);
+  };
+
   return (
     <>
       {/* Project Card Grid Item */}
@@ -160,57 +179,100 @@ export default function ProjectCard({ project }: ProjectCardProps) {
         style={{ rotateX, rotateY }}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
+        onMouseEnter={handleMouseEnter}
         id={`project-card-${project.id}`}
         className="group relative w-full h-[320px] [perspective:1000px]"
       >
         <div className="relative w-full h-full transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
           {/* FRONT OF CARD */}
-          <div className="absolute inset-0 bg-white/5 border border-white/10 group-hover:border-blue-500/50 group-hover:shadow-[0_0_20px_rgba(59,130,246,0.3)] transition-all duration-300 rounded-2xl p-5 backdrop-blur-md flex flex-col justify-between overflow-hidden [backface-visibility:hidden]">
-            {/* Subtle top light bar */}
-            <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          <div className="absolute inset-0 border border-white/10 group-hover:border-blue-500/50 group-hover:shadow-[0_0_30px_rgba(59,130,246,0.4)] transition-all duration-300 rounded-2xl p-5 flex flex-col justify-between overflow-hidden [backface-visibility:hidden]">
             
-            <div>
-              {/* Header row with icon name */}
-              <div className="flex items-center justify-between mb-3">
-                <span className="text-[10px] font-mono uppercase tracking-widest text-blue-400 font-bold bg-white/5 px-2 py-0.5 border border-white/5 rounded-md">
-                  {project.category} Core
-                </span>
-                <div className="flex items-center gap-2">
-                  {project.status && (
-                    <span className={`text-[9px] font-mono uppercase px-1.5 py-0.5 rounded-sm border ${
-                      project.status === 'Live' ? 'bg-green-500/10 text-green-400 border-green-500/20' :
-                      project.status === 'Beta' ? 'bg-purple-500/10 text-purple-400 border-purple-500/20' :
-                      'bg-orange-500/10 text-orange-400 border-orange-500/20'
-                    }`}>
-                      {project.status}
-                    </span>
-                  )}
-                  <span className="text-[10px] font-mono text-slate-500">ID: {project.id}</span>
+            {/* Particles Burst Effect */}
+            {particles.map((p) => (
+              <motion.div
+                key={p.id}
+                initial={{ x: p.x, y: p.y, opacity: 1, scale: 0 }}
+                animate={{
+                  x: p.x + (Math.random() - 0.5) * 300,
+                  y: p.y + (Math.random() - 0.5) * 300,
+                  opacity: 0,
+                  scale: Math.random() * 2 + 1,
+                }}
+                transition={{ duration: 0.6 + Math.random() * 0.4, ease: "easeOut" }}
+                className="absolute w-1.5 h-1.5 bg-blue-400 rounded-full z-20 pointer-events-none shadow-[0_0_8px_rgba(59,130,246,0.8)]"
+              />
+            ))}
+
+            {/* Animated Image Preview Background */}
+            <div className="absolute inset-0 z-0 overflow-hidden">
+              <img 
+                src="/src/assets/images/background_img_1782830236819.jpg" 
+                alt="Project Cover" 
+                className="w-full h-full object-cover opacity-20 group-hover:opacity-50 group-hover:scale-110 transition-all duration-700 ease-out"
+              />
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#030712]/60 to-[#030712]" />
+            </div>
+            
+            {/* Subtle top light bar */}
+            <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-blue-400 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10" />
+            
+            <div className="relative z-10 flex flex-col h-full justify-between">
+              <div>
+                {/* Header row with icon name */}
+                <div className="flex items-center justify-between mb-3">
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-blue-400 font-bold bg-white/10 px-2 py-0.5 border border-white/10 rounded-md backdrop-blur-md">
+                    {project.category} Core
+                  </span>
+                  <div className="flex items-center gap-2">
+                    {project.status && (
+                      <span className={`text-[9px] font-mono uppercase px-1.5 py-0.5 rounded-sm border backdrop-blur-md ${
+                        project.status === 'Live' ? 'bg-green-500/20 text-green-400 border-green-500/30' :
+                        project.status === 'Beta' ? 'bg-purple-500/20 text-purple-400 border-purple-500/30' :
+                        'bg-orange-500/20 text-orange-400 border-orange-500/30'
+                      }`}>
+                        {project.status}
+                      </span>
+                    )}
+                    <span className="text-[10px] font-mono text-slate-400">ID: {project.id}</span>
+                  </div>
                 </div>
+
+                <motion.h3 
+                  className="text-xl font-sans font-bold text-white transition duration-150 drop-shadow-md"
+                >
+                  {project.title}
+                </motion.h3>
+                
+                <p className="text-xs text-slate-300 mt-2 line-clamp-3 leading-relaxed drop-shadow">
+                  {project.description}
+                </p>
               </div>
 
-              <h3 className="text-lg font-sans font-bold text-white transition duration-150">
-                {project.title}
-              </h3>
-              
-              <p className="text-xs text-slate-400 mt-2 line-clamp-3 leading-relaxed">
-                {project.description}
-              </p>
-            </div>
+              <div>
+                {/* Tech badge lists with icons */}
+                <div className="flex flex-wrap gap-1.5 mt-4 mb-2">
+                  {project.techStack.slice(0, 3).map((tech) => (
+                    <span key={tech} className="flex items-center gap-1 text-[9px] font-mono text-slate-300 bg-white/10 border border-white/10 px-1.5 py-0.5 rounded backdrop-blur-md">
+                      {getTechIcon(tech)}
+                      {tech}
+                    </span>
+                  ))}
+                  {project.techStack.length > 3 && (
+                    <span className="flex items-center text-[9px] font-mono text-blue-300 bg-white/10 border border-white/10 px-1.5 py-0.5 rounded backdrop-blur-md">
+                      +{project.techStack.length - 3} more
+                    </span>
+                  )}
+                </div>
 
-            <div>
-              {/* Tech badge lists with icons */}
-              <div className="flex flex-wrap gap-1.5 mt-4 mb-5">
-                {project.techStack.slice(0, 3).map((tech) => (
-                  <span key={tech} className="flex items-center gap-1 text-[9px] font-mono text-slate-400 bg-white/5 border border-white/5 px-1.5 py-0.5 rounded">
-                    {getTechIcon(tech)}
-                    {tech}
-                  </span>
-                ))}
-                {project.techStack.length > 3 && (
-                  <span className="flex items-center text-[9px] font-mono text-blue-400 bg-white/5 border border-white/5 px-1.5 py-0.5 rounded">
-                    +{project.techStack.length - 3} more
-                  </span>
+                {project.metrics && project.metrics.length > 0 && (
+                  <div className="flex items-center justify-between border-t border-white/10 pt-2 mt-2">
+                    {project.metrics.map((metric, i) => (
+                      <div key={i} className="flex flex-col">
+                        <span className="text-[8px] font-mono uppercase text-slate-400">{metric.label}</span>
+                        <span className="text-[10px] font-mono font-bold text-blue-300">{metric.value}</span>
+                      </div>
+                    ))}
+                  </div>
                 )}
               </div>
             </div>
@@ -385,6 +447,46 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                       ))}
                     </div>
                   </div>
+
+                  {project.challenges && (
+                    <div>
+                      <h4 className="text-xs font-mono uppercase tracking-wider text-slate-500 font-bold mb-2">
+                        Challenges Faced
+                      </h4>
+                      <p className="text-sm text-slate-300 leading-relaxed bg-slate-900/30 p-3 rounded-lg border border-red-500/10 border-l-2 border-l-red-500/50">
+                        {project.challenges}
+                      </p>
+                    </div>
+                  )}
+
+                  {project.roadmap && project.roadmap.length > 0 && (
+                    <div>
+                      <h4 className="text-xs font-mono uppercase tracking-wider text-slate-500 font-bold mb-2">
+                        Project Roadmap
+                      </h4>
+                      <div className="flex flex-col gap-2">
+                        {project.roadmap.map((item, idx) => (
+                          <div key={idx} className="flex items-center gap-3 text-xs text-slate-400 bg-slate-900/20 p-2 rounded border border-slate-800/50">
+                            <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+                            {item}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {project.screenshots && project.screenshots.length > 0 && (
+                    <div>
+                      <h4 className="text-xs font-mono uppercase tracking-wider text-slate-500 font-bold mb-2">
+                        Gallery & Previews
+                      </h4>
+                      <div className="grid grid-cols-2 gap-3">
+                        {project.screenshots.map((img, idx) => (
+                          <img key={idx} src={img} alt={`Preview ${idx+1}`} className="w-full h-24 object-cover rounded-lg border border-slate-800/50 hover:border-blue-500/50 transition-colors" />
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 {/* Simulated Playground Side (5 Columns) */}
@@ -440,45 +542,47 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                     </div>
                   )}
 
-                  {/* PROJECT 2: Sonexa Sandbox */}
+                  {/* PROJECT 2: Sonexa Sandbox / Iframes */}
                   {project.id === "sonexa" && (
-                    <div className="flex-1 flex flex-col justify-between h-full">
-                      <div>
-                        <div className="flex items-center justify-between border-b border-slate-900 pb-2 mb-3">
-                          <span className="text-xs font-mono font-bold text-slate-300 flex items-center gap-1.5">
-                            <Layers className="w-4 h-4 text-indigo-400" />
-                            Sonexa Service Pipeline
-                          </span>
-                          <span className="text-[9px] font-mono text-indigo-400 bg-indigo-950/20 px-1.5 py-0.5 rounded border border-indigo-900/30">
-                            Orchestrator
-                          </span>
+                    <div className="flex flex-col h-full overflow-hidden">
+                      <div className="flex items-center justify-between border-b border-slate-900 pb-2 mb-3">
+                        <span className="text-xs font-mono font-bold text-slate-300 flex items-center gap-1.5">
+                          <Layers className="w-4 h-4 text-indigo-400" />
+                          Sonexa Live Previews
+                        </span>
+                        <span className="text-[9px] font-mono text-indigo-400 bg-indigo-950/20 px-1.5 py-0.5 rounded border border-indigo-900/30">
+                          Guest Mode
+                        </span>
+                      </div>
+                      
+                      <div className="flex-1 flex flex-col gap-4 overflow-y-auto custom-scrollbar pr-2">
+                        <div className="w-full rounded-xl overflow-hidden border border-slate-800/80 bg-black h-[400px] shrink-0">
+                          <iframe 
+                            src="https://sonexa-listen-beyond-main.vercel.app/home" 
+                            width="100%" 
+                            height="100%" 
+                            frameBorder="0" 
+                            title="Sonexa Home"
+                            allow="autoplay; encrypted-media" 
+                            allowFullScreen
+                          ></iframe>
                         </div>
-
-                        <div className="bg-slate-950/60 p-2.5 rounded border border-slate-850 h-32 overflow-y-auto font-mono text-[10px] text-indigo-300 space-y-1.5 custom-scrollbar">
-                          {sonexaLogs.length === 0 ? (
-                            <span className="text-slate-600 italic">Type automation requirements below and hit 'Deploy'...</span>
-                          ) : (
-                            sonexaLogs.map((log, i) => <div key={i}>{log}</div>)
-                          )}
+                        
+                        <div className="w-full flex justify-center shrink-0 pb-4">
+                          <div className="rounded-xl overflow-hidden border border-slate-800/80 bg-black max-w-full">
+                            <iframe 
+                              src="https://sonexa-listen-beyond-main.vercel.app/reels?videoId=3L3dVIHy5xc&embed=true" 
+                              width="360" 
+                              height="640" 
+                              className="max-w-full"
+                              frameBorder="0" 
+                              title="Sonexa Reels"
+                              allow="autoplay; encrypted-media" 
+                              allowFullScreen
+                            ></iframe>
+                          </div>
                         </div>
                       </div>
-
-                      <form onSubmit={handleSonexaProcess} className="flex gap-2 mt-4 pt-3 border-t border-slate-900">
-                        <input
-                          type="text"
-                          placeholder="e.g. Build website API proxy..."
-                          value={sonexaPrompt}
-                          onChange={(e) => setSonexaPrompt(e.target.value)}
-                          className="flex-1 bg-slate-950 text-xs font-mono text-indigo-300 border border-slate-850 rounded px-2.5 py-1.5 focus:outline-none focus:border-indigo-500 placeholder-slate-700"
-                        />
-                        <button
-                          type="submit"
-                          disabled={sonexaStatus === "running"}
-                          className="bg-indigo-600 hover:bg-indigo-500 text-white font-mono font-bold text-xs px-3 rounded transition flex items-center gap-1 cursor-pointer"
-                        >
-                          {sonexaStatus === "running" ? "Parsing" : "Deploy"}
-                        </button>
-                      </form>
                     </div>
                   )}
 
