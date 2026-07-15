@@ -76,6 +76,8 @@ export interface PersonalInfo {
   role: string;
   tagline: string;
   avatarUrl: string;
+  avatarUrls?: string[];
+  backgroundMusicUrl?: string;
   email: string;
   phone?: string;
   github: string;

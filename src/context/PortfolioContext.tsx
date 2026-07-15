@@ -20,9 +20,9 @@ import { doc, onSnapshot, setDoc } from "firebase/firestore";
 const defaultTimelineEvents: TimelineEvent[] = [
   {
     id: "early-sparks",
-    year: "2022",
+    year: "2023",
     title: "Early Sparks & Computing Fundamentals",
-    subtitle: "Class 6-7 Exploration",
+    subtitle: "Class 9 Exploration",
     description: "Discovered the magic of software architecture and turning logical instructions into interactive interfaces. Independently mastered semantic HTML, responsive CSS layouts, and basic JavaScript loops, building a rock-solid foundation for future complex development.",
     category: "early",
     icon: "Lightbulb",
@@ -33,73 +33,45 @@ const defaultTimelineEvents: TimelineEvent[] = [
     ]
   },
   {
-    id: "dev-era",
-    year: "2023",
-    title: "Interactive Web Apps & Game Loops",
-    subtitle: "Class 7-8 Progression",
-    description: "Dived deep into advanced JavaScript and modern ES6+ paradigms. Explored reactive UI components and began experimenting with game loop mechanics, animation trees, and physics engines inside Unity and Godot to understand how digital interactive worlds are built.",
+    id: "warrior-nexus-era",
+    year: "2024",
+    title: "Warrior Nexus & Healthcare Systems",
+    subtitle: "Class 10 Progression",
+    description: "Built Warrior Nexus, a comprehensive digital healthcare framework. Engineered role-based access, smart queue management, pharmacy integration, and ambulance tracking to replace archaic manual administrative practices with dynamic, automated workflows.",
     category: "development",
-    icon: "Gamepad2",
-    skills: ["JavaScript ES6+", "React Concepts", "Unity & Godot Engines", "Interactive State Management"],
+    icon: "Code",
+    skills: ["React", "TypeScript", "Tailwind CSS", "System Design", "Complex State Management"],
     metrics: [
-      { label: "Game Projects", value: "3 Concepts Created" },
-      { label: "State Paradigms", value: "Component Lifecycles" }
+      { label: "Lines of Code", value: "45,000+" },
+      { label: "Components", value: "120+" }
     ]
   },
   {
-    id: "ai-spark",
-    year: "2024",
-    title: "AI Prompt Orchestration & Automation Chains",
-    subtitle: "Class 8 Academic Milestone",
-    description: "Experienced a paradigm shift with Large Language Models. Mastered complex Prompt Engineering concepts including few-shot prompting, system instructions, and chain-of-thought orchestration. Configured automated AI helper modules to speed up dev workflows.",
+    id: "ai-sonexa",
+    year: "2025",
+    title: "AI Orchestration & Sonexa Hub",
+    subtitle: "Current Milestones",
+    description: "Developed Sonexa, an AI-powered digital automation hub designed to orchestrate intelligent services. Integrated LLMs for complex natural language processing, transforming prompts into concrete service processes, data stream filters, and real-time visual step executions.",
     category: "ai",
     icon: "BrainCircuit",
-    skills: ["Prompt Engineering", "LLM Fine-Tuning Concepts", "API Integration", "Autonomous Workflow Chains"],
+    skills: ["LLM APIs", "Prompt Engineering", "JSON-RPC Concepts", "Agentic Workflows"],
     metrics: [
-      { label: "AI Engines Tested", value: "ChatGPT, Gemini, Claude" },
-      { label: "Automation Level", value: "Agentic Assistant" }
+      { label: "Automated Workflows", value: "50+" },
+      { label: "LLM Tokens Processed", value: "2M+" }
     ]
   },
   {
-    id: "warrior-launch",
-    year: "2025",
-    title: "Branding Warrior Developers & System Design",
-    subtitle: "Class 10 Breakthroughs (Current)",
-    description: "Formulated the 'Warrior Developers' brand, representing a bold vision for next-generation automated SaaS tools. Coded multiple advanced visual conceptual structures: Warrior Nexus (a complete digital hospital suite), Sonexa (AI digital assistant panel), and Vaster AI (autonomous website builder).",
-    category: "ai",
-    icon: "Code",
-    skills: ["TypeScript", "Full Stack Paradigms", "Framer Motion", "Tailwind CSS", "Systems Design"],
-    metrics: [
-      { label: "Active Architectures", value: "4 Advanced Ecosystems" },
-      { label: "Startup Focus", value: "Warrior Developers" }
-    ]
-  },
-  {
-    id: "future-deployment",
-    year: "2026",
-    title: "Database Integration & Smart Station Entry",
-    subtitle: "Class 10 Goals",
-    description: "Moving from static design simulations to live deployed server operations. Implementing Express/Node backends, real cloud databases (Firestore), and refining specs for the Smart Railway Station Entry System—integrating QR verification and adaptive crowd throttling algorithms.",
+    id: "future-career",
+    year: "2026+",
+    title: "Future Career Goals & Enterprise Vision",
+    subtitle: "The Road Ahead",
+    description: "Aiming to establish Warrior Developers as an enterprise software startup. Planning to build innovative, high-impact AI-powered solutions for healthcare, education, and business automation, reshaping how humans interact with digital systems.",
     category: "future",
     icon: "Rocket",
-    skills: ["Express.js", "Cloud Firestore / PostgreSQL", "IoT Gateway Routing", "QR Algorithms"],
-    metrics: [
-      { label: "Target Deployment", value: "Cloud-Run Backends" },
-      { label: "IoT Simulation", value: "150ms Barrier Verification" }
-    ]
-  },
-  {
-    id: "future-startup",
-    year: "2027+",
-    title: "Warrior Developers Enterprise Scale",
-    subtitle: "Launch & Entrepreneurship Vision",
-    description: "Formally establishing Warrior Developers as a real-world enterprise software startup. Providing transit networks, medical centers, and business offices with fully automated visual coordination suites, while mentoring the next wave of class-level coders through Warrior Studio publications.",
-    category: "future",
-    icon: "Terminal",
-    skills: ["SaaS Scaling", "Product Management", "AI System Operations", "Business Automation"],
+    skills: ["AI Engineering", "Software Architecture", "Product Management", "SaaS Scaling"],
     metrics: [
       { label: "Core Venture", value: "Warrior Developers LLC" },
-      { label: "Mission Impact", value: "Reshaping Transit & Health SaaS" }
+      { label: "Target Role", value: "AI Engineer & Founder" }
     ]
   }
 ];
@@ -131,7 +103,11 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
 
   const [personalInfo, setPersonalInfo] = useState<PersonalInfo>(() => {
     const saved = localStorage.getItem("muhil_personal_info");
-    return saved ? JSON.parse(saved) : initialPersonalInfo;
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      return { ...initialPersonalInfo, ...parsed };
+    }
+    return initialPersonalInfo;
   });
 
   const [skills, setSkills] = useState<SkillCategory[]>(() => {
@@ -200,9 +176,30 @@ export const PortfolioProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     const unsubscribe = onSnapshot(docRef, (docSnap) => {
       if (docSnap.exists()) {
         const data = docSnap.data();
-        if (data.personalInfo) setPersonalInfo(data.personalInfo);
+        
+        // Sanitize old image paths
+        const sanitizePath = (path: string) => {
+          if (typeof path !== 'string') return path;
+          if (path.startsWith('/images/') || path.startsWith('data:image/') || path.startsWith('http://') || path.startsWith('https://')) return path;
+          const parts = path.split('/');
+          const filename = parts[parts.length - 1];
+          return `/images/${filename}`;
+        };
+        
+        if (data.personalInfo) {
+          const sanitizedInfo = { ...data.personalInfo };
+          if (sanitizedInfo.avatarUrl) sanitizedInfo.avatarUrl = sanitizePath(sanitizedInfo.avatarUrl);
+          if (sanitizedInfo.avatarUrls) sanitizedInfo.avatarUrls = sanitizedInfo.avatarUrls.map(sanitizePath);
+          setPersonalInfo(sanitizedInfo);
+        }
         if (data.skills) setSkills(data.skills);
-        if (data.projects) setProjects(data.projects);
+        if (data.projects) {
+          const sanitizedProjects = data.projects.map((p: any) => ({
+            ...p,
+            screenshots: p.screenshots ? p.screenshots.map(sanitizePath) : []
+          }));
+          setProjects(sanitizedProjects);
+        }
         if (data.achievements) setAchievements(data.achievements);
         if (data.timelineEvents) setTimelineEvents(data.timelineEvents);
       }

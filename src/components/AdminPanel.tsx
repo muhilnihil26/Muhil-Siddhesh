@@ -258,7 +258,8 @@ export default function AdminPanel() {
           
           setProfileForm(prev => ({
             ...prev,
-            avatarUrl: compressedBase64
+            avatarUrl: compressedBase64,
+            avatarUrls: [...(prev.avatarUrls || [prev.avatarUrl]), compressedBase64]
           }));
           triggerAlert("success", "Avatar image compressed and updated.");
         };
@@ -566,12 +567,12 @@ export default function AdminPanel() {
   };
 
   return (
-    <div className="min-h-screen bg-[#030712] text-slate-100 flex flex-col justify-between relative overflow-hidden font-sans">
+    <div className="min-h-screen bg-[#050511] text-slate-100 flex flex-col justify-between relative overflow-hidden font-sans">
       
       {/* Absolute Grid Backdrops */}
       <div className="absolute inset-0 opacity-[0.03] bg-[radial-gradient(#3b82f6_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
-      <div className="absolute -top-40 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute -bottom-40 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute -top-40 left-1/4 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-40 right-1/4 w-96 h-96 bg-fuchsia-500/10 rounded-full blur-3xl pointer-events-none" />
 
       {/* Floating alert notification portal */}
       <AnimatePresence>
@@ -582,12 +583,12 @@ export default function AdminPanel() {
             exit={{ opacity: 0, y: -20, scale: 0.95 }}
             className={`fixed top-4 left-1/2 -translate-x-1/2 z-50 flex items-center gap-3 px-5 py-3.5 rounded-full border shadow-2xl backdrop-blur-xl ${
               alert.type === "success"
-                ? "bg-emerald-950/80 border-emerald-500/40 text-emerald-300"
+                ? "bg-indigo-950/80 border-indigo-500/40 text-indigo-300"
                 : "bg-rose-950/80 border-rose-500/40 text-rose-300"
             }`}
           >
             {alert.type === "success" ? (
-              <CheckCircle className="w-4 h-4 shrink-0 text-emerald-400" />
+              <CheckCircle className="w-4 h-4 shrink-0 text-indigo-400" />
             ) : (
               <AlertCircle className="w-4 h-4 shrink-0 text-rose-400" />
             )}
@@ -602,14 +603,14 @@ export default function AdminPanel() {
           <motion.div
             initial={{ opacity: 0, scale: 0.95, y: 15 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            className="w-full max-w-md bg-[#030712]/70 border border-white/10 rounded-3xl p-6 sm:p-8 backdrop-blur-xl shadow-2xl relative"
+            className="w-full max-w-md bg-[#050511]/70 border border-white/10 rounded-3xl p-6 sm:p-8 backdrop-blur-xl shadow-2xl relative"
           >
             {/* Corner Decorators */}
-            <span className="absolute top-4 left-4 w-1.5 h-1.5 rounded-full bg-blue-500 animate-pulse" />
+            <span className="absolute top-4 left-4 w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse" />
             <span className="absolute top-4 right-4 text-[9px] font-mono text-slate-500 font-bold">SECURE_VERIFICATION</span>
 
             <div className="text-center mb-6 mt-2">
-              <div className="inline-flex p-3.5 bg-gradient-to-br from-blue-500/10 to-purple-500/10 border border-white/10 rounded-full text-blue-400 mb-3">
+              <div className="inline-flex p-3.5 bg-gradient-to-br from-indigo-500/10 to-fuchsia-500/10 border border-white/10 rounded-full text-indigo-400 mb-3">
                 <Lock className="w-6 h-6" />
               </div>
               <h2 className="text-lg font-sans font-black uppercase text-white tracking-wider">Clearance Required</h2>
@@ -628,7 +629,7 @@ export default function AdminPanel() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    className="w-full bg-black/40 border border-white/10 focus:border-blue-500 rounded-xl pl-10 pr-4 py-2.5 text-xs font-mono text-white outline-none placeholder-slate-600 transition"
+                    className="w-full bg-black/40 border border-white/10 focus:border-indigo-500 rounded-xl pl-10 pr-4 py-2.5 text-xs font-mono text-white outline-none placeholder-slate-600 transition"
                     placeholder="e.g. muhilsiddhesh.in@gmail.com"
                   />
                 </div>
@@ -643,7 +644,7 @@ export default function AdminPanel() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
-                    className="w-full bg-black/40 border border-white/10 focus:border-blue-500 rounded-xl pl-10 pr-10 py-2.5 text-xs font-mono text-white outline-none placeholder-slate-600 transition"
+                    className="w-full bg-black/40 border border-white/10 focus:border-indigo-500 rounded-xl pl-10 pr-10 py-2.5 text-xs font-mono text-white outline-none placeholder-slate-600 transition"
                     placeholder="••••••••••••"
                   />
                   <button
@@ -666,7 +667,7 @@ export default function AdminPanel() {
               <button
                 type="submit"
                 disabled={authLoading}
-                className="w-full py-3 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-400 hover:to-purple-500 disabled:bg-white/5 disabled:text-slate-500 text-white font-mono font-bold text-xs uppercase tracking-widest rounded-xl transition shadow-lg shadow-blue-500/10 cursor-pointer flex items-center justify-center gap-2 mt-6"
+                className="w-full py-3 bg-gradient-to-r from-indigo-500 to-fuchsia-500 hover:from-indigo-400 hover:to-fuchsia-500 disabled:bg-white/5 disabled:text-slate-500 text-white font-mono font-bold text-xs uppercase tracking-widest rounded-xl transition shadow-lg shadow-indigo-500/10 cursor-pointer flex items-center justify-center gap-2 mt-6"
               >
                 {authLoading ? (
                   <>
@@ -675,7 +676,7 @@ export default function AdminPanel() {
                   </>
                 ) : (
                   <>
-                    <ShieldCheck className="w-4 h-4 text-emerald-300" />
+                    <ShieldCheck className="w-4 h-4 text-indigo-300" />
                     Verify Identity
                   </>
                 )}
@@ -717,15 +718,15 @@ export default function AdminPanel() {
         <div className="flex-1 flex flex-col">
           
           {/* Top Panel HUD Header */}
-          <header className="border-b border-white/5 bg-[#030712]/80 backdrop-blur-md sticky top-0 z-40 px-4 md:px-8 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <header className="border-b border-white/5 bg-[#050511]/80 backdrop-blur-md sticky top-0 z-40 px-4 md:px-8 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-gradient-to-br from-blue-500/10 to-purple-500/10 border border-white/10 rounded-xl text-blue-400">
+              <div className="p-2 bg-gradient-to-br from-indigo-500/10 to-fuchsia-500/10 border border-white/10 rounded-xl text-indigo-400">
                 <Laptop className="w-5 h-5" />
               </div>
               <div>
                 <div className="flex items-center gap-2">
                   <h1 className="text-sm font-sans font-black uppercase text-white tracking-widest">MUHIL_OS CORE CONSOLE</h1>
-                  <span className="text-[9px] bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 font-mono px-2 py-0.5 rounded-full font-bold uppercase animate-pulse">ADMIN_ACTIVE</span>
+                  <span className="text-[9px] bg-indigo-500/10 border border-indigo-500/30 text-indigo-400 font-mono px-2 py-0.5 rounded-full font-bold uppercase animate-pulse">ADMIN_ACTIVE</span>
                 </div>
                 <p className="text-[10px] font-mono text-slate-500 mt-0.5">ADMIN EMAIL: {profileForm.email} | CONTROL PARADIGMS</p>
               </div>
@@ -749,7 +750,7 @@ export default function AdminPanel() {
               </button>
               <button
                 onClick={navigateBack}
-                className="px-4 py-1.5 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-400 hover:to-purple-500 text-white font-mono font-bold text-xs uppercase tracking-wide rounded-xl transition cursor-pointer shadow-lg shadow-blue-500/10 flex items-center gap-1"
+                className="px-4 py-1.5 bg-gradient-to-r from-indigo-500 to-fuchsia-500 hover:from-indigo-400 hover:to-fuchsia-500 text-white font-mono font-bold text-xs uppercase tracking-wide rounded-xl transition cursor-pointer shadow-lg shadow-indigo-500/10 flex items-center gap-1"
               >
                 <ArrowLeft className="w-3.5 h-3.5" />
                 Exit Console
@@ -769,7 +770,7 @@ export default function AdminPanel() {
                   onClick={() => setActiveTab("profile")}
                   className={`w-full text-left px-4 py-2.5 rounded-xl border font-mono text-xs transition cursor-pointer shrink-0 flex items-center gap-3 ${
                     activeTab === "profile"
-                      ? "bg-white/10 border-blue-500/50 text-blue-400 font-bold"
+                      ? "bg-white/10 border-indigo-500/50 text-indigo-400 font-bold"
                       : "bg-white/5 border-white/5 text-slate-400 hover:text-slate-200"
                   }`}
                 >
@@ -780,7 +781,7 @@ export default function AdminPanel() {
                   onClick={() => setActiveTab("projects")}
                   className={`w-full text-left px-4 py-2.5 rounded-xl border font-mono text-xs transition cursor-pointer shrink-0 flex items-center gap-3 ${
                     activeTab === "projects"
-                      ? "bg-white/10 border-blue-500/50 text-blue-400 font-bold"
+                      ? "bg-white/10 border-indigo-500/50 text-indigo-400 font-bold"
                       : "bg-white/5 border-white/5 text-slate-400 hover:text-slate-200"
                   }`}
                 >
@@ -791,7 +792,7 @@ export default function AdminPanel() {
                   onClick={() => setActiveTab("skills")}
                   className={`w-full text-left px-4 py-2.5 rounded-xl border font-mono text-xs transition cursor-pointer shrink-0 flex items-center gap-3 ${
                     activeTab === "skills"
-                      ? "bg-white/10 border-blue-500/50 text-blue-400 font-bold"
+                      ? "bg-white/10 border-indigo-500/50 text-indigo-400 font-bold"
                       : "bg-white/5 border-white/5 text-slate-400 hover:text-slate-200"
                   }`}
                 >
@@ -802,7 +803,7 @@ export default function AdminPanel() {
                   onClick={() => setActiveTab("timeline")}
                   className={`w-full text-left px-4 py-2.5 rounded-xl border font-mono text-xs transition cursor-pointer shrink-0 flex items-center gap-3 ${
                     activeTab === "timeline"
-                      ? "bg-white/10 border-blue-500/50 text-blue-400 font-bold"
+                      ? "bg-white/10 border-indigo-500/50 text-indigo-400 font-bold"
                       : "bg-white/5 border-white/5 text-slate-400 hover:text-slate-200"
                   }`}
                 >
@@ -813,7 +814,7 @@ export default function AdminPanel() {
                   onClick={() => setActiveTab("achievements")}
                   className={`w-full text-left px-4 py-2.5 rounded-xl border font-mono text-xs transition cursor-pointer shrink-0 flex items-center gap-3 ${
                     activeTab === "achievements"
-                      ? "bg-white/10 border-blue-500/50 text-blue-400 font-bold"
+                      ? "bg-white/10 border-indigo-500/50 text-indigo-400 font-bold"
                       : "bg-white/5 border-white/5 text-slate-400 hover:text-slate-200"
                   }`}
                 >
@@ -824,7 +825,7 @@ export default function AdminPanel() {
                   onClick={() => setActiveTab("messages")}
                   className={`w-full text-left px-4 py-2.5 rounded-xl border font-mono text-xs transition cursor-pointer shrink-0 flex items-center gap-3 ${
                     activeTab === "messages"
-                      ? "bg-white/10 border-blue-500/50 text-blue-400 font-bold"
+                      ? "bg-white/10 border-indigo-500/50 text-indigo-400 font-bold"
                       : "bg-white/5 border-white/5 text-slate-400 hover:text-slate-200"
                   }`}
                 >
@@ -847,7 +848,7 @@ export default function AdminPanel() {
                 <div className="space-y-6">
                   <div>
                     <h2 className="text-lg font-sans font-bold text-white flex items-center gap-2">
-                      <User className="w-5 h-5 text-blue-400" />
+                      <User className="w-5 h-5 text-indigo-400" />
                       Core Profile Credentials
                     </h2>
                     <p className="text-xs text-slate-400 mt-1">
@@ -866,7 +867,7 @@ export default function AdminPanel() {
                           value={profileForm.name}
                           onChange={(e) => setProfileForm({ ...profileForm, name: e.target.value })}
                           required
-                          className="w-full bg-black/40 border border-white/10 focus:border-blue-500 rounded-xl px-3.5 py-2 text-xs font-mono text-white outline-none"
+                          className="w-full bg-black/40 border border-white/10 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-xs font-mono text-white outline-none"
                         />
                       </div>
                       <div className="space-y-1.5">
@@ -876,7 +877,7 @@ export default function AdminPanel() {
                           value={profileForm.fullName}
                           onChange={(e) => setProfileForm({ ...profileForm, fullName: e.target.value })}
                           required
-                          className="w-full bg-black/40 border border-white/10 focus:border-blue-500 rounded-xl px-3.5 py-2 text-xs font-mono text-white outline-none"
+                          className="w-full bg-black/40 border border-white/10 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-xs font-mono text-white outline-none"
                         />
                       </div>
                     </div>
@@ -885,7 +886,7 @@ export default function AdminPanel() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="space-y-1.5">
                         <label className="text-[10px] font-mono text-slate-400 uppercase tracking-widest font-bold flex items-center gap-1">
-                          <Mail className="w-3.5 h-3.5 text-blue-400" />
+                          <Mail className="w-3.5 h-3.5 text-indigo-400" />
                           Clearance Email Address
                         </label>
                         <input
@@ -893,19 +894,19 @@ export default function AdminPanel() {
                           value={profileForm.email}
                           onChange={(e) => setProfileForm({ ...profileForm, email: e.target.value })}
                           required
-                          className="w-full bg-black/40 border border-white/10 focus:border-blue-500 rounded-xl px-3.5 py-2 text-xs font-mono text-white outline-none"
+                          className="w-full bg-black/40 border border-white/10 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-xs font-mono text-white outline-none"
                         />
                       </div>
                       <div className="space-y-1.5">
                         <label className="text-[10px] font-mono text-slate-400 uppercase tracking-widest font-bold flex items-center gap-1">
-                          <Phone className="w-3.5 h-3.5 text-blue-400" />
+                          <Phone className="w-3.5 h-3.5 text-indigo-400" />
                           Phone Number
                         </label>
                         <input
                           type="text"
                           value={profileForm.phone || ""}
                           onChange={(e) => setProfileForm({ ...profileForm, phone: e.target.value })}
-                          className="w-full bg-black/40 border border-white/10 focus:border-blue-500 rounded-xl px-3.5 py-2 text-xs font-mono text-white outline-none"
+                          className="w-full bg-black/40 border border-white/10 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-xs font-mono text-white outline-none"
                           placeholder="+91 XXXXX XXXXX"
                         />
                       </div>
@@ -917,7 +918,7 @@ export default function AdminPanel() {
                       <div className="flex flex-col sm:flex-row gap-5 items-stretch sm:items-center">
                         {/* Interactive Avatar Preview and Hover Uploader */}
                         <div className="flex flex-col items-center gap-2 shrink-0">
-                          <div className="relative group w-20 h-20 rounded-full overflow-hidden border-2 border-blue-500/50 shadow-lg bg-black/40">
+                          <div className="relative group w-20 h-20 rounded-full overflow-hidden border-2 border-indigo-500/50 shadow-lg bg-black/40">
                             <img 
                               src={profileForm.avatarUrl} 
                               alt="Avatar Preview" 
@@ -930,20 +931,21 @@ export default function AdminPanel() {
                             <button
                               type="button"
                               onClick={() => fileInputRef.current?.click()}
-                              className="absolute inset-0 bg-blue-600/75 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-white cursor-pointer"
+                              className="absolute inset-0 bg-indigo-600/75 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200 text-white cursor-pointer"
                               title="Click to Upload"
                             >
                               <Upload className="w-5 h-5 mb-0.5 animate-bounce" />
                               <span className="text-[9px] font-bold uppercase tracking-wider">Upload</span>
                             </button>
                           </div>
-                          {profileForm.avatarUrl !== "/src/assets/images/muhil_avatar_1782394981906.jpg" && (
+                          {profileForm.avatarUrl !== "/images/muhil_avatar_1.jpeg" && (
                             <button
                               type="button"
                               onClick={() => {
                                 setProfileForm(prev => ({
                                   ...prev,
-                                  avatarUrl: "/src/assets/images/muhil_avatar_1782394981906.jpg"
+                                  avatarUrl: "/images/muhil_avatar_1.jpeg",
+                                  avatarUrls: ["/images/muhil_avatar_1.jpeg"]
                                 }));
                                 triggerAlert("success", "Reverted to system default avatar.");
                               }}
@@ -954,6 +956,33 @@ export default function AdminPanel() {
                           )}
                         </div>
 
+                        {/* Additional Avatars Gallery */}
+                        {(profileForm.avatarUrls && profileForm.avatarUrls.length > 1) && (
+                          <div className="flex gap-2 items-center flex-wrap shrink-0 max-w-[150px] sm:max-w-xs">
+                            {profileForm.avatarUrls.map((url, i) => (
+                              <div key={i} className="relative group w-10 h-10 rounded-full overflow-hidden border border-white/20">
+                                <img src={url} alt="Thumbnail" className="w-full h-full object-cover" />
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    setProfileForm(prev => {
+                                      const newUrls = (prev.avatarUrls || []).filter(u => u !== url);
+                                      return {
+                                        ...prev,
+                                        avatarUrls: newUrls,
+                                        avatarUrl: newUrls.length > 0 ? newUrls[0] : "/images/muhil_avatar_1.jpeg"
+                                      };
+                                    });
+                                  }}
+                                  className="absolute inset-0 bg-red-600/75 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
+                                >
+                                  <span className="text-white text-[10px] font-bold">X</span>
+                                </button>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+
                         {/* Drag and Drop Zone Container */}
                         <div className="flex-1 min-h-[110px] flex flex-col justify-center">
                           <div
@@ -963,8 +992,8 @@ export default function AdminPanel() {
                             onClick={() => fileInputRef.current?.click()}
                             className={`relative border-2 border-dashed rounded-2xl p-4 flex flex-col items-center justify-center transition-all duration-200 cursor-pointer text-center ${
                               isDragging 
-                                ? "border-blue-500 bg-blue-500/10 scale-[0.99] shadow-inner shadow-blue-500/20" 
-                                : "border-white/10 hover:border-blue-500/50 bg-black/30 hover:bg-black/55"
+                                ? "border-indigo-500 bg-indigo-500/10 scale-[0.99] shadow-inner shadow-indigo-500/20" 
+                                : "border-white/10 hover:border-indigo-500/50 bg-black/30 hover:bg-black/55"
                             }`}
                           >
                             <input
@@ -975,14 +1004,14 @@ export default function AdminPanel() {
                               className="hidden"
                             />
                             
-                            <Upload className={`w-6 h-6 mb-2 transition-transform duration-200 ${isDragging ? "text-blue-400 scale-125" : "text-slate-400"}`} />
+                            <Upload className={`w-6 h-6 mb-2 transition-transform duration-200 ${isDragging ? "text-indigo-400 scale-125" : "text-slate-400"}`} />
                             
                             <p className="text-xs font-medium text-slate-200">
                               {isDragging ? (
-                                <span className="text-blue-400 font-bold">Drop your image here!</span>
+                                <span className="text-indigo-400 font-bold">Drop your image here!</span>
                               ) : (
                                 <>
-                                  <span className="text-blue-400 font-bold">Click to upload</span> or drag and drop
+                                  <span className="text-indigo-400 font-bold">Click to upload</span> or drag and drop
                                 </>
                               )}
                             </p>
@@ -1001,13 +1030,26 @@ export default function AdminPanel() {
                             type="text"
                             value={profileForm.avatarUrl}
                             onChange={(e) => setProfileForm({ ...profileForm, avatarUrl: e.target.value })}
-                            className="flex-1 bg-black/40 border border-white/10 focus:border-blue-500 rounded-lg px-3 py-1.5 text-xs font-mono text-white outline-none"
+                            className="flex-1 bg-black/40 border border-white/10 focus:border-indigo-500 rounded-lg px-3 py-1.5 text-xs font-mono text-white outline-none"
                             placeholder="Relative folder path or absolute image URL"
                           />
                         </div>
                         <p className="text-[9px] font-mono text-slate-500">
                           Supports local asset folders (e.g. `/src/assets/...`) or any external Unsplash or custom link.
                         </p>
+                      </div>
+
+                      <div className="mt-2 bg-white/5 border border-white/5 rounded-xl p-3 space-y-1.5">
+                        <span className="text-[9px] font-mono text-slate-400 uppercase tracking-widest font-semibold block">Background Music Link</span>
+                        <div className="flex gap-2">
+                          <input
+                            type="text"
+                            value={profileForm.backgroundMusicUrl || ""}
+                            onChange={(e) => setProfileForm({ ...profileForm, backgroundMusicUrl: e.target.value })}
+                            className="flex-1 bg-black/40 border border-white/10 focus:border-indigo-500 rounded-lg px-3 py-1.5 text-xs font-mono text-white outline-none"
+                            placeholder="Path to audio file (e.g., /audio/bg.mp3)"
+                          />
+                        </div>
                       </div>
                     </div>
 
@@ -1020,7 +1062,7 @@ export default function AdminPanel() {
                             type="text"
                             value={profileForm.tagline}
                             onChange={(e) => setProfileForm({ ...profileForm, tagline: e.target.value })}
-                            className="w-full bg-black/40 border border-white/10 focus:border-blue-500 rounded-xl px-3.5 py-2 text-xs font-mono text-white outline-none"
+                            className="w-full bg-black/40 border border-white/10 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-xs font-mono text-white outline-none"
                           />
                         </div>
                         <div className="space-y-1.5">
@@ -1029,7 +1071,7 @@ export default function AdminPanel() {
                             type="text"
                             value={profileForm.location}
                             onChange={(e) => setProfileForm({ ...profileForm, location: e.target.value })}
-                            className="w-full bg-black/40 border border-white/10 focus:border-blue-500 rounded-xl px-3.5 py-2 text-xs font-mono text-white outline-none"
+                            className="w-full bg-black/40 border border-white/10 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-xs font-mono text-white outline-none"
                           />
                         </div>
                       </div>
@@ -1040,7 +1082,7 @@ export default function AdminPanel() {
                           type="text"
                           value={profileForm.title}
                           onChange={(e) => setProfileForm({ ...profileForm, title: e.target.value })}
-                          className="w-full bg-black/40 border border-white/10 focus:border-blue-500 rounded-xl px-3.5 py-2 text-xs font-mono text-white outline-none"
+                          className="w-full bg-black/40 border border-white/10 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-xs font-mono text-white outline-none"
                         />
                       </div>
 
@@ -1050,14 +1092,14 @@ export default function AdminPanel() {
                           value={profileForm.bio}
                           onChange={(e) => setProfileForm({ ...profileForm, bio: e.target.value })}
                           rows={4}
-                          className="w-full bg-black/40 border border-white/10 focus:border-blue-500 rounded-xl px-3.5 py-2.5 text-xs font-mono text-white outline-none resize-none leading-relaxed"
+                          className="w-full bg-black/40 border border-white/10 focus:border-indigo-500 rounded-xl px-3.5 py-2.5 text-xs font-mono text-white outline-none resize-none leading-relaxed"
                         />
                       </div>
                     </div>
 
                     {/* Academic Focus Details */}
                     <div className="space-y-4 border-t border-white/5 pt-4">
-                      <h4 className="text-xs font-mono text-blue-400 uppercase tracking-wider font-bold">Academic Core:</h4>
+                      <h4 className="text-xs font-mono text-indigo-400 uppercase tracking-wider font-bold">Academic Core:</h4>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div className="space-y-1.5">
                           <label className="text-[10px] font-mono text-slate-400 uppercase tracking-widest font-bold">Active Institution</label>
@@ -1068,7 +1110,7 @@ export default function AdminPanel() {
                               ...profileForm,
                               education: { ...profileForm.education, school: e.target.value }
                             })}
-                            className="w-full bg-black/40 border border-white/10 focus:border-blue-500 rounded-xl px-3.5 py-2 text-xs font-mono text-white outline-none"
+                            className="w-full bg-black/40 border border-white/10 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-xs font-mono text-white outline-none"
                           />
                         </div>
                         <div className="space-y-1.5">
@@ -1080,7 +1122,7 @@ export default function AdminPanel() {
                               ...profileForm,
                               education: { ...profileForm.education, grade: e.target.value }
                             })}
-                            className="w-full bg-black/40 border border-white/10 focus:border-blue-500 rounded-xl px-3.5 py-2 text-xs font-mono text-white outline-none"
+                            className="w-full bg-black/40 border border-white/10 focus:border-indigo-500 rounded-xl px-3.5 py-2 text-xs font-mono text-white outline-none"
                           />
                         </div>
                       </div>
@@ -1090,7 +1132,7 @@ export default function AdminPanel() {
                     <div className="border-t border-white/5 pt-5 flex justify-end">
                       <button
                         type="submit"
-                        className="px-5 py-2.5 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-400 hover:to-purple-500 text-white font-mono font-bold text-xs uppercase tracking-wider rounded-xl transition cursor-pointer flex items-center gap-2 shadow-lg shadow-blue-500/10"
+                        className="px-5 py-2.5 bg-gradient-to-r from-indigo-500 to-fuchsia-500 hover:from-indigo-400 hover:to-fuchsia-500 text-white font-mono font-bold text-xs uppercase tracking-wider rounded-xl transition cursor-pointer flex items-center gap-2 shadow-lg shadow-indigo-500/10"
                       >
                         <Save className="w-4 h-4" />
                         Save Profile Changes
@@ -1107,7 +1149,7 @@ export default function AdminPanel() {
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
                       <h2 className="text-lg font-sans font-bold text-white flex items-center gap-2">
-                        <Briefcase className="w-5 h-5 text-blue-400" />
+                        <Briefcase className="w-5 h-5 text-indigo-400" />
                         Portfolio Project Blueprints
                       </h2>
                       <p className="text-xs text-slate-400 mt-1">
@@ -1116,7 +1158,7 @@ export default function AdminPanel() {
                     </div>
                     <button
                       onClick={handleSaveProjects}
-                      className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-mono font-bold text-xs uppercase rounded-xl shadow-lg shadow-blue-500/10 hover:from-blue-400 flex items-center gap-1.5 transition self-start cursor-pointer"
+                      className="px-4 py-2 bg-gradient-to-r from-indigo-500 to-fuchsia-500 text-white font-mono font-bold text-xs uppercase rounded-xl shadow-lg shadow-indigo-500/10 hover:from-indigo-400 flex items-center gap-1.5 transition self-start cursor-pointer"
                     >
                       <Save className="w-3.5 h-3.5" />
                       Commit Order Updates
@@ -1125,7 +1167,7 @@ export default function AdminPanel() {
 
                   {/* Add New Project Card */}
                   <div className="bg-white/5 border border-white/10 rounded-3xl p-5 md:p-6 space-y-4">
-                    <h3 className="text-xs font-mono text-blue-400 uppercase tracking-widest font-bold flex items-center gap-1.5">
+                    <h3 className="text-xs font-mono text-indigo-400 uppercase tracking-widest font-bold flex items-center gap-1.5">
                       <PlusCircle className="w-4 h-4" />
                       Incorporate New Blueprint Concept
                     </h3>
@@ -1137,7 +1179,7 @@ export default function AdminPanel() {
                           type="text"
                           value={newProject.title || ""}
                           onChange={(e) => setNewProject({ ...newProject, title: e.target.value })}
-                          className="w-full bg-black/40 border border-white/10 focus:border-blue-500 rounded-xl px-3 py-1.5 text-xs font-mono text-white outline-none"
+                          className="w-full bg-black/40 border border-white/10 focus:border-indigo-500 rounded-xl px-3 py-1.5 text-xs font-mono text-white outline-none"
                           placeholder="e.g. Sonexa Terminal"
                         />
                       </div>
@@ -1146,7 +1188,7 @@ export default function AdminPanel() {
                         <select
                           value={newProject.category || "Software"}
                           onChange={(e) => setNewProject({ ...newProject, category: e.target.value as any })}
-                          className="w-full bg-black/40 border border-white/10 focus:border-blue-500 rounded-xl px-3 py-1.5 text-xs font-mono text-slate-300 outline-none"
+                          className="w-full bg-black/40 border border-white/10 focus:border-indigo-500 rounded-xl px-3 py-1.5 text-xs font-mono text-slate-300 outline-none"
                         >
                           <option value="Software">Software</option>
                           <option value="AI">AI</option>
@@ -1159,7 +1201,7 @@ export default function AdminPanel() {
                         <select
                           value={newProject.status || ""}
                           onChange={(e) => setNewProject({ ...newProject, status: (e.target.value || undefined) as any })}
-                          className="w-full bg-black/40 border border-white/10 focus:border-blue-500 rounded-xl px-3 py-1.5 text-xs font-mono text-slate-300 outline-none"
+                          className="w-full bg-black/40 border border-white/10 focus:border-indigo-500 rounded-xl px-3 py-1.5 text-xs font-mono text-slate-300 outline-none"
                         >
                           <option value="">None</option>
                           <option value="Live">Live</option>
@@ -1175,7 +1217,7 @@ export default function AdminPanel() {
                         type="text"
                         value={newProject.description || ""}
                         onChange={(e) => setNewProject({ ...newProject, description: e.target.value })}
-                        className="w-full bg-black/40 border border-white/10 focus:border-blue-500 rounded-xl px-3 py-1.5 text-xs font-mono text-white outline-none"
+                        className="w-full bg-black/40 border border-white/10 focus:border-indigo-500 rounded-xl px-3 py-1.5 text-xs font-mono text-white outline-none"
                         placeholder="Brief overview tagline..."
                       />
                     </div>
@@ -1186,7 +1228,7 @@ export default function AdminPanel() {
                         value={newProject.detailedDescription || ""}
                         onChange={(e) => setNewProject({ ...newProject, detailedDescription: e.target.value })}
                         rows={3}
-                        className="w-full bg-black/40 border border-white/10 focus:border-blue-500 rounded-xl px-3 py-2 text-xs font-mono text-white outline-none resize-none"
+                        className="w-full bg-black/40 border border-white/10 focus:border-indigo-500 rounded-xl px-3 py-2 text-xs font-mono text-white outline-none resize-none"
                         placeholder="Long form specification breakdowns..."
                       />
                     </div>
@@ -1203,7 +1245,7 @@ export default function AdminPanel() {
                           }
                         }}
                         rows={2}
-                        className="w-full bg-black/40 border border-white/10 focus:border-blue-500 rounded-xl px-3 py-2 text-xs font-mono text-white outline-none resize-none"
+                        className="w-full bg-black/40 border border-white/10 focus:border-indigo-500 rounded-xl px-3 py-2 text-xs font-mono text-white outline-none resize-none"
                         placeholder="Authentication, Real-time sync, Offline mode..."
                       />
                     </div>
@@ -1222,7 +1264,7 @@ export default function AdminPanel() {
                               setNewProject({ ...newProject, techStack: tags });
                             }
                           }}
-                          className="w-full bg-black/40 border border-white/10 focus:border-blue-500 rounded-xl px-3 py-1.5 text-xs font-mono text-white outline-none"
+                          className="w-full bg-black/40 border border-white/10 focus:border-indigo-500 rounded-xl px-3 py-1.5 text-xs font-mono text-white outline-none"
                           placeholder="React, Tailwind, Express..."
                         />
                       </div>
@@ -1233,7 +1275,7 @@ export default function AdminPanel() {
                           type="text"
                           value={newProject.githubUrl || ""}
                           onChange={(e) => setNewProject({ ...newProject, githubUrl: e.target.value })}
-                          className="w-full bg-black/40 border border-white/10 focus:border-blue-500 rounded-xl px-3 py-1.5 text-xs font-mono text-white outline-none"
+                          className="w-full bg-black/40 border border-white/10 focus:border-indigo-500 rounded-xl px-3 py-1.5 text-xs font-mono text-white outline-none"
                           placeholder="https://github.com/..."
                         />
                       </div>
@@ -1246,14 +1288,14 @@ export default function AdminPanel() {
                           type="text"
                           value={newProject.launchUrl || ""}
                           onChange={(e) => setNewProject({ ...newProject, launchUrl: e.target.value })}
-                          className="flex-1 bg-black/40 border border-white/10 focus:border-blue-500 rounded-xl px-3 py-1.5 text-xs font-mono text-white outline-none"
+                          className="flex-1 bg-black/40 border border-white/10 focus:border-indigo-500 rounded-xl px-3 py-1.5 text-xs font-mono text-white outline-none"
                           placeholder="https://my-app.vercel.app"
                         />
                         <button
                           type="button"
                           onClick={handleGenerateProjectWithAI}
                           disabled={aiLoading || !newProject.launchUrl}
-                          className="px-4 py-1.5 bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-500 disabled:from-slate-850 disabled:to-slate-900 disabled:text-slate-500 text-white font-mono font-bold text-xs uppercase rounded-xl flex items-center gap-1.5 hover:opacity-90 transition shadow-lg shadow-indigo-500/10 shrink-0 cursor-pointer"
+                          className="px-4 py-1.5 bg-gradient-to-r from-fuchsia-600 via-indigo-600 to-blue-500 disabled:from-slate-850 disabled:to-slate-900 disabled:text-slate-500 text-white font-mono font-bold text-xs uppercase rounded-xl flex items-center gap-1.5 hover:opacity-90 transition shadow-lg shadow-indigo-500/10 shrink-0 cursor-pointer"
                         >
                           {aiLoading ? (
                             <>
@@ -1262,7 +1304,7 @@ export default function AdminPanel() {
                             </>
                           ) : (
                             <>
-                              <Sparkles className="w-3.5 h-3.5 text-purple-300 animate-pulse" />
+                              <Sparkles className="w-3.5 h-3.5 text-fuchsia-300 animate-pulse" />
                               AI Auto-Fill Project
                             </>
                           )}
@@ -1273,7 +1315,7 @@ export default function AdminPanel() {
                     <button
                       onClick={handleAddProject}
                       type="button"
-                      className="w-full py-2 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-400 text-white font-mono font-bold text-xs uppercase rounded-xl transition cursor-pointer"
+                      className="w-full py-2 bg-gradient-to-r from-indigo-500 to-fuchsia-500 hover:from-indigo-400 text-white font-mono font-bold text-xs uppercase rounded-xl transition cursor-pointer"
                     >
                       + Inject Project to List
                     </button>
@@ -1295,7 +1337,7 @@ export default function AdminPanel() {
                         </div>
 
                         <div className="flex items-center gap-2 font-mono text-[10px]">
-                          <span className="text-blue-400 bg-white/5 px-2 py-0.5 border border-white/10 rounded font-bold">PROJECT #{idx + 1}</span>
+                          <span className="text-indigo-400 bg-white/5 px-2 py-0.5 border border-white/10 rounded font-bold">PROJECT #{idx + 1}</span>
                           <span className="text-slate-500 uppercase">SYS_REF: {proj.id}</span>
                         </div>
 
@@ -1377,7 +1419,7 @@ export default function AdminPanel() {
                                 const tags = e.target.value.split(",").map(t => t.trim()).filter(Boolean);
                                 handleProjectFieldChange(idx, "techStack", tags);
                               }}
-                              className="w-full bg-black/50 border border-white/10 rounded-xl px-3 py-1.5 text-xs font-mono text-blue-300 outline-none"
+                              className="w-full bg-black/50 border border-white/10 rounded-xl px-3 py-1.5 text-xs font-mono text-indigo-300 outline-none"
                             />
                           </div>
                           <div className="space-y-1.5">
@@ -1395,7 +1437,7 @@ export default function AdminPanel() {
                               type="text"
                               value={proj.launchUrl || ""}
                               onChange={(e) => handleProjectFieldChange(idx, "launchUrl", e.target.value)}
-                              className="w-full bg-black/50 border border-white/10 rounded-xl px-3 py-1.5 text-xs font-mono text-emerald-400 outline-none"
+                              className="w-full bg-black/50 border border-white/10 rounded-xl px-3 py-1.5 text-xs font-mono text-indigo-400 outline-none"
                               placeholder="https://..."
                             />
                           </div>
@@ -1414,7 +1456,7 @@ export default function AdminPanel() {
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
                       <h2 className="text-lg font-sans font-bold text-white flex items-center gap-2">
-                        <Layers className="w-5 h-5 text-blue-400" />
+                        <Layers className="w-5 h-5 text-indigo-400" />
                         Skills & Mastery Configurations
                       </h2>
                       <p className="text-xs text-slate-400 mt-1">
@@ -1423,7 +1465,7 @@ export default function AdminPanel() {
                     </div>
                     <button
                       onClick={handleSaveSkills}
-                      className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-mono font-bold text-xs uppercase rounded-xl shadow-lg shadow-blue-500/10 hover:from-blue-400 flex items-center gap-1.5 transition self-start cursor-pointer"
+                      className="px-4 py-2 bg-gradient-to-r from-indigo-500 to-fuchsia-500 text-white font-mono font-bold text-xs uppercase rounded-xl shadow-lg shadow-indigo-500/10 hover:from-indigo-400 flex items-center gap-1.5 transition self-start cursor-pointer"
                     >
                       <Save className="w-3.5 h-3.5" />
                       Save Spectrum Changes
@@ -1436,7 +1478,7 @@ export default function AdminPanel() {
                       <div key={cat.title} className="bg-white/5 border border-white/10 rounded-3xl p-5 md:p-6 space-y-4">
                         
                         <div className="flex items-center gap-2.5 border-b border-white/5 pb-3">
-                          <span className="p-1.5 bg-blue-500/10 border border-blue-500/20 text-blue-400 rounded-lg">
+                          <span className="p-1.5 bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 rounded-lg">
                             <Activity className="w-4 h-4" />
                           </span>
                           <h3 className="text-xs font-mono font-bold text-white uppercase tracking-wider">{cat.title}</h3>
@@ -1454,7 +1496,7 @@ export default function AdminPanel() {
                                     type="text"
                                     value={skill.name}
                                     onChange={(e) => handleSkillDetailsChange(catIdx, skillIdx, "name", e.target.value)}
-                                    className="bg-transparent border-b border-transparent focus:border-blue-500 px-1 py-0.5 text-xs font-sans font-bold text-white outline-none"
+                                    className="bg-transparent border-b border-transparent focus:border-indigo-500 px-1 py-0.5 text-xs font-sans font-bold text-white outline-none"
                                   />
                                 </div>
 
@@ -1465,9 +1507,9 @@ export default function AdminPanel() {
                                     max="100"
                                     value={skill.level}
                                     onChange={(e) => handleSkillLevelChange(catIdx, skillIdx, parseInt(e.target.value))}
-                                    className="w-full accent-blue-500"
+                                    className="w-full accent-indigo-500"
                                   />
-                                  <span className="font-mono text-xs text-blue-400 font-bold shrink-0 w-8 text-right">{skill.level}%</span>
+                                  <span className="font-mono text-xs text-indigo-400 font-bold shrink-0 w-8 text-right">{skill.level}%</span>
                                 </div>
 
                               </div>
@@ -1478,7 +1520,7 @@ export default function AdminPanel() {
                                   type="text"
                                   value={skill.details}
                                   onChange={(e) => handleSkillDetailsChange(catIdx, skillIdx, "details", e.target.value)}
-                                  className="w-full bg-black/40 border border-white/15 focus:border-blue-500 rounded-lg px-2.5 py-1 text-xs text-slate-300 outline-none"
+                                  className="w-full bg-black/40 border border-white/15 focus:border-indigo-500 rounded-lg px-2.5 py-1 text-xs text-slate-300 outline-none"
                                 />
                               </div>
 
@@ -1499,7 +1541,7 @@ export default function AdminPanel() {
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
                       <h2 className="text-lg font-sans font-bold text-white flex items-center gap-2">
-                        <Clock className="w-5 h-5 text-blue-400" />
+                        <Clock className="w-5 h-5 text-indigo-400" />
                         Milestones & Future Roadmaps
                       </h2>
                       <p className="text-xs text-slate-400 mt-1">
@@ -1508,7 +1550,7 @@ export default function AdminPanel() {
                     </div>
                     <button
                       onClick={handleSaveTimeline}
-                      className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-mono font-bold text-xs uppercase rounded-xl shadow-lg shadow-blue-500/10 hover:from-blue-400 flex items-center gap-1.5 transition self-start cursor-pointer"
+                      className="px-4 py-2 bg-gradient-to-r from-indigo-500 to-fuchsia-500 text-white font-mono font-bold text-xs uppercase rounded-xl shadow-lg shadow-indigo-500/10 hover:from-indigo-400 flex items-center gap-1.5 transition self-start cursor-pointer"
                     >
                       <Save className="w-3.5 h-3.5" />
                       Commit Roadmap Updates
@@ -1517,7 +1559,7 @@ export default function AdminPanel() {
 
                   {/* Add New Milestone Node */}
                   <div className="bg-white/5 border border-white/10 rounded-3xl p-5 md:p-6 space-y-4">
-                    <h3 className="text-xs font-mono text-blue-400 uppercase tracking-widest font-bold flex items-center gap-1.5">
+                    <h3 className="text-xs font-mono text-indigo-400 uppercase tracking-widest font-bold flex items-center gap-1.5">
                       <PlusCircle className="w-4 h-4" />
                       Log New Timeline Anchor point
                     </h3>
@@ -1529,7 +1571,7 @@ export default function AdminPanel() {
                           type="text"
                           value={newTimelineEvent.year || ""}
                           onChange={(e) => setNewTimelineEvent({ ...newTimelineEvent, year: e.target.value })}
-                          className="w-full bg-black/40 border border-white/10 focus:border-blue-500 rounded-xl px-3 py-1.5 text-xs font-mono text-white outline-none"
+                          className="w-full bg-black/40 border border-white/10 focus:border-indigo-500 rounded-xl px-3 py-1.5 text-xs font-mono text-white outline-none"
                           placeholder="e.g. 2026"
                         />
                       </div>
@@ -1539,7 +1581,7 @@ export default function AdminPanel() {
                           type="text"
                           value={newTimelineEvent.title || ""}
                           onChange={(e) => setNewTimelineEvent({ ...newTimelineEvent, title: e.target.value })}
-                          className="w-full bg-black/40 border border-white/10 focus:border-blue-500 rounded-xl px-3 py-1.5 text-xs font-sans text-white outline-none"
+                          className="w-full bg-black/40 border border-white/10 focus:border-indigo-500 rounded-xl px-3 py-1.5 text-xs font-sans text-white outline-none"
                           placeholder="e.g. Smart Railway Simulation"
                         />
                       </div>
@@ -1548,7 +1590,7 @@ export default function AdminPanel() {
                         <select
                           value={newTimelineEvent.category || "ai"}
                           onChange={(e) => setNewTimelineEvent({ ...newTimelineEvent, category: e.target.value as any })}
-                          className="w-full bg-black/40 border border-white/10 focus:border-blue-500 rounded-xl px-3 py-1.5 text-xs font-mono text-slate-300 outline-none"
+                          className="w-full bg-black/40 border border-white/10 focus:border-indigo-500 rounded-xl px-3 py-1.5 text-xs font-mono text-slate-300 outline-none"
                         >
                           <option value="early">Early Sparks (2022)</option>
                           <option value="development">Interactive Dev (2023)</option>
@@ -1565,7 +1607,7 @@ export default function AdminPanel() {
                           type="text"
                           value={newTimelineEvent.subtitle || ""}
                           onChange={(e) => setNewTimelineEvent({ ...newTimelineEvent, subtitle: e.target.value })}
-                          className="w-full bg-black/40 border border-white/10 focus:border-blue-500 rounded-xl px-3 py-1.5 text-xs font-mono text-white outline-none"
+                          className="w-full bg-black/40 border border-white/10 focus:border-indigo-500 rounded-xl px-3 py-1.5 text-xs font-mono text-white outline-none"
                           placeholder="e.g. Class 10 Breakthroughs"
                         />
                       </div>
@@ -1574,7 +1616,7 @@ export default function AdminPanel() {
                         <select
                           value={newTimelineEvent.icon || "Sparkles"}
                           onChange={(e) => setNewTimelineEvent({ ...newTimelineEvent, icon: e.target.value })}
-                          className="w-full bg-black/40 border border-white/10 focus:border-blue-500 rounded-xl px-3 py-1.5 text-xs font-mono text-slate-300 outline-none"
+                          className="w-full bg-black/40 border border-white/10 focus:border-indigo-500 rounded-xl px-3 py-1.5 text-xs font-mono text-slate-300 outline-none"
                         >
                           <option value="Lightbulb">Lightbulb</option>
                           <option value="Gamepad2">Gamepad2</option>
@@ -1593,7 +1635,7 @@ export default function AdminPanel() {
                         value={newTimelineEvent.description || ""}
                         onChange={(e) => setNewTimelineEvent({ ...newTimelineEvent, description: e.target.value })}
                         rows={3}
-                        className="w-full bg-black/40 border border-white/10 focus:border-blue-500 rounded-xl px-3 py-1.5 text-xs font-sans text-white outline-none resize-none"
+                        className="w-full bg-black/40 border border-white/10 focus:border-indigo-500 rounded-xl px-3 py-1.5 text-xs font-sans text-white outline-none resize-none"
                         placeholder="Detail the experience, logs, or milestones of this phase..."
                       />
                     </div>
@@ -1611,7 +1653,7 @@ export default function AdminPanel() {
                               setNewTimelineEvent({ ...newTimelineEvent, skills: list });
                             }
                           }}
-                          className="w-full bg-black/40 border border-white/10 focus:border-blue-500 rounded-xl px-3 py-1.5 text-xs font-mono text-white outline-none"
+                          className="w-full bg-black/40 border border-white/10 focus:border-indigo-500 rounded-xl px-3 py-1.5 text-xs font-mono text-white outline-none"
                           placeholder="e.g. TypeScript, Firestore, QR Engines"
                         />
                       </div>
@@ -1625,7 +1667,7 @@ export default function AdminPanel() {
                             placeholder="e.g. Active Deployments"
                             value={newTimelineMetricLabel}
                             onChange={(e) => setNewTimelineMetricLabel(e.target.value)}
-                            className="w-1/2 bg-black/40 border border-white/10 focus:border-blue-500 rounded-xl px-2.5 py-1 text-xs font-mono text-white outline-none"
+                            className="w-1/2 bg-black/40 border border-white/10 focus:border-indigo-500 rounded-xl px-2.5 py-1 text-xs font-mono text-white outline-none"
                           />
                           <input
                             type="text"
@@ -1640,7 +1682,7 @@ export default function AdminPanel() {
                                 });
                               }
                             }}
-                            className="w-1/2 bg-black/40 border border-white/10 focus:border-blue-500 rounded-xl px-2.5 py-1 text-xs font-mono text-white outline-none"
+                            className="w-1/2 bg-black/40 border border-white/10 focus:border-indigo-500 rounded-xl px-2.5 py-1 text-xs font-mono text-white outline-none"
                           />
                         </div>
                       </div>
@@ -1648,7 +1690,7 @@ export default function AdminPanel() {
 
                     <button
                       onClick={handleAddTimelineEvent}
-                      className="w-full py-2 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-400 text-white font-mono font-bold text-xs uppercase rounded-xl transition cursor-pointer"
+                      className="w-full py-2 bg-gradient-to-r from-indigo-500 to-fuchsia-500 hover:from-indigo-400 text-white font-mono font-bold text-xs uppercase rounded-xl transition cursor-pointer"
                     >
                       + Inject Node into Timeline
                     </button>
@@ -1670,7 +1712,7 @@ export default function AdminPanel() {
                         </div>
 
                         <div className="flex items-center gap-2 font-mono text-[10px]">
-                          <span className="text-blue-400 bg-white/5 px-2 py-0.5 border border-white/10 rounded font-bold">{node.year}</span>
+                          <span className="text-indigo-400 bg-white/5 px-2 py-0.5 border border-white/10 rounded font-bold">{node.year}</span>
                           <span className="text-slate-500 uppercase">ANCHOR: {node.id}</span>
                         </div>
 
@@ -1725,7 +1767,7 @@ export default function AdminPanel() {
                               const list = e.target.value.split(",").map(s => s.trim()).filter(Boolean);
                               handleTimelineFieldChange(idx, "skills", list);
                             }}
-                            className="w-full bg-black/50 border border-white/10 rounded-xl px-3 py-1.5 text-xs font-mono text-blue-300 outline-none"
+                            className="w-full bg-black/50 border border-white/10 rounded-xl px-3 py-1.5 text-xs font-mono text-indigo-300 outline-none"
                           />
                         </div>
 
@@ -1742,7 +1784,7 @@ export default function AdminPanel() {
                   <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                     <div>
                       <h2 className="text-lg font-sans font-bold text-white flex items-center gap-2">
-                        <Award className="w-5 h-5 text-blue-400" />
+                        <Award className="w-5 h-5 text-indigo-400" />
                         Achievements & Distinction Cards
                       </h2>
                       <p className="text-xs text-slate-400 mt-1">
@@ -1751,7 +1793,7 @@ export default function AdminPanel() {
                     </div>
                     <button
                       onClick={handleSaveAchievements}
-                      className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-mono font-bold text-xs uppercase rounded-xl shadow-lg shadow-blue-500/10 hover:from-blue-400 flex items-center gap-1.5 transition self-start cursor-pointer"
+                      className="px-4 py-2 bg-gradient-to-r from-indigo-500 to-fuchsia-500 text-white font-mono font-bold text-xs uppercase rounded-xl shadow-lg shadow-indigo-500/10 hover:from-indigo-400 flex items-center gap-1.5 transition self-start cursor-pointer"
                     >
                       <Save className="w-3.5 h-3.5" />
                       Commit Distinctions
@@ -1760,7 +1802,7 @@ export default function AdminPanel() {
 
                   {/* Add New Distinction Form */}
                   <div className="bg-white/5 border border-white/10 rounded-3xl p-5 md:p-6 space-y-4">
-                    <h3 className="text-xs font-mono text-blue-400 uppercase tracking-widest font-bold flex items-center gap-1.5">
+                    <h3 className="text-xs font-mono text-indigo-400 uppercase tracking-widest font-bold flex items-center gap-1.5">
                       <PlusCircle className="w-4 h-4" />
                       Register New Distinction Blueprint
                     </h3>
@@ -1772,7 +1814,7 @@ export default function AdminPanel() {
                           type="text"
                           value={newAch.title}
                           onChange={(e) => setNewAch({ ...newAch, title: e.target.value })}
-                          className="w-full bg-black/40 border border-white/10 focus:border-blue-500 rounded-xl px-3 py-1.5 text-xs font-sans text-white outline-none"
+                          className="w-full bg-black/40 border border-white/10 focus:border-indigo-500 rounded-xl px-3 py-1.5 text-xs font-sans text-white outline-none"
                           placeholder="e.g. Certified Full Stack Innovator"
                         />
                       </div>
@@ -1781,7 +1823,7 @@ export default function AdminPanel() {
                         <select
                           value={newAch.category}
                           onChange={(e) => setNewAch({ ...newAch, category: e.target.value as any })}
-                          className="w-full bg-black/40 border border-white/10 focus:border-blue-500 rounded-xl px-3 py-1.5 text-xs font-mono text-slate-300 outline-none"
+                          className="w-full bg-black/40 border border-white/10 focus:border-indigo-500 rounded-xl px-3 py-1.5 text-xs font-mono text-slate-300 outline-none"
                         >
                           <option value="coding">Coding & Systems</option>
                           <option value="academic">Academic Honor</option>
@@ -1796,14 +1838,14 @@ export default function AdminPanel() {
                         type="text"
                         value={newAch.description}
                         onChange={(e) => setNewAch({ ...newAch, description: e.target.value })}
-                        className="w-full bg-black/40 border border-white/10 focus:border-blue-500 rounded-xl px-3 py-1.5 text-xs font-sans text-white outline-none"
+                        className="w-full bg-black/40 border border-white/10 focus:border-indigo-500 rounded-xl px-3 py-1.5 text-xs font-sans text-white outline-none"
                         placeholder="Detail the metrics, scope, or impact of this award..."
                       />
                     </div>
 
                     <button
                       onClick={handleAddAchievement}
-                      className="w-full py-2 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-400 text-white font-mono font-bold text-xs uppercase rounded-xl transition cursor-pointer"
+                      className="w-full py-2 bg-gradient-to-r from-indigo-500 to-fuchsia-500 hover:from-indigo-400 text-white font-mono font-bold text-xs uppercase rounded-xl transition cursor-pointer"
                     >
                       + Inject Award into Spectrum
                     </button>
@@ -1825,7 +1867,7 @@ export default function AdminPanel() {
                         </div>
 
                         <div className="flex items-center gap-2 font-mono text-[9px]">
-                          <span className="text-blue-400 bg-white/5 px-2 py-0.5 border border-white/10 rounded font-bold uppercase">{ach.category}</span>
+                          <span className="text-indigo-400 bg-white/5 px-2 py-0.5 border border-white/10 rounded font-bold uppercase">{ach.category}</span>
                         </div>
 
                         <div className="space-y-1.5">
@@ -1859,7 +1901,7 @@ export default function AdminPanel() {
                 <div className="space-y-6">
                   <div>
                     <h2 className="text-lg font-sans font-bold text-white flex items-center gap-2">
-                      <Mail className="w-5 h-5 text-blue-400" />
+                      <Mail className="w-5 h-5 text-indigo-400" />
                       Secure Transmissions
                     </h2>
                     <p className="text-xs text-slate-400 mt-1">
@@ -1869,7 +1911,7 @@ export default function AdminPanel() {
 
                   {loadingMessages ? (
                     <div className="text-center py-10 font-mono text-xs text-slate-500">
-                      <div className="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
+                      <div className="w-6 h-6 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin mx-auto mb-3" />
                       Decrypting messages...
                     </div>
                   ) : messages.length === 0 ? (
@@ -1883,7 +1925,7 @@ export default function AdminPanel() {
                           <div className="absolute top-4 right-4 flex items-center gap-2">
                             <button
                               onClick={() => handleAcceptApplicant(msg)}
-                              className="p-1.5 bg-emerald-950/20 text-emerald-400 hover:bg-emerald-900/40 border border-emerald-900/20 rounded-lg transition cursor-pointer flex items-center gap-1 px-2"
+                              className="p-1.5 bg-indigo-950/20 text-indigo-400 hover:bg-indigo-900/40 border border-indigo-900/20 rounded-lg transition cursor-pointer flex items-center gap-1 px-2"
                               title="Accept into Warrior Developers"
                             >
                               <CheckCircle className="w-3.5 h-3.5" />
@@ -1899,12 +1941,12 @@ export default function AdminPanel() {
                           </div>
                           
                           <div className="flex items-center gap-3 mb-3 border-b border-white/5 pb-3 pr-40">
-                            <div className="w-10 h-10 rounded-full bg-blue-500/20 border border-blue-500/30 flex items-center justify-center text-blue-400 font-bold font-mono">
+                            <div className="w-10 h-10 rounded-full bg-indigo-500/20 border border-indigo-500/30 flex items-center justify-center text-indigo-400 font-bold font-mono">
                               {msg.name?.charAt(0).toUpperCase()}
                             </div>
                             <div>
                               <div className="text-sm font-bold text-slate-200">{msg.name}</div>
-                              <div className="text-[10px] font-mono text-blue-400">{msg.email}</div>
+                              <div className="text-[10px] font-mono text-indigo-400">{msg.email}</div>
                             </div>
                           </div>
                           

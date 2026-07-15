@@ -11,8 +11,14 @@ export const PERSONAL_INFO = {
   title: "AI Developer | Full Stack Developer | Student Innovator",
   role: "Aspiring Tech Entrepreneur & AI Innovator",
   tagline: "Building the Future with AI and Innovation",
-  avatarUrl: "/src/assets/images/muhil_avatar_1782830219085.jpg",
-  email: "muhillsiddhesh.in@gmail.com",
+  avatarUrl: "https://ui-avatars.com/api/?name=Muhil&background=0D8B93&color=fff&size=256",
+  avatarUrls: [
+    "https://ui-avatars.com/api/?name=Muhil&background=0D8B93&color=fff&size=256",
+    "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop",
+    "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop"
+  ],
+  backgroundMusicUrl: "",
+  email: "muhilsiddhesh.in@gmail.com",
   github: "https://github.com",
   linkedin: "https://linkedin.com",
   instagram: "https://instagram.com",
@@ -93,7 +99,7 @@ export const PROJECTS_DATA: Project[] = [
     roadmap: ["Q3 2026: Mobile App Launch", "Q4 2026: AI Diagnostics Module", "Q1 2027: Enterprise Hospital Integrations"],
     challenges: "Handling real-time data sync across multiple role-based dashboards while maintaining a low-latency user experience.",
     metrics: [{ label: "Lines of Code", value: "45,000+" }, { label: "Components", value: "120+" }],
-    screenshots: ["/src/assets/images/background_img_1782830236819.jpg"]
+    screenshots: ["https://ui-avatars.com/api/?name=Muhil&background=0D8B93&color=fff&size=256"]
   },
   {
     id: "sonexa",
@@ -115,13 +121,13 @@ export const PROJECTS_DATA: Project[] = [
     roadmap: ["Q3 2026: Multi-agent orchestration", "Q4 2026: Third-party API integrations (GitHub, Slack)", "Q1 2027: Visual node-based workflow editor"],
     challenges: "Designing a responsive, cosmic-themed UI that visualizes real-time terminal outputs without overwhelming the user.",
     metrics: [{ label: "Automated Workflows", value: "50+" }, { label: "LLM Tokens Processed", value: "2M+" }],
-    screenshots: ["/src/assets/images/background_img_1782830236819.jpg"]
+    screenshots: ["https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop"]
   },
   {
-    id: "kalsa-warrior",
-    title: "Kalsa the Warrior",
+    id: "veera-yugam",
+    title: "Veera Yugam",
     description: "An animated storytelling and gaming concept created by Warrior Studio, tracking the journeys of the hero Anven against the forces of the Evil King Makas.",
-    detailedDescription: "Kalsa the Warrior is a rich creative narrative combining game engine animations with interactive storytelling. Set in a mythical cyber-fantasy world, users explore chapters of lore, animated combat interactions, and hero progress statistics.",
+    detailedDescription: "Veera Yugam is a rich creative narrative combining game engine animations with interactive storytelling. Set in a mythical cyber-fantasy world, users explore chapters of lore, animated combat interactions, and hero progress statistics.",
     category: "Game",
     status: "In Progress",
     features: [
@@ -132,7 +138,7 @@ export const PROJECTS_DATA: Project[] = [
     ],
     techStack: ["Godot / Unity Concepts", "React Canvas", "Tailwind CSS", "Framer Motion"],
     githubUrl: "https://github.com",
-    demoUrl: "https://play.kalsawarrior.com"
+    demoUrl: "https://veerayugam.vercel.app/"
   },
   {
     id: "vaster-ai",
@@ -187,8 +193,8 @@ export const BLOG_POSTS_DATA = [
   {
     id: "game-dev-godot",
     title: "Transitioning from Unity to Godot: A Student's Perspective",
-    excerpt: "Why I chose Godot for my 2D animated storytelling game, Kalsa the Warrior.",
-    content: "When starting development on Kalsa the Warrior, I needed a game engine that was lightweight, open-source, and had a node-based architecture that felt intuitive. While Unity is an industry standard, Godot's GDScript and scene system allowed me to prototype character interactions much faster. In this insight, I cover my learning curve and why Godot is perfect for indie solo developers.",
+    excerpt: "Why I chose Godot for my 2D animated storytelling game, Veera Yugam.",
+    content: "When starting development on Veera Yugam, I needed a game engine that was lightweight, open-source, and had a node-based architecture that felt intuitive. While Unity is an industry standard, Godot's GDScript and scene system allowed me to prototype character interactions much faster. In this insight, I cover my learning curve and why Godot is perfect for indie solo developers.",
     date: "April 08, 2026",
     category: "Game Dev",
     tags: ["Godot", "Unity", "Game Development", "Indie Games"],
@@ -238,7 +244,7 @@ export const ACHIEVEMENTS_DATA: Achievement[] = [
   },
   {
     title: "Creative Storytelling Animator",
-    description: "Authored rich narrative chapters and configured asset setups for 'Kalsa the Warrior' under Warrior Studio, mixing gaming and storytelling.",
+    description: "Authored rich narrative chapters and configured asset setups for 'Veera Yugam' under Warrior Studio, mixing gaming and storytelling.",
     category: "creativity"
   },
   {

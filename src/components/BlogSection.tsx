@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { Search, ChevronRight, Clock, Tag, X } from "lucide-react";
 import { BlogPost } from "../types";
 import { playHoverSound, playClickSound } from "../utils/audio";
+import Markdown from "react-markdown";
 
 export default function BlogSection() {
   const { blogPosts } = usePortfolio();
@@ -28,7 +29,7 @@ export default function BlogSection() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 text-blue-400 text-xs font-mono mb-6"
+            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-500/10 border border-blue-500/20 text-indigo-400 text-xs font-mono mb-6"
           >
             <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse" />
             Insights & Learning
@@ -41,7 +42,7 @@ export default function BlogSection() {
             transition={{ delay: 0.1 }}
             className="text-3xl md:text-5xl font-sans font-bold text-white mb-6"
           >
-            My <span className="text-blue-400">Blog</span>
+            My <span className="text-indigo-400">Blog</span>
           </motion.h2>
 
           {/* Search and Filter */}
@@ -75,7 +76,7 @@ export default function BlogSection() {
                   }}
                   className={`px-4 py-1.5 rounded-full font-mono text-xs transition border backdrop-blur-md ${
                     selectedCategory === cat
-                      ? "bg-blue-500 text-white border-blue-400"
+                      ? "bg-blue-500 text-white border-indigo-400"
                       : "bg-white/5 text-slate-300 border-white/10 hover:bg-white/10"
                   }`}
                 >
@@ -96,10 +97,10 @@ export default function BlogSection() {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.3, delay: idx * 0.1 }}
-                className="bg-[#030712]/60 border border-white/10 rounded-2xl p-6 flex flex-col gap-4 hover:border-blue-500/50 transition-colors group backdrop-blur-md"
+                className="bg-[#030712]/60 border border-white/10 rounded-2xl p-6 flex flex-col gap-4 hover:border-indigo-500/50 transition-colors group backdrop-blur-md"
               >
                 <div className="flex justify-between items-start text-xs font-mono text-slate-400">
-                  <span className="bg-blue-500/20 text-blue-400 px-2 py-1 rounded-md">
+                  <span className="bg-indigo-500/20 text-indigo-400 px-2 py-1 rounded-md">
                     {post.category}
                   </span>
                   <div className="flex items-center gap-1">
@@ -109,7 +110,7 @@ export default function BlogSection() {
                 </div>
 
                 <div>
-                  <h3 className="text-xl font-bold text-white mb-2 group-hover:text-blue-400 transition-colors">
+                  <h3 className="text-xl font-bold text-white mb-2 group-hover:text-indigo-400 transition-colors">
                     {post.title}
                   </h3>
                   <p className="text-sm text-slate-400 line-clamp-3">
@@ -133,7 +134,7 @@ export default function BlogSection() {
                     playClickSound();
                     setReadingPost(post);
                   }}
-                  className="mt-4 flex items-center gap-2 text-sm font-mono text-blue-400 hover:text-blue-300 transition-colors w-fit"
+                  className="mt-4 flex items-center gap-2 text-sm font-mono text-indigo-400 hover:text-indigo-300 transition-colors w-fit"
                 >
                   Read Article
                   <ChevronRight className="w-4 h-4" />
@@ -175,7 +176,7 @@ export default function BlogSection() {
               </button>
               
               <div className="mb-8 pr-12">
-                 <span className="text-blue-400 font-mono text-xs uppercase tracking-widest">{readingPost.category}</span>
+                 <span className="text-indigo-400 font-mono text-xs uppercase tracking-widest">{readingPost.category}</span>
                  <h2 className="text-3xl md:text-4xl font-sans font-bold text-white mt-3 mb-4">{readingPost.title}</h2>
                  <div className="flex flex-wrap items-center gap-4 text-xs font-mono text-slate-400">
                    <span className="flex items-center gap-1"><Clock className="w-3.5 h-3.5" /> {readingPost.readTime}</span>
@@ -183,10 +184,8 @@ export default function BlogSection() {
                  </div>
               </div>
 
-              <div className="text-slate-300 font-sans leading-relaxed space-y-6">
-                 {readingPost.content.split('\n').map((paragraph, index) => (
-                   <p key={index}>{paragraph}</p>
-                 ))}
+              <div className="text-slate-300 font-sans leading-relaxed space-y-6 markdown-body">
+                 <Markdown>{readingPost.content}</Markdown>
               </div>
             </motion.div>
           </div>

@@ -75,7 +75,7 @@ export default function Navbar({ onOpenResume }: NavbarProps) {
       id="navbar-header"
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${
         scrolled
-          ? "bg-[#030712]/60 backdrop-blur-xl border-white/10 py-3 shadow-lg shadow-black/20"
+          ? "bg-[#050511]/60 backdrop-blur-xl border-white/10 py-3 shadow-lg shadow-black/20"
           : "bg-transparent border-transparent py-5"
       }`}
     >
@@ -88,14 +88,14 @@ export default function Navbar({ onOpenResume }: NavbarProps) {
             id="nav-brand-logo"
             className="flex items-center space-x-3 text-white group cursor-pointer"
           >
-            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center font-bold text-white shadow-lg shadow-blue-500/20 transition duration-300 group-hover:scale-105">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-fuchsia-500 flex items-center justify-center font-bold text-white shadow-lg shadow-indigo-500/20 transition duration-300 group-hover:scale-105">
               M
             </div>
             <div className="flex flex-col text-left">
-              <span className="text-base font-sans font-bold tracking-tight text-white group-hover:text-blue-400 transition">
+              <span className="text-base font-sans font-bold tracking-tight text-white group-hover:text-indigo-400 transition">
                 MUHIL
               </span>
-              <span className="text-[10px] font-mono tracking-widest uppercase text-blue-400">
+              <span className="text-[10px] font-mono tracking-widest uppercase text-indigo-400">
                 AI Developer & Innovator
               </span>
             </div>
@@ -115,13 +115,13 @@ export default function Navbar({ onOpenResume }: NavbarProps) {
                 id={`nav-link-${item.id}`}
                 className={`px-3 py-1.5 rounded-lg text-xs font-mono tracking-wide transition relative group cursor-pointer ${
                   activeSection === item.id
-                    ? "text-blue-400 bg-white/5 font-semibold"
+                    ? "text-indigo-400 bg-white/5 font-semibold"
                     : "text-slate-400 hover:text-white"
                 }`}
               >
                 {item.label}
                 {activeSection === item.id && (
-                  <span className="absolute bottom-0 left-2 right-2 h-0.5 bg-blue-400 rounded-full shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
+                  <span className="absolute bottom-0 left-2 right-2 h-0.5 bg-indigo-400 rounded-full shadow-[0_0_8px_rgba(59,130,246,0.5)]" />
                 )}
                 <span className="absolute inset-0 bg-white/5 opacity-0 hover:opacity-100 rounded-lg -z-10 transition duration-150" />
               </motion.button>
@@ -129,6 +129,7 @@ export default function Navbar({ onOpenResume }: NavbarProps) {
 
             {/* Resume Button */}
             <motion.button
+              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onMouseEnter={playHoverSound}
               onClick={() => {
@@ -136,9 +137,9 @@ export default function Navbar({ onOpenResume }: NavbarProps) {
                 onOpenResume();
               }}
               id="nav-btn-resume"
-              className="ml-4 px-5 py-2 bg-white/5 border border-white/10 rounded-full backdrop-blur-xl hover:bg-white/10 text-xs text-white flex items-center gap-2 transition-all cursor-pointer shadow-lg shadow-black/10"
+              className="ml-4 px-5 py-2 bg-gradient-to-r from-indigo-500/20 to-fuchsia-500/20 border border-indigo-500/30 rounded-full backdrop-blur-xl hover:bg-white/10 text-xs font-semibold tracking-wide text-white flex items-center gap-2 transition-all cursor-pointer shadow-[0_0_15px_rgba(99,102,241,0.2)] hover:shadow-[0_0_25px_rgba(99,102,241,0.4)]"
             >
-              <FileText className="w-3.5 h-3.5 text-blue-400" />
+              <FileText className="w-3.5 h-3.5 text-indigo-400" />
               Resume
             </motion.button>
           </div>
@@ -155,7 +156,7 @@ export default function Navbar({ onOpenResume }: NavbarProps) {
               id="nav-mobile-resume"
               className="px-3 py-1.5 bg-white/5 border border-white/10 rounded-full text-[10px] font-mono flex items-center gap-1 transition text-white"
             >
-              <FileText className="w-3 h-3 text-blue-400" />
+              <FileText className="w-3 h-3 text-indigo-400" />
               Resume
             </motion.button>
             
@@ -178,7 +179,7 @@ export default function Navbar({ onOpenResume }: NavbarProps) {
 
       {/* Mobile Drawer Navigation */}
       {isOpen && (
-        <div className="md:hidden border-t border-white/10 bg-[#030712]/95 backdrop-blur-xl">
+        <div className="md:hidden border-t border-white/10 bg-[#050511]/95 backdrop-blur-xl">
           <div className="px-2 pt-2 pb-4 space-y-1 sm:px-3 text-center">
             {navItems.map((item) => (
               <button
@@ -187,7 +188,7 @@ export default function Navbar({ onOpenResume }: NavbarProps) {
                 id={`nav-mobile-link-${item.id}`}
                 className={`block w-full px-3 py-2.5 rounded-lg text-sm font-mono tracking-wide transition ${
                   activeSection === item.id
-                    ? "text-blue-400 bg-white/5 font-semibold"
+                    ? "text-indigo-400 bg-white/5 font-semibold"
                     : "text-slate-400 hover:text-white"
                 }`}
               >

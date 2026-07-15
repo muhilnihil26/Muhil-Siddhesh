@@ -113,7 +113,7 @@ export default function JourneyTimeline() {
       
       {/* HUD Header Decor */}
       <div className="absolute top-0 right-0 p-4 font-mono text-[9px] text-slate-500 flex items-center gap-1.5 pointer-events-none select-none">
-        <Cpu className="w-3 h-3 text-blue-400 animate-pulse" />
+        <Cpu className="w-3 h-3 text-indigo-400 animate-pulse" />
         <span>JOURNEY_TRAJECTORY_ENGINE_v2.1</span>
       </div>
 
@@ -121,7 +121,7 @@ export default function JourneyTimeline() {
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 border-b border-white/5 pb-6">
         <div>
           <h3 className="text-lg md:text-xl font-sans font-bold text-white flex items-center gap-2">
-            <Clock className="w-5 h-5 text-blue-400" />
+            <Clock className="w-5 h-5 text-indigo-400" />
             The Evolution of a Young Founder
           </h3>
           <p className="text-xs text-slate-400 mt-1">
@@ -136,7 +136,7 @@ export default function JourneyTimeline() {
             id="btn-view-interactive"
             className={`px-4 py-1.5 rounded-full text-xs font-mono transition cursor-pointer ${
               viewMode === "interactive"
-                ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white font-bold"
+                ? "bg-gradient-to-r from-blue-500 to-fuchsia-600 text-white font-bold"
                 : "text-slate-400 hover:text-white"
             }`}
           >
@@ -147,7 +147,7 @@ export default function JourneyTimeline() {
             id="btn-view-list"
             className={`px-4 py-1.5 rounded-full text-xs font-mono transition cursor-pointer ${
               viewMode === "list"
-                ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white font-bold"
+                ? "bg-gradient-to-r from-blue-500 to-fuchsia-600 text-white font-bold"
                 : "text-slate-400 hover:text-white"
             }`}
           >
@@ -172,7 +172,7 @@ export default function JourneyTimeline() {
             id={`btn-timeline-cat-${cat.id}`}
             className={`px-3 py-1.5 border rounded-full text-xs font-mono transition cursor-pointer backdrop-blur-md ${
               activeCategory === cat.id
-                ? "bg-white/5 border-blue-500 text-blue-400 font-bold shadow-lg shadow-blue-500/10"
+                ? "bg-white/5 border-blue-500 text-indigo-400 font-bold shadow-lg shadow-blue-500/10"
                 : "bg-white/5 border-white/10 text-slate-400 hover:text-white hover:bg-white/10"
             }`}
           >
@@ -201,7 +201,7 @@ export default function JourneyTimeline() {
               {/* Header Label */}
               <div className="flex items-center justify-between border-b border-white/5 pb-3 mb-4 font-mono text-[10px] text-slate-500">
                 <span className="flex items-center gap-1">
-                  <ListFilter className="w-3 h-3 text-blue-400 animate-pulse" />
+                  <ListFilter className="w-3 h-3 text-indigo-400 animate-pulse" />
                   NAVIGATION ORBIT
                 </span>
                 <span>{filteredEvents.length} MILESTONES FOUND</span>
@@ -221,7 +221,7 @@ export default function JourneyTimeline() {
                       id={`btn-node-${event.id}`}
                       className={`w-full flex items-center gap-4 text-left p-3 rounded-xl border transition-all cursor-pointer group ${
                         isSelected
-                          ? "bg-white/10 border-blue-500/50 shadow-md shadow-blue-500/5"
+                          ? "bg-white/10 border-indigo-500/50 shadow-md shadow-blue-500/5"
                           : isFilteredOut
                           ? "opacity-30 border-white/5 hover:opacity-50"
                           : "bg-white/5 border-white/5 hover:bg-white/10 hover:border-white/20"
@@ -230,7 +230,7 @@ export default function JourneyTimeline() {
                       {/* Year badge indicator */}
                       <div className={`w-14 shrink-0 font-mono text-center py-1 rounded-md text-xs font-bold transition-all ${
                         isSelected
-                          ? "bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-sm"
+                          ? "bg-gradient-to-r from-blue-500 to-fuchsia-600 text-white shadow-sm"
                           : "bg-black/30 text-slate-400 group-hover:text-white"
                       }`}>
                         {event.year}
@@ -239,7 +239,7 @@ export default function JourneyTimeline() {
                       {/* Icon connector indicator */}
                       <div className={`p-1.5 rounded-full border transition-all ${
                         isSelected 
-                          ? "bg-blue-500/20 border-blue-400 text-blue-400 scale-110 shadow-[0_0_8px_rgba(59,130,246,0.5)]" 
+                          ? "bg-indigo-500/20 border-indigo-400 text-indigo-400 scale-110 shadow-[0_0_8px_rgba(59,130,246,0.5)]" 
                           : "bg-black/20 border-white/10 text-slate-500 group-hover:text-slate-300"
                       }`}>
                         {getTimelineIcon(event.icon, "w-3.5 h-3.5")}
@@ -296,21 +296,21 @@ export default function JourneyTimeline() {
                 {/* Panel Title bar */}
                 <div className="flex items-center justify-between font-mono text-[10px]">
                   <span className="text-slate-400 flex items-center gap-1.5">
-                    <Layers className="w-3.5 h-3.5 text-blue-400" />
+                    <Layers className="w-3.5 h-3.5 text-indigo-400" />
                     CORE SPECIFICATION DATABASE
                   </span>
-                  <span className="text-blue-400 bg-white/5 px-2 py-0.5 rounded border border-white/5">
+                  <span className="text-indigo-400 bg-white/5 px-2 py-0.5 rounded border border-white/5">
                     NODE_ID: {selectedEvent.id.toUpperCase()}
                   </span>
                 </div>
 
                 {/* Main Heading details */}
                 <div className="flex items-start gap-4">
-                  <div className="p-3 bg-gradient-to-br from-blue-500/10 to-purple-500/10 border border-white/10 rounded-2xl text-blue-400 shrink-0 shadow-inner">
+                  <div className="p-3 bg-gradient-to-br from-blue-500/10 to-fuchsia-500/10 border border-white/10 rounded-2xl text-indigo-400 shrink-0 shadow-inner">
                     {getTimelineIcon(selectedEvent.icon, "w-6 h-6")}
                   </div>
                   <div>
-                    <div className="inline-flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-full px-2.5 py-0.5 text-[10px] font-mono text-blue-400 font-bold uppercase mb-1">
+                    <div className="inline-flex items-center gap-1.5 bg-white/5 border border-white/10 rounded-full px-2.5 py-0.5 text-[10px] font-mono text-indigo-400 font-bold uppercase mb-1">
                       {selectedEvent.year} • {selectedEvent.subtitle}
                     </div>
                     <h4 className="text-base sm:text-lg font-sans font-extrabold text-white leading-tight">
@@ -358,7 +358,7 @@ export default function JourneyTimeline() {
               {/* Status footer banner */}
               <div className="mt-6 border-t border-white/5 pt-4 flex items-center justify-between text-[10px] font-mono text-slate-500">
                 <span className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                  <CheckCircle2 className="w-3.5 h-3.5 text-indigo-400" />
                   MIL_OS_NODE STATUS: SYNCED
                 </span>
                 <span>COGNITIVE MATRIX VERIFIED</span>
@@ -395,7 +395,7 @@ export default function JourneyTimeline() {
                 </div>
 
                 {/* Left Year Label for desktop */}
-                <div className="absolute -left-[104px] top-0.5 hidden md:block w-16 text-right font-mono text-xs font-bold text-slate-500 group-hover:text-blue-400 transition">
+                <div className="absolute -left-[104px] top-0.5 hidden md:block w-16 text-right font-mono text-xs font-bold text-slate-500 group-hover:text-indigo-400 transition">
                   {event.year}
                 </div>
 
@@ -403,21 +403,21 @@ export default function JourneyTimeline() {
                 <div className="bg-black/25 border border-white/5 hover:border-white/10 rounded-2xl p-5 transition-all shadow-inner backdrop-blur-md relative overflow-hidden">
                   
                   {/* Decorative background beam */}
-                  <div className="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-blue-500 to-purple-600 opacity-30" />
+                  <div className="absolute top-0 left-0 w-1.5 h-full bg-gradient-to-b from-blue-500 to-fuchsia-600 opacity-30" />
 
                   <div className="pl-3 space-y-4">
                     {/* Header line */}
                     <div>
-                      <div className="md:hidden inline-block font-mono text-xs font-extrabold text-blue-400 bg-white/5 border border-white/10 px-2 py-0.5 rounded-md mb-2">
+                      <div className="md:hidden inline-block font-mono text-xs font-extrabold text-indigo-400 bg-white/5 border border-white/10 px-2 py-0.5 rounded-md mb-2">
                         {event.year}
                       </div>
                       <div className="flex items-center gap-2">
-                        {getTimelineIcon(event.icon, "w-4 h-4 text-blue-400 shrink-0")}
+                        {getTimelineIcon(event.icon, "w-4 h-4 text-indigo-400 shrink-0")}
                         <span className="text-xs font-mono text-slate-400 uppercase tracking-wide">
                           {event.subtitle}
                         </span>
                       </div>
-                      <h4 className="text-base font-sans font-bold text-white mt-1 group-hover:text-blue-300 transition-colors">
+                      <h4 className="text-base font-sans font-bold text-white mt-1 group-hover:text-indigo-300 transition-colors">
                         {event.title}
                       </h4>
                     </div>

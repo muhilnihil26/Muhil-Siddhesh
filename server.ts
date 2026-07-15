@@ -6,8 +6,9 @@
 import express from "express";
 import path from "path";
 import { createServer as createViteServer } from "vite";
-import { GoogleGenAI } from "@google/genai";
+import { GoogleGenAI, LiveServerMessage, Modality } from "@google/genai";
 import dotenv from "dotenv";
+import { WebSocketServer } from "ws";
 
 dotenv.config();
 
@@ -29,7 +30,7 @@ async function startServer() {
       if (!apiKey) {
         throw new Error("GEMINI_API_KEY environment variable is not set. Please supply it in Settings.");
       }
-      const ai = new GoogleGenAI({ apiKey });
+      const ai = new GoogleGenAI({ apiKey, httpOptions: { headers: { 'User-Agent': 'aistudio-build' } } });
 
       const prompt = `You are an expert AI software engineer and systems architect. A user has provided this web link or repository: "${webLink}".
 Analyze this URL, utilize your extensive knowledge base and search capabilities to deduce and generate highly detailed, professional portfolio project specifications.
@@ -96,6 +97,7 @@ Return ONLY raw valid JSON. Do not include markdown code block backticks (\`\`\`
     }
   });
 
+
   // Vite integration as middleware or static asset serving
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({
@@ -111,9 +113,64 @@ Return ONLY raw valid JSON. Do not include markdown code block backticks (\`\`\`
     });
   }
 
-  app.listen(PORT, "0.0.0.0", () => {
+  const server = app.listen(PORT, "0.0.0.0", () => {
     console.log(`Server running on http://0.0.0.0:${PORT}`);
   });
+
+  // WebSocket for Live API
+  const wss = new WebSocketServer({ server, path: '/live' });
+  
+  wss.on("connection", async (clientWs) => {
+    try {
+      const apiKey = process.env.GEMINI_API_KEY;
+      if (!apiKey) throw new Error("GEMINI_API_KEY missing");
+      
+      const ai = new GoogleGenAI({ apiKey, httpOptions: { headers: { 'User-Agent': 'aistudio-build' } } });
+      const session = await ai.live.connect({
+        model: "gemini-3.1-flash-live-preview",
+        config: {
+          responseModalities: [Modality.AUDIO],
+          speechConfig: {
+            voiceConfig: { prebuiltVoiceConfig: { voiceName: "Zephyr" } },
+          },
+          systemInstruction: "You are Muhil, a highly intelligent Class 10 student and AI developer. You are the founder of Warrior Developers. You speak concisely, friendly, and enthusiastically about AI, full-stack dev, and your projects (Warrior Nexus, Sonexa, Vaster AI).",
+        },
+        callbacks: {
+          onmessage: (message: LiveServerMessage) => {
+            const audio = message.serverContent?.modelTurn?.parts[0]?.inlineData?.data;
+            if (audio) {
+              clientWs.send(JSON.stringify({ audio }));
+            }
+            if (message.serverContent?.interrupted) {
+              clientWs.send(JSON.stringify({ interrupted: true }));
+            }
+          },
+        },
+      });
+
+      clientWs.on("message", (data) => {
+        try {
+          const { audio } = JSON.parse(data.toString());
+          if (audio) {
+            session.sendRealtimeInput({
+              audio: { data: audio, mimeType: "audio/pcm;rate=16000" },
+            });
+          }
+        } catch (err) {
+          console.error("WS Message error", err);
+        }
+      });
+      
+      clientWs.on("close", () => {
+        // session cleanup if needed
+      });
+
+    } catch (err) {
+      console.error("Live API WS setup error:", err);
+      clientWs.close();
+    }
+  });
+
 }
 
 startServer();

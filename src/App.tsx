@@ -22,7 +22,7 @@ import {
   ChevronRight,
   BrainCircuit,
   Workflow,
-  Laptop
+  Laptop, Music, Volume2, VolumeX
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 
@@ -38,6 +38,7 @@ import { Phone } from "lucide-react";
 import { playClickSound, playHoverSound, playSuccessSound } from "./utils/audio";
 
 import BlogSection from "./components/BlogSection";
+import AICapabilities from "./components/AICapabilities";
 
 export default function App() {
   const { personalInfo, skills, projects, achievements } = usePortfolio();
@@ -66,6 +67,34 @@ export default function App() {
   const [contactMsg, setContactMsg] = useState("");
   const [contactStatus, setContactStatus] = useState<"idle" | "submitting" | "success">("idle");
   const [activeSkillCat, setActiveSkillCat] = useState<number>(0);
+  
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isPlayingMusic, setIsPlayingMusic] = useState(false);
+  const audioRef = React.useRef<HTMLAudioElement>(null);
+
+  const images = personalInfo.avatarUrls && personalInfo.avatarUrls.length > 0 
+    ? personalInfo.avatarUrls 
+    : [personalInfo.avatarUrl];
+
+  const toggleMusic = () => {
+    if (audioRef.current) {
+      if (isPlayingMusic) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play();
+      }
+      setIsPlayingMusic(!isPlayingMusic);
+    }
+  };
+
+  useEffect(() => {
+    if (images.length > 1) {
+      const interval = setInterval(() => {
+        setCurrentImageIndex(prev => (prev + 1) % images.length);
+      }, 5000);
+      return () => clearInterval(interval);
+    }
+  }, [images.length]);
 
   // Simulated Boot Screen
   useEffect(() => {
@@ -151,16 +180,16 @@ export default function App() {
     : projects.filter(p => p.category === selectedCategory);
 
   return (
-    <div className="relative min-h-screen bg-[#030712] text-slate-100 overflow-x-hidden font-sans selection:bg-blue-500/30 selection:text-blue-200">
+    <div className="relative min-h-screen bg-[#050511] text-slate-100 overflow-x-hidden font-sans selection:bg-indigo-500/30 selection:text-indigo-200">
       
       <div className="fixed inset-0 z-0 bg-black pointer-events-none" />
-      <div className="fixed inset-0 z-0 bg-[url('/src/assets/images/background_img_1782830236819.jpg')] bg-cover bg-center opacity-40 mix-blend-overlay pointer-events-none" />
+      <div className="fixed inset-0 z-0 bg-[url('/images/background_img_1782830236819.jpg')] bg-cover bg-center opacity-40 mix-blend-overlay pointer-events-none" />
       
       {/* Background Mesh Gradients */}
       <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] bg-blue-600/20 rounded-full blur-[140px]" />
-        <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-indigo-600/20 rounded-full blur-[140px]" />
-        <div className="absolute top-[40%] left-[30%] w-[400px] h-[400px] bg-purple-600/10 rounded-full blur-[120px]" />
+        <div className="absolute top-[-10%] right-[-10%] w-[600px] h-[600px] bg-indigo-600/20 rounded-full blur-[140px]" />
+        <div className="absolute bottom-[-10%] left-[-10%] w-[600px] h-[600px] bg-fuchsia-600/20 rounded-full blur-[140px]" />
+        <div className="absolute top-[40%] left-[30%] w-[400px] h-[400px] bg-fuchsia-600/10 rounded-full blur-[120px]" />
       </div>
       
       {/* Immersive Startup Loading Screen */}
@@ -170,13 +199,13 @@ export default function App() {
             exit={{ opacity: 0, scale: 0.98 }}
             transition={{ duration: 0.5, ease: "easeInOut" }}
             id="app-loader-screen"
-            className="fixed inset-0 z-50 bg-[#030712] flex flex-col items-center justify-center p-6 select-none"
+            className="fixed inset-0 z-50 bg-[#050511] flex flex-col items-center justify-center p-6 select-none"
           >
             <div className="w-full max-w-xs flex flex-col items-center text-center space-y-6">
               {/* Monogram Circular Logo with Pulse/Glow */}
-              <div className="relative flex items-center justify-center w-16 h-16 rounded-full border border-white/10 bg-slate-900/60 shadow-lg shadow-blue-500/5">
-                <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-blue-500/10 to-purple-500/10 animate-pulse" />
-                <span className="text-xl font-sans font-black tracking-tight bg-gradient-to-r from-blue-400 via-indigo-200 to-purple-400 bg-clip-text text-transparent">
+              <div className="relative flex items-center justify-center w-16 h-16 rounded-full border border-white/10 bg-slate-900/60 shadow-lg shadow-indigo-500/5">
+                <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-indigo-500/10 to-fuchsia-500/10 animate-pulse" />
+                <span className="text-xl font-sans font-black tracking-tight bg-gradient-to-r from-indigo-400 via-indigo-200 to-fuchsia-400 bg-clip-text text-transparent">
                   MS
                 </span>
               </div>
@@ -203,7 +232,7 @@ export default function App() {
               <div className="w-full space-y-2">
                 <div className="w-full h-[2px] bg-white/5 rounded-full overflow-hidden">
                   <div 
-                    className="bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600 h-full transition-all duration-75"
+                    className="bg-gradient-to-r from-indigo-500 via-indigo-500 to-fuchsia-500 h-full transition-all duration-75"
                     style={{ width: `${bootProgress}%` }}
                   />
                 </div>
@@ -233,16 +262,19 @@ export default function App() {
           {/* 1. HERO SECTION */}
           <header id="hero" className="min-h-screen flex flex-col justify-center items-center pt-24 pb-16 px-4 max-w-7xl mx-auto w-full text-center relative overflow-hidden">
             {/* Cinematic Poster Backdrop */}
-            <div className="absolute inset-0 z-0 opacity-40 mix-blend-luminosity">
+            <div className="absolute inset-0 z-0 opacity-40 mix-blend-luminosity transition-opacity duration-1000">
               <img
-                src={personalInfo.avatarUrl}
+                src={images[currentImageIndex]}
                 alt="Muhil Cinematic Background"
-                className="w-full h-full object-cover object-top opacity-50 blur-[2px]"
+                className="w-full h-full object-cover object-top opacity-50 blur-[4px] transition-all duration-1000"
                 onError={(e) => {
-                  (e.target as HTMLImageElement).style.display = 'none';
+                  const target = e.target as HTMLImageElement;
+                  if (!target.src.includes('fallback')) {
+                    target.src = 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop';
+                  }
                 }}
               />
-              <div className="absolute inset-0 bg-gradient-to-b from-[#030712]/10 via-[#030712]/80 to-[#030712] z-10" />
+              <div className="absolute inset-0 bg-gradient-to-b from-[#050511]/40 via-[#050511]/80 to-[#050511] z-10" />
             </div>
 
             <motion.div
@@ -256,7 +288,7 @@ export default function App() {
               <motion.div 
                 initial={{ opacity: 0, scale: 0.9 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="inline-flex items-center gap-2 bg-white/5 border border-white/10 px-3.5 py-1.5 rounded-full text-xs font-mono text-blue-400 backdrop-blur-md"
+                className="inline-flex items-center gap-2 bg-white/5 border border-white/10 px-3.5 py-1.5 rounded-full text-xs font-mono text-indigo-400 backdrop-blur-md"
               >
                 <Sparkles className="w-3.5 h-3.5" />
                 <span>Next-Gen Full Stack & AI Architect</span>
@@ -270,7 +302,7 @@ export default function App() {
               >
                 <span>
                   Hi, I'm{" "}
-                  <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent text-glow-indigo">
+                  <span className="bg-gradient-to-r from-indigo-400 via-fuchsia-400 to-indigo-400 bg-clip-text text-transparent text-glow-indigo">
                     {personalInfo.name}
                   </span>
                 </span>
@@ -309,7 +341,7 @@ export default function App() {
                     if (el) el.scrollIntoView({ behavior: "smooth" });
                   }}
                   id="hero-cta-projects"
-                  className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-400 hover:to-purple-500 text-white font-mono font-extrabold text-xs uppercase tracking-wider rounded-full transition duration-200 cursor-pointer flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20"
+                  className="w-full sm:w-auto px-6 py-3 bg-gradient-to-r from-indigo-500 to-fuchsia-500 hover:from-indigo-400 hover:to-fuchsia-500 text-white font-mono font-extrabold text-xs uppercase tracking-wider rounded-full transition duration-200 cursor-pointer flex items-center justify-center gap-2 shadow-lg shadow-indigo-500/20"
                 >
                   View My Projects
                   <ArrowRight className="w-4 h-4" />
@@ -336,7 +368,7 @@ export default function App() {
                     if (el) el.scrollIntoView({ behavior: "smooth" });
                   }}
                   id="hero-cta-contact"
-                  className="w-full sm:w-auto px-6 py-3 bg-white/5 hover:bg-white/10 text-blue-400 hover:text-blue-300 font-mono text-xs uppercase tracking-wider rounded-full transition duration-200 cursor-pointer border border-white/10 backdrop-blur-md"
+                  className="w-full sm:w-auto px-6 py-3 bg-white/5 hover:bg-white/10 text-indigo-400 hover:text-indigo-300 font-mono text-xs uppercase tracking-wider rounded-full transition duration-200 cursor-pointer border border-white/10 backdrop-blur-md"
                 >
                   Contact Me
                 </motion.button>
@@ -362,7 +394,7 @@ export default function App() {
             <div className="max-w-7xl mx-auto">
               
               <div className="text-center md:text-left mb-12">
-                <span className="text-[10px] font-mono uppercase tracking-widest text-blue-400 font-bold bg-white/5 px-2.5 py-1 border border-white/10 rounded-md backdrop-blur-md">
+                <span className="text-[10px] font-mono uppercase tracking-widest text-indigo-400 font-bold bg-white/5 px-2.5 py-1 border border-white/10 rounded-md backdrop-blur-md">
                   Developer Profile
                 </span>
                 <h2 className="text-2xl md:text-4xl font-sans font-bold text-white mt-3">
@@ -377,27 +409,30 @@ export default function App() {
                   <motion.div
                     animate={{ y: [0, -10, 0] }}
                     transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                    className="relative group p-1 bg-gradient-to-tr from-blue-500 to-purple-600 rounded-3xl overflow-hidden shadow-2xl"
+                    className="relative group p-1 bg-gradient-to-tr from-indigo-500 to-fuchsia-500 rounded-3xl overflow-hidden shadow-[0_0_40px_rgba(99,102,241,0.3)] hover:shadow-[0_0_60px_rgba(99,102,241,0.5)] transition-shadow duration-500"
                   >
                     <img
-                      src={personalInfo.avatarUrl}
+                      src={images[currentImageIndex]}
                       alt={`${personalInfo.name} - Young Tech Founder Portrait`}
                       referrerPolicy="no-referrer"
-                      className="w-56 h-56 md:w-64 md:h-64 object-cover rounded-[22px]"
+                      className="w-56 h-56 md:w-64 md:h-64 object-cover rounded-[22px] transition-opacity duration-1000 animate-in fade-in"
                       onError={(e) => {
-                        (e.target as HTMLImageElement).style.display = 'none';
+                        const target = e.target as HTMLImageElement;
+                        if (!target.src.includes('fallback')) {
+                          target.src = 'https://ui-avatars.com/api/?name=Muhil&background=0D8B93&color=fff&size=256';
+                        }
                       }}
                     />
-                    <div className="absolute inset-0 bg-[#030712]/40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center rounded-[22px]">
-                      <span className="text-xs font-mono text-white bg-[#030712]/80 px-3 py-1.5 rounded-full border border-white/10">
+                    <div className="absolute inset-0 bg-[#050511]/40 opacity-0 group-hover:opacity-100 transition duration-300 flex items-center justify-center rounded-[22px]">
+                      <span className="text-xs font-mono text-white bg-[#050511]/80 px-3 py-1.5 rounded-full border border-white/10">
                         Warrior HQ Sync Active
                       </span>
                     </div>
                   </motion.div>
 
                   {/* Node Tech HUD Card */}
-                  <div className="mt-6 bg-[#030712]/80 border border-white/10 rounded-2xl p-4 w-full max-w-sm font-mono text-[10px] text-slate-400 space-y-1.5 backdrop-blur-md">
-                    <div className="flex justify-between border-b border-white/5 pb-1 mb-1 text-[11px] text-blue-400 font-bold uppercase">
+                  <div className="mt-6 bg-[#050511]/80 border border-white/10 rounded-2xl p-4 w-full max-w-sm font-mono text-[10px] text-slate-400 space-y-1.5 backdrop-blur-md">
+                    <div className="flex justify-between border-b border-white/5 pb-1 mb-1 text-[11px] text-indigo-400 font-bold uppercase">
                       <span>Node Telemetry</span>
                       <span>Online</span>
                     </div>
@@ -417,7 +452,7 @@ export default function App() {
                     </div>
                     <div className="flex justify-between">
                       <span>DEVELOPER ORG:</span>
-                      <span className="text-purple-400 font-bold">Warrior Developers</span>
+                      <span className="text-fuchsia-400 font-bold">Warrior Developers</span>
                     </div>
                   </div>
                 </div>
@@ -426,7 +461,7 @@ export default function App() {
                 <div className="lg:col-span-8 space-y-6">
                   <div className="bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8 space-y-4 backdrop-blur-md">
                     <h3 className="text-lg font-sans font-bold text-white flex items-center gap-2">
-                      <User className="w-5 h-5 text-blue-400" />
+                      <User className="w-5 h-5 text-indigo-400" />
                       Who is {personalInfo.name}?
                     </h3>
                     <p className="text-xs sm:text-sm text-slate-300 leading-relaxed text-justify whitespace-pre-line">
@@ -437,12 +472,12 @@ export default function App() {
                   {/* Three Pillars Summary Grid */}
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="bg-white/5 p-4 border border-white/10 rounded-2xl space-y-1 hover:bg-white/10 transition backdrop-blur-md">
-                      <BrainCircuit className="w-5 h-5 text-blue-400" />
+                      <BrainCircuit className="w-5 h-5 text-indigo-400" />
                       <div className="text-xs font-mono font-bold text-white uppercase">AI Integration</div>
                       <p className="text-[11px] text-slate-400">Prompt orchestration, autonomous chains, and automated digital operations.</p>
                     </div>
                     <div className="bg-white/5 p-4 border border-white/10 rounded-2xl space-y-1 hover:bg-white/10 transition backdrop-blur-md">
-                      <Workflow className="w-5 h-5 text-purple-400" />
+                      <Workflow className="w-5 h-5 text-fuchsia-400" />
                       <div className="text-xs font-mono font-bold text-white uppercase">Full Stack</div>
                       <p className="text-[11px] text-slate-400">Robust client interfaces, state synchronization, APIs, and modern styling.</p>
                     </div>
@@ -469,7 +504,7 @@ export default function App() {
             className="py-24 px-4 relative z-10 max-w-7xl mx-auto w-full"
           >
             <div className="text-center mb-12">
-              <span className="text-[10px] font-mono uppercase tracking-widest text-blue-400 font-bold bg-white/5 px-2.5 py-1 border border-white/10 rounded-md backdrop-blur-md">
+              <span className="text-[10px] font-mono uppercase tracking-widest text-indigo-400 font-bold bg-white/5 px-2.5 py-1 border border-white/10 rounded-md backdrop-blur-md">
                 Interactive Chronology
               </span>
               <h2 className="text-2xl md:text-4xl font-sans font-bold text-white mt-3">
@@ -489,7 +524,7 @@ export default function App() {
             className="py-24 px-4 max-w-7xl mx-auto w-full relative z-10"
           >
             <div className="text-center mb-12">
-              <span className="text-[10px] font-mono uppercase tracking-widest text-blue-400 font-bold bg-white/5 px-2.5 py-1 border border-white/10 rounded-md backdrop-blur-md">
+              <span className="text-[10px] font-mono uppercase tracking-widest text-indigo-400 font-bold bg-white/5 px-2.5 py-1 border border-white/10 rounded-md backdrop-blur-md">
                 Cognitive Spectrum
               </span>
               <h2 className="text-2xl md:text-4xl font-sans font-bold text-white mt-3">
@@ -511,7 +546,7 @@ export default function App() {
                   id={`btn-skill-tab-${idx}`}
                   className={`px-4 py-2 border rounded-full font-mono text-xs transition cursor-pointer backdrop-blur-md ${
                     activeSkillCat === idx
-                      ? "bg-white/5 border-blue-500 text-blue-400 font-bold"
+                      ? "bg-white/5 border-indigo-500 text-indigo-400 font-bold"
                       : "bg-white/5 border-white/10 text-slate-400 hover:text-white hover:bg-white/10"
                   }`}
                 >
@@ -526,13 +561,13 @@ export default function App() {
                 <div key={skill.name} className="space-y-2 bg-black/25 p-4 border border-white/5 rounded-2xl backdrop-blur-sm">
                   <div className="flex justify-between items-center text-xs">
                     <span className="font-sans font-bold text-white">{skill.name}</span>
-                    <span className="font-mono text-blue-400 font-bold">{skill.level}%</span>
+                    <span className="font-mono text-indigo-400 font-bold">{skill.level}%</span>
                   </div>
                   
                   {/* Skill level indicator bar */}
                   <div className="w-full h-1.5 bg-black/35 rounded-full overflow-hidden border border-white/5">
                     <div 
-                      className="bg-gradient-to-r from-blue-500 to-purple-600 h-full transition-all duration-1000"
+                      className="bg-gradient-to-r from-indigo-500 to-fuchsia-500 h-full transition-all duration-1000"
                       style={{ width: `${skill.level}%` }}
                     />
                   </div>
@@ -560,7 +595,7 @@ export default function App() {
               
               <div className="flex flex-col md:flex-row items-center justify-between gap-6 mb-12">
                 <div className="text-center md:text-left">
-                  <span className="text-[10px] font-mono uppercase tracking-widest text-blue-400 font-bold bg-white/5 px-2.5 py-1 border border-white/10 rounded-md backdrop-blur-md">
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-indigo-400 font-bold bg-white/5 px-2.5 py-1 border border-white/10 rounded-md backdrop-blur-md">
                     Creative Blueprint Repository
                   </span>
                   <h2 className="text-2xl md:text-4xl font-sans font-bold text-white mt-3">
@@ -582,7 +617,7 @@ export default function App() {
                       id={`btn-proj-filter-${cat}`}
                       className={`px-3 py-1.5 border rounded-full transition cursor-pointer backdrop-blur-md ${
                         selectedCategory === cat
-                          ? "bg-white/5 border-blue-500 text-blue-400 font-bold"
+                          ? "bg-white/5 border-indigo-500 text-indigo-400 font-bold"
                           : "bg-white/5 border-white/10 text-slate-400 hover:text-white hover:bg-white/10"
                       }`}
                     >
@@ -628,7 +663,7 @@ export default function App() {
             <div className="max-w-7xl mx-auto">
               
               <div className="text-center mb-12">
-                <span className="text-[10px] font-mono uppercase tracking-widest text-blue-400 font-bold bg-white/5 px-2.5 py-1 border border-white/10 rounded-md backdrop-blur-md">
+                <span className="text-[10px] font-mono uppercase tracking-widest text-indigo-400 font-bold bg-white/5 px-2.5 py-1 border border-white/10 rounded-md backdrop-blur-md">
                   Timeline & Credentials
                 </span>
                 <h2 className="text-2xl md:text-4xl font-sans font-bold text-white mt-3">
@@ -642,7 +677,7 @@ export default function App() {
                 {/* School Profile Panel (5 columns) */}
                 <div className="lg:col-span-5 bg-white/5 border border-white/10 rounded-3xl p-6 space-y-4 backdrop-blur-md">
                   <div className="flex items-center gap-3">
-                    <div className="p-2 bg-white/5 rounded-2xl border border-white/10 text-blue-400">
+                    <div className="p-2 bg-white/5 rounded-2xl border border-white/10 text-indigo-400">
                       <GraduationCap className="w-6 h-6" />
                     </div>
                     <div>
@@ -656,7 +691,7 @@ export default function App() {
                   </p>
 
                   <div className="bg-black/25 p-4 rounded-2xl border border-white/5 font-mono text-[10px] space-y-2">
-                    <div className="text-blue-400 font-bold uppercase text-[11px]">Academic Highlights</div>
+                    <div className="text-indigo-400 font-bold uppercase text-[11px]">Academic Highlights</div>
                     <div className="flex justify-between text-slate-300">
                       <span>• Self-Taught Full Stack Code</span>
                       <span>100% Mastery</span>
@@ -678,7 +713,7 @@ export default function App() {
                   {/* Dynamic Achievements List */}
                   <div className="bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-md space-y-4">
                     <h3 className="text-sm font-mono font-bold text-white uppercase tracking-wider mb-2 flex items-center gap-2">
-                      <Award className="w-5 h-5 text-blue-400" />
+                      <Award className="w-5 h-5 text-indigo-400" />
                       Key Achievements & Honors
                     </h3>
                     
@@ -686,10 +721,10 @@ export default function App() {
                       {achievements.map((ach, idx) => (
                         <div 
                           key={idx}
-                          className="bg-black/20 border border-white/5 p-4 rounded-2xl hover:border-blue-500/20 transition-all duration-200"
+                          className="bg-black/20 border border-white/5 p-4 rounded-2xl hover:border-indigo-500/20 transition-all duration-200"
                         >
                           <h4 className="text-xs font-sans font-bold text-slate-200 flex items-center gap-2">
-                            <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
+                            <span className="w-1.5 h-1.5 rounded-full bg-indigo-400" />
                             {ach.title}
                           </h4>
                           <p className="text-[11px] text-slate-400 mt-1 leading-relaxed pl-3.5 text-justify">
@@ -703,7 +738,7 @@ export default function App() {
                   {/* Certified & Verified Tech Credentials */}
                   <div className="bg-white/5 border border-white/10 rounded-3xl p-6 backdrop-blur-md space-y-4">
                     <h3 className="text-sm font-mono font-bold text-white uppercase tracking-wider flex items-center gap-2">
-                      <ShieldCheck className="w-5 h-5 text-emerald-400 animate-pulse" />
+                      <ShieldCheck className="w-5 h-5 text-indigo-400 animate-pulse" />
                       Verified Tech Credentials & Recognition
                     </h3>
                     
@@ -722,7 +757,7 @@ export default function App() {
                         <h4 className="text-xs font-sans font-bold text-slate-100 mt-2">
                           Google Developer Concepts
                         </h4>
-                        <span className="text-[9px] font-mono text-emerald-400 mt-1 flex items-center gap-1 font-bold">
+                        <span className="text-[9px] font-mono text-indigo-400 mt-1 flex items-center gap-1 font-bold">
                           ● Verified Core Skills
                         </span>
                       </div>
@@ -737,7 +772,7 @@ export default function App() {
                         <h4 className="text-xs font-sans font-bold text-slate-100 mt-2">
                           Cloud Architecture
                         </h4>
-                        <span className="text-[9px] font-mono text-emerald-400 mt-1 flex items-center gap-1 font-bold">
+                        <span className="text-[9px] font-mono text-indigo-400 mt-1 flex items-center gap-1 font-bold">
                           ● Verified Azure Concept
                         </span>
                       </div>
@@ -752,7 +787,7 @@ export default function App() {
                         <h4 className="text-xs font-sans font-bold text-slate-100 mt-2">
                           Creator Automation
                         </h4>
-                        <span className="text-[9px] font-mono text-emerald-400 mt-1 flex items-center gap-1 font-bold">
+                        <span className="text-[9px] font-mono text-indigo-400 mt-1 flex items-center gap-1 font-bold">
                           ● Certified Developer API
                         </span>
                       </div>
@@ -767,7 +802,7 @@ export default function App() {
                         <h4 className="text-xs font-sans font-bold text-slate-100 mt-2">
                           Frontend AI Design
                         </h4>
-                        <span className="text-[9px] font-mono text-emerald-400 mt-1 flex items-center gap-1 font-bold">
+                        <span className="text-[9px] font-mono text-indigo-400 mt-1 flex items-center gap-1 font-bold">
                           ● Verified UI Integration
                         </span>
                       </div>
@@ -777,9 +812,11 @@ export default function App() {
                 </div>
 
               </div>
-
             </div>
           </motion.section>
+
+          {/* 6. AI CAPABILITIES SECTION */}
+          <AICapabilities />
 
           {/* 8. BLOG SECTION */}
           <BlogSection />
@@ -796,7 +833,7 @@ export default function App() {
             <div className="max-w-4xl mx-auto text-center space-y-8">
               
               <div>
-                <span className="text-[10px] font-mono uppercase tracking-widest text-blue-400 font-bold bg-white/5 px-2.5 py-1 border border-white/10 rounded-md backdrop-blur-md">
+                <span className="text-[10px] font-mono uppercase tracking-widest text-indigo-400 font-bold bg-white/5 px-2.5 py-1 border border-white/10 rounded-md backdrop-blur-md">
                   Let's Build Together
                 </span>
                 <h2 className="text-2xl md:text-4xl font-sans font-bold text-white mt-3">
@@ -816,26 +853,26 @@ export default function App() {
                     <div className="text-xs font-mono text-slate-500 font-bold uppercase tracking-wider">Direct Contacts:</div>
                     <div className="space-y-3">
                       <div className="flex items-center gap-2 text-xs font-mono text-slate-300">
-                        <Mail className="w-4 h-4 text-blue-400 shrink-0" />
+                        <Mail className="w-4 h-4 text-indigo-400 shrink-0" />
                         <span className="truncate" title={personalInfo.email}>
                           {personalInfo.email}
                         </span>
                       </div>
                       {personalInfo.phone && (
                         <div className="flex items-center gap-2 text-xs font-mono text-slate-300">
-                          <Phone className="w-4 h-4 text-emerald-400 shrink-0" />
+                          <Phone className="w-4 h-4 text-indigo-400 shrink-0" />
                           <span>{personalInfo.phone}</span>
                         </div>
                       )}
                       {personalInfo.github && (
                         <div className="flex items-center gap-2 text-xs font-mono text-slate-300">
-                          <Github className="w-4 h-4 text-purple-400 shrink-0" />
+                          <Github className="w-4 h-4 text-fuchsia-400 shrink-0" />
                           <a href={personalInfo.github} target="_blank" rel="noreferrer" className="hover:text-white transition">Github</a>
                         </div>
                       )}
                       {personalInfo.linkedin && (
                         <div className="flex items-center gap-2 text-xs font-mono text-slate-300">
-                          <svg className="w-4 h-4 text-blue-500 shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+                          <svg className="w-4 h-4 text-indigo-500 shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
                           <a href={personalInfo.linkedin} target="_blank" rel="noreferrer" className="hover:text-white transition">LinkedIn</a>
                         </div>
                       )}
@@ -847,7 +884,7 @@ export default function App() {
                       )}
                       {personalInfo.facebook && (
                         <div className="flex items-center gap-2 text-xs font-mono text-slate-300">
-                          <svg className="w-4 h-4 text-blue-600 shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/></svg>
+                          <svg className="w-4 h-4 text-indigo-600 shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M9 8h-3v4h3v12h5v-12h3.642l.358-4h-4v-1.667c0-.955.192-1.333 1.115-1.333h2.885v-5h-3.808c-3.596 0-5.192 1.583-5.192 4.615v3.385z"/></svg>
                           <a href={personalInfo.facebook} target="_blank" rel="noreferrer" className="hover:text-white transition">Facebook</a>
                         </div>
                       )}
@@ -873,7 +910,7 @@ export default function App() {
 
                 {/* Cyber Contact Form (8 Columns) */}
                 <div className="md:col-span-8">
-                  <form onSubmit={handleContactSubmit} className="bg-[#030712]/60 border border-white/10 rounded-3xl p-5 md:p-6 text-left space-y-4 backdrop-blur-md">
+                  <form onSubmit={handleContactSubmit} className="bg-[#050511]/60 border border-white/10 rounded-3xl p-5 md:p-6 text-left space-y-4 backdrop-blur-md">
                     
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div className="space-y-1.5">
@@ -884,7 +921,7 @@ export default function App() {
                           value={contactName}
                           onChange={(e) => setContactName(e.target.value)}
                           id="contact-form-name"
-                          className="w-full bg-black/25 border border-white/10 focus:border-blue-500 rounded-xl p-3 sm:px-3 sm:py-2 text-base sm:text-xs font-mono text-white outline-none placeholder-slate-600 transition"
+                          className="w-full bg-black/25 border border-white/10 focus:border-indigo-500 rounded-xl p-3 sm:px-3 sm:py-2 text-base sm:text-xs font-mono text-white outline-none placeholder-slate-600 transition"
                           placeholder="e.g. S. Raghavan"
                         />
                       </div>
@@ -896,7 +933,7 @@ export default function App() {
                           value={contactEmail}
                           onChange={(e) => setContactEmail(e.target.value)}
                           id="contact-form-email"
-                          className="w-full bg-black/25 border border-white/10 focus:border-blue-500 rounded-xl p-3 sm:px-3 sm:py-2 text-base sm:text-xs font-mono text-white outline-none placeholder-slate-600 transition"
+                          className="w-full bg-black/25 border border-white/10 focus:border-indigo-500 rounded-xl p-3 sm:px-3 sm:py-2 text-base sm:text-xs font-mono text-white outline-none placeholder-slate-600 transition"
                           placeholder="e.g. guest@terminal.com"
                         />
                       </div>
@@ -910,7 +947,7 @@ export default function App() {
                         value={contactMsg}
                         onChange={(e) => setContactMsg(e.target.value)}
                         id="contact-form-message"
-                        className="w-full bg-black/25 border border-white/10 focus:border-blue-500 rounded-xl p-3 sm:px-3 sm:py-2 text-base sm:text-xs font-mono text-white outline-none placeholder-slate-600 resize-none transition"
+                        className="w-full bg-black/25 border border-white/10 focus:border-indigo-500 rounded-xl p-3 sm:px-3 sm:py-2 text-base sm:text-xs font-mono text-white outline-none placeholder-slate-600 resize-none transition"
                         placeholder="Write message details..."
                       />
                     </div>
@@ -928,7 +965,7 @@ export default function App() {
                         onMouseEnter={playHoverSound}
                         disabled={contactStatus !== "idle"}
                         id="btn-contact-submit"
-                        className="px-5 py-2.5 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-400 hover:to-purple-500 disabled:bg-white/5 disabled:text-slate-500 text-white font-mono font-bold text-xs uppercase tracking-wider rounded-full transition duration-150 cursor-pointer flex items-center justify-center gap-1.5 shadow-lg shadow-blue-500/10"
+                        className="px-5 py-2.5 bg-gradient-to-r from-indigo-500 to-fuchsia-500 hover:from-indigo-400 hover:to-fuchsia-500 disabled:bg-white/5 disabled:text-slate-500 text-white font-mono font-bold text-xs uppercase tracking-wider rounded-full transition duration-150 cursor-pointer flex items-center justify-center gap-1.5 shadow-lg shadow-indigo-500/10"
                       >
                         {contactStatus === "submitting" ? (
                           <>
@@ -950,7 +987,7 @@ export default function App() {
                           initial={{ opacity: 0, y: 10 }}
                           animate={{ opacity: 1, y: 0 }}
                           exit={{ opacity: 0, y: -10 }}
-                          className="bg-emerald-950/40 border border-emerald-500/30 p-3 rounded-lg text-xs font-mono text-emerald-400 mt-4"
+                          className="bg-indigo-950/40 border border-indigo-500/30 p-3 rounded-lg text-xs font-mono text-indigo-400 mt-4"
                         >
                           ✔ Transmission successfully written to Muhil's local buffer. Automated dispatcher response dispatched to your email!
                         </motion.div>
@@ -966,7 +1003,7 @@ export default function App() {
           </motion.section>
 
           {/* FOOTER SECTION */}
-          <footer className="bg-[#030712] border-t border-white/5 py-12 px-4 text-center text-xs font-mono text-slate-500 space-y-3 relative z-10">
+          <footer className="bg-[#050511] border-t border-white/5 py-12 px-4 text-center text-xs font-mono text-slate-500 space-y-3 relative z-10">
             <p className="text-slate-300 font-sans font-bold tracking-widest text-[11px] uppercase">
               {personalInfo.fullName}
             </p>
@@ -981,7 +1018,7 @@ export default function App() {
                   window.history.pushState(null, "", "/admin");
                   window.dispatchEvent(new Event("popstate"));
                 }}
-                className="text-blue-500 hover:text-blue-400 hover:underline font-bold transition flex items-center gap-1.5"
+                className="text-indigo-500 hover:text-indigo-400 hover:underline font-bold transition flex items-center gap-1.5"
               >
                 <ShieldCheck className="w-3.5 h-3.5" />
                 Admin Console
@@ -994,6 +1031,24 @@ export default function App() {
 
           {/* Printable Professional Resume Toggler Modal */}
           <ResumeModal isOpen={resumeOpen} onClose={() => setResumeOpen(false)} />
+
+          {/* Background Music Player */}
+          {personalInfo.backgroundMusicUrl && (
+            <div className="fixed bottom-6 right-6 z-50">
+              <button 
+                onClick={toggleMusic}
+                className="w-12 h-12 bg-indigo-600/20 hover:bg-indigo-600/40 border border-indigo-500/30 rounded-full flex items-center justify-center backdrop-blur-md shadow-lg shadow-indigo-900/20 transition-all duration-300"
+                title={isPlayingMusic ? "Mute Background Music" : "Play Background Music"}
+              >
+                {isPlayingMusic ? <Volume2 className="w-5 h-5 text-indigo-400" /> : <VolumeX className="w-5 h-5 text-slate-400" />}
+              </button>
+              <audio 
+                ref={audioRef} 
+                src={personalInfo.backgroundMusicUrl} 
+                loop 
+              />
+            </div>
+          )}
 
         </div>
       )}

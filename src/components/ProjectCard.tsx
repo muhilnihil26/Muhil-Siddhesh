@@ -186,7 +186,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
       >
         <div className="relative w-full h-full transition-transform duration-700 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
           {/* FRONT OF CARD */}
-          <div className="absolute inset-0 border border-white/10 group-hover:border-blue-500/50 group-hover:shadow-[0_0_30px_rgba(59,130,246,0.4)] transition-all duration-300 rounded-2xl p-5 flex flex-col justify-between overflow-hidden [backface-visibility:hidden]">
+          <div className="absolute inset-0 border border-white/10 group-hover:border-indigo-500/50 group-hover:shadow-[0_0_30px_rgba(59,130,246,0.4)] transition-all duration-300 rounded-2xl p-5 flex flex-col justify-between overflow-hidden [backface-visibility:hidden]">
             
             {/* Particles Burst Effect */}
             {particles.map((p) => (
@@ -200,18 +200,18 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                   scale: Math.random() * 2 + 1,
                 }}
                 transition={{ duration: 0.6 + Math.random() * 0.4, ease: "easeOut" }}
-                className="absolute w-1.5 h-1.5 bg-blue-400 rounded-full z-20 pointer-events-none shadow-[0_0_8px_rgba(59,130,246,0.8)]"
+                className="absolute w-1.5 h-1.5 bg-indigo-400 rounded-full z-20 pointer-events-none shadow-[0_0_8px_rgba(59,130,246,0.8)]"
               />
             ))}
 
             {/* Animated Image Preview Background */}
             <div className="absolute inset-0 z-0 overflow-hidden">
               <img 
-                src="/src/assets/images/background_img_1782830236819.jpg" 
+                src="/images/background_img_1782830236819.jpg" 
                 alt="Project Cover" 
                 className="w-full h-full object-cover opacity-20 group-hover:opacity-50 group-hover:scale-110 transition-all duration-700 ease-out"
               />
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#030712]/60 to-[#030712]" />
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[#050511]/60 to-[#050511]" />
             </div>
             
             {/* Subtle top light bar */}
@@ -221,14 +221,14 @@ export default function ProjectCard({ project }: ProjectCardProps) {
               <div>
                 {/* Header row with icon name */}
                 <div className="flex items-center justify-between mb-3">
-                  <span className="text-[10px] font-mono uppercase tracking-widest text-blue-400 font-bold bg-white/10 px-2 py-0.5 border border-white/10 rounded-md backdrop-blur-md">
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-indigo-400 font-bold bg-white/10 px-2 py-0.5 border border-white/10 rounded-md backdrop-blur-md">
                     {project.category} Core
                   </span>
                   <div className="flex items-center gap-2">
                     {project.status && (
                       <span className={`text-[9px] font-mono uppercase px-1.5 py-0.5 rounded-sm border backdrop-blur-md ${
                         project.status === 'Live' ? 'bg-green-500/20 text-green-400 border-green-500/30' :
-                        project.status === 'Beta' ? 'bg-purple-500/20 text-purple-400 border-purple-500/30' :
+                        project.status === 'Beta' ? 'bg-fuchsia-500/20 text-fuchsia-400 border-fuchsia-500/30' :
                         'bg-orange-500/20 text-orange-400 border-orange-500/30'
                       }`}>
                         {project.status}
@@ -259,7 +259,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                     </span>
                   ))}
                   {project.techStack.length > 3 && (
-                    <span className="flex items-center text-[9px] font-mono text-blue-300 bg-white/10 border border-white/10 px-1.5 py-0.5 rounded backdrop-blur-md">
+                    <span className="flex items-center text-[9px] font-mono text-indigo-300 bg-white/10 border border-white/10 px-1.5 py-0.5 rounded backdrop-blur-md">
                       +{project.techStack.length - 3} more
                     </span>
                   )}
@@ -270,7 +270,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                     {project.metrics.map((metric, i) => (
                       <div key={i} className="flex flex-col">
                         <span className="text-[8px] font-mono uppercase text-slate-400">{metric.label}</span>
-                        <span className="text-[10px] font-mono font-bold text-blue-300">{metric.value}</span>
+                        <span className="text-[10px] font-mono font-bold text-indigo-300">{metric.value}</span>
                       </div>
                     ))}
                   </div>
@@ -280,13 +280,13 @@ export default function ProjectCard({ project }: ProjectCardProps) {
           </div>
 
           {/* BACK OF CARD */}
-          <div className="absolute inset-0 bg-[#030712]/95 border border-blue-500/30 group-hover:border-blue-400 group-hover:shadow-[0_0_20px_rgba(59,130,246,0.4)] transition-all duration-300 rounded-2xl p-5 backdrop-blur-xl flex flex-col justify-between overflow-hidden [backface-visibility:hidden] [transform:rotateY(180deg)] shadow-[0_8px_32px_0_rgba(59,130,246,0.2)]">
+          <div className="absolute inset-0 bg-[#050511]/95 border border-indigo-500/30 group-hover:border-indigo-400 group-hover:shadow-[0_0_20px_rgba(59,130,246,0.4)] transition-all duration-300 rounded-2xl p-5 backdrop-blur-xl flex flex-col justify-between overflow-hidden [backface-visibility:hidden] [transform:rotateY(180deg)] shadow-[0_8px_32px_0_rgba(59,130,246,0.2)]">
             <div className="flex flex-col h-full">
-              <h4 className="text-sm font-sans font-bold text-blue-400 mb-2">Technical Specifications</h4>
+              <h4 className="text-sm font-sans font-bold text-indigo-400 mb-2">Technical Specifications</h4>
               <ul className="text-xs text-slate-300 space-y-1 mb-4 flex-1 overflow-y-auto pr-1 custom-scrollbar">
                 {project.features?.map((feature, idx) => (
                   <li key={idx} className="flex gap-1.5">
-                    <span className="text-blue-500 mt-0.5">▹</span>
+                    <span className="text-indigo-500 mt-0.5">▹</span>
                     <span className="leading-relaxed">{feature}</span>
                   </li>
                 ))}
@@ -307,9 +307,9 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                       href={project.launchUrl || project.demoUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex-1 py-2 bg-blue-600/20 hover:bg-blue-600/35 text-blue-300 hover:text-white border border-blue-500/20 hover:border-blue-500/50 text-[10px] font-mono rounded-lg transition duration-200 flex items-center justify-center gap-1.5 backdrop-blur-sm shadow-md"
+                      className="flex-1 py-2 bg-indigo-600/20 hover:bg-indigo-600/35 text-indigo-300 hover:text-white border border-indigo-500/20 hover:border-indigo-500/50 text-[10px] font-mono rounded-lg transition duration-200 flex items-center justify-center gap-1.5 backdrop-blur-sm shadow-md"
                     >
-                      <ExternalLink className="w-3.5 h-3.5 text-blue-400" />
+                      <ExternalLink className="w-3.5 h-3.5 text-indigo-400" />
                       {project.launchUrl ? "Launch" : "Demo"}
                     </a>
                   )}
@@ -318,9 +318,9 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                       href={project.videoUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex-1 py-2 bg-purple-600/20 hover:bg-purple-600/35 text-purple-300 hover:text-white border border-purple-500/20 hover:border-purple-500/50 text-[10px] font-mono rounded-lg transition duration-200 flex items-center justify-center gap-1.5 backdrop-blur-sm shadow-md"
+                      className="flex-1 py-2 bg-fuchsia-600/20 hover:bg-fuchsia-600/35 text-fuchsia-300 hover:text-white border border-fuchsia-500/20 hover:border-fuchsia-500/50 text-[10px] font-mono rounded-lg transition duration-200 flex items-center justify-center gap-1.5 backdrop-blur-sm shadow-md"
                     >
-                      <Play className="w-3.5 h-3.5 text-purple-400" />
+                      <Play className="w-3.5 h-3.5 text-fuchsia-400" />
                       Watch
                     </a>
                   )}
@@ -330,7 +330,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                       id={`btn-open-project-${project.id}`}
                       className="w-full py-2 bg-white/5 hover:bg-white/10 text-white border border-white/10 hover:border-white/20 text-[10px] font-mono rounded-lg transition duration-200 cursor-pointer flex items-center justify-center gap-1.5 backdrop-blur-sm"
                     >
-                      <Terminal className="w-3.5 h-3.5 text-blue-400" />
+                      <Terminal className="w-3.5 h-3.5 text-indigo-400" />
                       Inspect Specs
                     </button>
                   )}
@@ -342,7 +342,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                       id={`btn-open-project-secondary-${project.id}`}
                       className="w-full py-2 bg-white/5 hover:bg-white/10 text-white border border-white/10 hover:border-white/20 text-[10px] font-mono rounded-lg transition duration-200 cursor-pointer flex items-center justify-center gap-1.5 backdrop-blur-sm"
                     >
-                      <Terminal className="w-3.5 h-3.5 text-blue-400" />
+                      <Terminal className="w-3.5 h-3.5 text-indigo-400" />
                       Inspect Specifications
                     </button>
                 )}
@@ -369,7 +369,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
               <motion.div
                 initial={{ opacity: 0, scale: 0.95, y: 15 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
-                className="relative bg-[#030712]/95 border border-white/10 rounded-3xl w-full max-w-4xl max-h-[85vh] overflow-y-auto shadow-2xl p-4 md:p-6 z-10 custom-scrollbar"
+                className="relative bg-[#050511]/95 border border-white/10 rounded-3xl w-full max-w-4xl max-h-[85vh] overflow-y-auto shadow-2xl p-4 md:p-6 z-10 custom-scrollbar"
               >
               {/* Close Button */}
               <button
@@ -384,14 +384,14 @@ export default function ProjectCard({ project }: ProjectCardProps) {
               <div className="flex flex-col md:flex-row items-start md:items-center justify-between border-b border-white/10 pb-4 mb-5">
                 <div>
                   <div className="flex items-center gap-2">
-                    <span className="text-[10px] font-mono font-bold text-blue-400 bg-white/5 px-2 py-0.5 rounded border border-white/10">
+                    <span className="text-[10px] font-mono font-bold text-indigo-400 bg-white/5 px-2 py-0.5 rounded border border-white/10">
                       {project.category} PROJECT CORE
                     </span>
                     <span className="text-[10px] font-mono text-slate-500">SYSTEM ID: {project.id}.CORE</span>
                   </div>
                   <h2 className="text-2xl font-sans font-bold text-white mt-1.5 flex items-center gap-2">
                     {project.title}
-                    <Sparkles className="w-5 h-5 text-purple-400 animate-pulse" />
+                    <Sparkles className="w-5 h-5 text-fuchsia-400 animate-pulse" />
                   </h2>
                 </div>
                 {project.launchUrl && (
@@ -399,9 +399,9 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                     href={project.launchUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-3 md:mt-0 px-4 py-2 bg-blue-600/30 hover:bg-blue-600/50 text-blue-300 hover:text-white border border-blue-500/30 hover:border-blue-500/60 rounded-xl flex items-center gap-2 shadow-lg shadow-blue-500/10 transition duration-200 text-xs font-mono"
+                    className="mt-3 md:mt-0 px-4 py-2 bg-indigo-600/30 hover:bg-indigo-600/50 text-indigo-300 hover:text-white border border-indigo-500/30 hover:border-indigo-500/60 rounded-xl flex items-center gap-2 shadow-lg shadow-indigo-500/10 transition duration-200 text-xs font-mono"
                   >
-                    <ExternalLink className="w-4 h-4 text-blue-400" />
+                    <ExternalLink className="w-4 h-4 text-indigo-400" />
                     Launch Live Application
                   </a>
                 )}
@@ -467,7 +467,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                       <div className="flex flex-col gap-2">
                         {project.roadmap.map((item, idx) => (
                           <div key={idx} className="flex items-center gap-3 text-xs text-slate-400 bg-slate-900/20 p-2 rounded border border-slate-800/50">
-                            <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />
+                            <span className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
                             {item}
                           </div>
                         ))}
@@ -482,7 +482,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                       </h4>
                       <div className="grid grid-cols-2 gap-3">
                         {project.screenshots.map((img, idx) => (
-                          <img key={idx} src={img} alt={`Preview ${idx+1}`} className="w-full h-24 object-cover rounded-lg border border-slate-800/50 hover:border-blue-500/50 transition-colors" />
+                          <img key={idx} src={img} alt={`Preview ${idx+1}`} className="w-full h-24 object-cover rounded-lg border border-slate-800/50 hover:border-indigo-500/50 transition-colors" />
                         ))}
                       </div>
                     </div>
@@ -510,7 +510,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                           {nexusQueue.map((pat, idx) => (
                             <div key={idx} className="bg-slate-950/60 p-2 border border-slate-850 rounded text-[11px] font-mono text-slate-300 flex items-center justify-between">
                               <span className="flex items-center gap-1.5">
-                                <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full" />
+                                <span className="w-1.5 h-1.5 bg-indigo-500 rounded-full" />
                                 {pat}
                               </span>
                               <button
@@ -586,8 +586,8 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                     </div>
                   )}
 
-                  {/* PROJECT 3: Kalsa the Warrior Spar Game */}
-                  {project.id === "kalsa-warrior" && (
+                  {/* PROJECT 3: Veera Yugam Spar Game */}
+                  {project.id === "veera-yugam" && (
                     <div className="flex-1 flex flex-col justify-between h-full">
                       <div>
                         <div className="flex items-center justify-between border-b border-slate-900 pb-2 mb-3">
@@ -608,7 +608,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                               <span>HP: {heroHp}/100</span>
                             </div>
                             <div className="w-full bg-slate-900 h-1.5 rounded-full mt-1.5 overflow-hidden">
-                              <div className="bg-emerald-500 h-full transition-all duration-300" style={{ width: `${heroHp}%` }} />
+                              <div className="bg-indigo-500 h-full transition-all duration-300" style={{ width: `${heroHp}%` }} />
                             </div>
                           </div>
                           <div className="bg-slate-950 p-2 rounded border border-slate-850 font-mono text-[10px]">
@@ -654,15 +654,15 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                       <div>
                         <div className="flex items-center justify-between border-b border-slate-900 pb-2 mb-3">
                           <span className="text-xs font-mono font-bold text-slate-300 flex items-center gap-1.5">
-                            <Code2 className="w-4 h-4 text-emerald-400" />
+                            <Code2 className="w-4 h-4 text-indigo-400" />
                             Vaster Compiler Stream
                           </span>
-                          <span className="text-[9px] font-mono text-emerald-400 bg-emerald-950/20 px-1.5 py-0.5 rounded border border-emerald-900/30">
+                          <span className="text-[9px] font-mono text-indigo-400 bg-indigo-950/20 px-1.5 py-0.5 rounded border border-indigo-900/30">
                             Autonomous Dev
                           </span>
                         </div>
 
-                        <div className="bg-slate-950/60 p-2.5 rounded border border-slate-850 h-32 overflow-y-auto font-mono text-[9px] text-emerald-400 space-y-1 custom-scrollbar">
+                        <div className="bg-slate-950/60 p-2.5 rounded border border-slate-850 h-32 overflow-y-auto font-mono text-[9px] text-indigo-400 space-y-1 custom-scrollbar">
                           {vasterCode.length === 0 ? (
                             <span className="text-slate-600 italic">Click compile below to trigger autonomous modular generation...</span>
                           ) : (
@@ -674,7 +674,7 @@ export default function ProjectCard({ project }: ProjectCardProps) {
                       <button
                         onClick={handleVasterCompile}
                         disabled={vasterCompiling}
-                        className="w-full bg-emerald-600 hover:bg-emerald-500 disabled:bg-slate-800 disabled:text-slate-500 text-slate-950 font-mono font-bold text-xs py-2 rounded transition flex items-center justify-center gap-1 mt-4 cursor-pointer"
+                        className="w-full bg-indigo-600 hover:bg-indigo-500 disabled:bg-slate-800 disabled:text-slate-500 text-slate-950 font-mono font-bold text-xs py-2 rounded transition flex items-center justify-center gap-1 mt-4 cursor-pointer"
                       >
                         <Play className="w-3.5 h-3.5" />
                         {vasterCompiling ? "Compiling Node Scripts..." : "Synthesize Software Core"}

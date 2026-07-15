@@ -98,7 +98,7 @@ export default function TerminalConsole() {
           { text: "   Features: Role-based dashboards, queue manager, digital pharmacy dispatch.", type: "output" },
           { text: "2. SONEXA [Category: AI Services Hub]", type: "success" },
           { text: "   Features: Natural language service pipelines, modular workflow triggers.", type: "output" },
-          { text: "3. KALSA THE WARRIOR [Category: Gaming Storyboards]", type: "success" },
+          { text: "3. VEERA YUGAM [Category: Gaming Storyboards]", type: "success" },
           { text: "   Features: Interactive combat simulations, lore chapters of hero Anven.", type: "output" },
           { text: "4. VASTER AI [Category: Autonomous Web Architect]", type: "success" },
           { text: "   Features: Autonomous boilerplate scaffold code blocks & layout generators.", type: "output" }
@@ -126,14 +126,14 @@ export default function TerminalConsole() {
    |  __  |    WARRIOR STUDIO
    | |  | |    =========================
    | |__| |    Crafting legend narratives,
-   |  __  |    hero sagas (Kalsa series),
+   |  __  |    hero sagas (Veera Yugam series),
    | |  | |    and futuristic software systems.
    |_|  |_|
 `,
             type: "ascii"
           },
           { text: "ESTABLISHED: 2024", type: "info" },
-          { text: "CURRENT PRODUCTION: Kalsa the Warrior - Saga of Hero Anven", type: "success" }
+          { text: "CURRENT PRODUCTION: Veera Yugam - Saga of Hero Anven", type: "success" }
         );
         break;
 
@@ -208,11 +208,11 @@ export default function TerminalConsole() {
           <div className="w-3 h-3 rounded-full bg-yellow-500/80" />
           <div className="w-3 h-3 rounded-full bg-green-500/80" />
           <span className="text-xs font-mono text-slate-300 pl-2 flex items-center gap-1.5">
-            <Terminal className="w-3.5 h-3.5 text-blue-400" />
+            <Terminal className="w-3.5 h-3.5 text-indigo-400" />
             warrior-core-terminal@muhil-os:~
           </span>
         </div>
-        <div className="flex items-center gap-1 text-[10px] font-mono text-blue-400 bg-white/5 px-2 py-0.5 rounded border border-white/10">
+        <div className="flex items-center gap-1 text-[10px] font-mono text-indigo-400 bg-white/5 px-2 py-0.5 rounded border border-white/10">
           <Sparkles className="w-3 h-3 animate-pulse" />
           AI Quantum Parser Active
         </div>
@@ -225,13 +225,13 @@ export default function TerminalConsole() {
             key={i}
             className={`whitespace-pre-wrap leading-relaxed ${
               line.type === "input"
-                ? "text-blue-300"
+                ? "text-indigo-300"
                 : line.type === "error"
                 ? "text-red-400 font-semibold"
                 : line.type === "success"
-                ? "text-emerald-400"
+                ? "text-indigo-400"
                 : line.type === "info"
-                ? "text-blue-400 font-semibold"
+                ? "text-indigo-400 font-semibold"
                 : line.type === "ascii"
                 ? "text-yellow-400/90 leading-tight text-xs"
                 : "text-slate-300"
@@ -251,7 +251,7 @@ export default function TerminalConsole() {
             key={s.cmd}
             onClick={() => handleCommand(s.cmd)}
             id={`btn-terminal-${s.cmd}`}
-            className="px-2 py-1 bg-white/5 hover:bg-white/10 hover:text-blue-400 text-[11px] font-mono text-slate-300 rounded border border-white/10 hover:border-white/20 transition duration-150 ease-in-out cursor-pointer"
+            className="px-2 py-1 bg-white/5 hover:bg-white/10 hover:text-indigo-400 text-[11px] font-mono text-slate-300 rounded border border-white/10 hover:border-white/20 transition duration-150 ease-in-out cursor-pointer"
           >
             {s.label}
           </button>
@@ -260,7 +260,7 @@ export default function TerminalConsole() {
 
       {/* Command Prompt Input */}
       <div className="flex items-center px-4 py-3 bg-black/45 border-t border-white/10">
-        <ChevronRight className="w-4 h-4 text-blue-400 animate-pulse mr-1" />
+        <ChevronRight className="w-4 h-4 text-indigo-400 animate-pulse mr-1" />
         <span className="font-mono text-xs md:text-sm text-slate-500 mr-2 select-none">muhil-os:~$</span>
         <input
           type="text"
@@ -276,7 +276,7 @@ export default function TerminalConsole() {
         <button
           onClick={() => handleCommand(input)}
           id="btn-terminal-submit"
-          className="ml-2 p-1 text-slate-500 hover:text-blue-400 transition"
+          className="ml-2 p-1 text-slate-500 hover:text-indigo-400 transition"
           title="Execute Command"
         >
           <Send className="w-4 h-4" />
