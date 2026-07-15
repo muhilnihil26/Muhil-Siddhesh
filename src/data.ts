@@ -11,11 +11,11 @@ export const PERSONAL_INFO = {
   title: "AI Developer | Full Stack Developer | Student Innovator",
   role: "Aspiring Tech Entrepreneur & AI Innovator",
   tagline: "Building the Future with AI and Innovation",
-  avatarUrl: "https://ui-avatars.com/api/?name=Muhil&background=0D8B93&color=fff&size=256",
+  avatarUrl: "/images/muhil_avatar_1.jpeg",
   avatarUrls: [
-    "https://ui-avatars.com/api/?name=Muhil&background=0D8B93&color=fff&size=256",
-    "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop",
-    "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop"
+    "/images/muhil_avatar_1.jpeg",
+    "/images/muhil_avatar_2.jpeg",
+    "/images/background_img_1782830236819.jpg"
   ],
   backgroundMusicUrl: "",
   email: "muhilsiddhesh.in@gmail.com",
@@ -99,7 +99,7 @@ export const PROJECTS_DATA: Project[] = [
     roadmap: ["Q3 2026: Mobile App Launch", "Q4 2026: AI Diagnostics Module", "Q1 2027: Enterprise Hospital Integrations"],
     challenges: "Handling real-time data sync across multiple role-based dashboards while maintaining a low-latency user experience.",
     metrics: [{ label: "Lines of Code", value: "45,000+" }, { label: "Components", value: "120+" }],
-    screenshots: ["https://ui-avatars.com/api/?name=Muhil&background=0D8B93&color=fff&size=256"]
+    screenshots: ["/images/muhil_avatar_1.jpeg"]
   },
   {
     id: "sonexa",
@@ -121,7 +121,7 @@ export const PROJECTS_DATA: Project[] = [
     roadmap: ["Q3 2026: Multi-agent orchestration", "Q4 2026: Third-party API integrations (GitHub, Slack)", "Q1 2027: Visual node-based workflow editor"],
     challenges: "Designing a responsive, cosmic-themed UI that visualizes real-time terminal outputs without overwhelming the user.",
     metrics: [{ label: "Automated Workflows", value: "50+" }, { label: "LLM Tokens Processed", value: "2M+" }],
-    screenshots: ["https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop"]
+    screenshots: ["/images/muhil_avatar_2.jpeg"]
   },
   {
     id: "veera-yugam",
