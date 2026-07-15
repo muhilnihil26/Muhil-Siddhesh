@@ -557,8 +557,15 @@ export default function App() {
 
             {/* Display Active Category Skills with Animated Bars */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 bg-white/5 border border-white/10 rounded-3xl p-6 md:p-8 backdrop-blur-md">
-              {(skills[activeSkillCat]?.skills || []).map((skill) => (
-                <div key={skill.name} className="space-y-2 bg-black/25 p-4 border border-white/5 rounded-2xl backdrop-blur-sm">
+              {(skills[activeSkillCat]?.skills || []).map((skill, index) => (
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  key={skill.name} 
+                  className="space-y-2 bg-black/25 p-4 border border-white/5 rounded-2xl backdrop-blur-sm"
+                >
                   <div className="flex justify-between items-center text-xs">
                     <span className="font-sans font-bold text-white">{skill.name}</span>
                     <span className="font-mono text-indigo-400 font-bold">{skill.level}%</span>
@@ -566,9 +573,12 @@ export default function App() {
                   
                   {/* Skill level indicator bar */}
                   <div className="w-full h-1.5 bg-black/35 rounded-full overflow-hidden border border-white/5">
-                    <div 
-                      className="bg-gradient-to-r from-indigo-500 to-fuchsia-500 h-full transition-all duration-1000"
-                      style={{ width: `${skill.level}%` }}
+                    <motion.div 
+                      initial={{ width: 0 }}
+                      whileInView={{ width: `${skill.level}%` }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 1, delay: 0.2 + (index * 0.1) }}
+                      className="bg-gradient-to-r from-indigo-500 to-fuchsia-500 h-full"
                     />
                   </div>
                   
@@ -577,7 +587,7 @@ export default function App() {
                       {skill.details}
                     </p>
                   )}
-                </div>
+                </motion.div>
               ))}
             </div>
           </motion.section>
@@ -633,13 +643,14 @@ export default function App() {
                 className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6"
               >
                 <AnimatePresence mode="popLayout">
-                  {filteredProjects.map((project) => (
+                  {filteredProjects.map((project, index) => (
                     <motion.div
                       layout
-                      initial={{ opacity: 0, scale: 0.9 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.9 }}
-                      transition={{ duration: 0.3 }}
+                      initial={{ opacity: 0, scale: 0.95, y: 30 }}
+                      whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                      viewport={{ once: true, margin: "-50px" }}
+                      exit={{ opacity: 0, scale: 0.95, y: 30 }}
+                      transition={{ duration: 0.5, delay: index * 0.1 }}
                       key={project.id}
                     >
                       <ProjectCard project={project} />
